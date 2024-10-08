@@ -1,4 +1,4 @@
-package com.example.android_app_sdvg.ui.theme
+package com.example.android_app_sdvg.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
