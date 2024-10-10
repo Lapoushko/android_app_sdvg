@@ -25,8 +25,8 @@ import com.example.android_app_sdvg.presentation.theme.Android_app_sdvgTheme
 /**
  * @author Lapoushko
  *
- * Скрин главной активнити
-
+ * Экран календаря
+ * @param calendarScreenHandler методы календаря
  */
 @Composable
 fun CalendarScreen(
@@ -71,7 +71,7 @@ fun CalendarScreen(
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
-    CalendarScreen(calendarScreenHandler = object : AbstractScreenHandler(){
+    CalendarScreen(calendarScreenHandler = object : AbstractScreenHandler() {
 
     })
 }

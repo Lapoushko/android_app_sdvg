@@ -14,6 +14,8 @@ import com.example.android_app_sdvg.presentation.screen.Screen
 
 /**
  * @author Lapoushko
+ * Граф навигации нижнего бара
+ * @param navController контроллер навигации
  */
 
 @Composable

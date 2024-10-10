@@ -14,8 +14,12 @@ import com.example.android_app_sdvg.presentation.theme.Typography
 
 /**
  * @author Lapoushko
+ *
+ * Экстеншен функция для бара навигации
+ * @param screen скрин
+ * @param destination куда попасть
+ * @param navController контроллер навигации
  */
-
 @Composable
 fun RowScope.AddItem(
     screen: Screen,

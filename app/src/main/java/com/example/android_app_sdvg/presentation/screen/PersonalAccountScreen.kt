@@ -22,6 +22,9 @@ import com.example.android_app_sdvg.presentation.theme.Android_app_sdvgTheme
 
 /**
  * @author Lapoushko
+ *
+ * Экран личного кабинета
+ * @param personalAccountScreenHandler методы личного кабинета
  */
 
 @OptIn(ExperimentalMaterial3Api::class)

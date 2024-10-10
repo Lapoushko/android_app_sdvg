@@ -24,8 +24,8 @@ import com.example.android_app_sdvg.presentation.theme.Android_app_sdvgTheme
  * @author Lapoushko
  *
  * Экран кликера
+ *@param clickerScreenHandler методы кликера
  */
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClickerScreen(

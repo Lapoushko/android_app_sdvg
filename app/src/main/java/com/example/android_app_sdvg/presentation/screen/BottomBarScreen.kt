@@ -14,16 +14,21 @@ import com.example.android_app_sdvg.presentation.navigation.ui.BottomNavigationB
 
 /**
  * @author Lapoushko
+ *
+ * Нижний бар навигации
+ * @param navController контроллер навигации
  */
 @Composable
-fun BottomBarScreen(navController: NavHostController){
+fun BottomBarScreen(navController: NavHostController) {
     Scaffold(
         Modifier.fillMaxSize(),
         bottomBar = { BottomNavigationBar(navController = navController) }
     ) { paddingValues ->
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
             BottomNavigationBarGraph(navController = navController)
         }
     }
@@ -31,6 +36,6 @@ fun BottomBarScreen(navController: NavHostController){
 
 @Preview(showBackground = true)
 @Composable
-fun BottomBarScreenPreview(){
+fun BottomBarScreenPreview() {
     BottomBarScreen(navController = rememberNavController())
 }

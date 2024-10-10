@@ -23,30 +23,36 @@ sealed class Screen(
     val unsetIcon: ImageVector,
 ) {
     /**
-     * Главный экран
+     * Экран календаря
      */
-    data object Calendar: Screen(
+    data object Calendar : Screen(
         route = CALENDAR_KEY,
         title = CALENDAR_NAME,
         setIcon = Icons.Filled.DateRange,
         unsetIcon = Icons.Outlined.DateRange
     )
 
-    data object Clicker: Screen(
+    /**
+     * экран кликера
+     */
+    data object Clicker : Screen(
         route = CLICKER_KEY,
         title = CLICKER_NAME,
         setIcon = Icons.Filled.PlayArrow,
         unsetIcon = Icons.Outlined.PlayArrow
     )
 
-    data object PersonalAccount: Screen(
+    /**
+     * Экран личного кабинета
+     */
+    data object PersonalAccount : Screen(
         route = PERSONAL_ACCOUNT_KEY,
         title = PERSONAL_ACCOUNT_NAME,
         setIcon = Icons.Filled.Person,
         unsetIcon = Icons.Outlined.Person
     )
 
-    companion object{
+    companion object {
         private const val CALENDAR_KEY = "CALENDAR"
         private const val CLICKER_KEY = "CLICKER"
         private const val PERSONAL_ACCOUNT_KEY = "PERSONAL ACCOUNT"
