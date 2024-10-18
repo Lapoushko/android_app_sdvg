@@ -4,13 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.android_app_sdvg.presentation.handler.CalendarScreenHandler
+import com.example.android_app_sdvg.presentation.handler.TaskerScreenHandler
 import com.example.android_app_sdvg.presentation.handler.ClickerScreenHandler
 import com.example.android_app_sdvg.presentation.handler.PersonalAccountScreenHandler
-import com.example.android_app_sdvg.presentation.screen.CalendarScreen
 import com.example.android_app_sdvg.presentation.screen.ClickerScreen
 import com.example.android_app_sdvg.presentation.screen.PersonalAccountScreen
 import com.example.android_app_sdvg.presentation.screen.Screen
+import com.example.android_app_sdvg.presentation.screen.TaskerScreen
 
 /**
  * @author Lapoushko
@@ -22,11 +22,11 @@ import com.example.android_app_sdvg.presentation.screen.Screen
 fun BottomNavigationBarGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Calendar.route
+        startDestination = Screen.Tasker.route
     ) {
-        composable(route = Screen.Calendar.route) {
-            CalendarScreen(
-                calendarScreenHandler = CalendarScreenHandler(
+        composable(route = Screen.Tasker.route) {
+            TaskerScreen(
+                taskerScreenHandler = TaskerScreenHandler(
                     navController = navController
                 )
             )
