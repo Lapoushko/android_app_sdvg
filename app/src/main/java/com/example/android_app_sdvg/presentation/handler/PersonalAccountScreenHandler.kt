@@ -6,5 +6,5 @@ import androidx.navigation.NavHostController
  * @author Lapoushko
  * Реализация личного кабинета задач
  */
-class PersonalAccountScreenHandler(navController: NavHostController) : AbstractScreenHandler() {
+class PersonalAccountScreenHandler(navController: NavHostController) {
 }

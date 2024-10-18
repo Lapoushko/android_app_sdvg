@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -15,9 +16,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.android_app_sdvg.presentation.handler.AbstractScreenHandler
+import androidx.navigation.compose.rememberNavController
+import com.example.android_app_sdvg.R
+import com.example.android_app_sdvg.presentation.handler.ClickerScreenHandler
 import com.example.android_app_sdvg.presentation.theme.Android_app_sdvgTheme
 
 /**
@@ -29,7 +33,7 @@ import com.example.android_app_sdvg.presentation.theme.Android_app_sdvgTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClickerScreen(
-    clickerScreenHandler: AbstractScreenHandler
+    clickerScreenHandler: ClickerScreenHandler
 ) {
     Android_app_sdvgTheme {
         Surface(
@@ -40,9 +44,9 @@ fun ClickerScreen(
                 modifier = Modifier
                     .fillMaxWidth(),
                 topBar = {
-                    TopAppBar(title = {
+                    CenterAlignedTopAppBar(title = {
                         Text(
-                            text = "Кликер"
+                            text = stringResource(R.string.clicker)
                         )
                     })
                 },
@@ -70,6 +74,7 @@ fun ClickerScreen(
 @Preview(showBackground = true)
 @Composable
 fun ClickerScreenPreview() {
-    ClickerScreen(clickerScreenHandler = object : AbstractScreenHandler() {
-    })
+    ClickerScreen(clickerScreenHandler = ClickerScreenHandler(
+        navController = rememberNavController()
+    ))
 }
