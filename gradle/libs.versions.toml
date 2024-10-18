@@ -1,5 +1,6 @@
 [versions]
 agp = "8.5.2"
+calendarVersion = "1.3.0"
 hiltAndroid = "2.52"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
@@ -33,6 +34,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 kotlinx-serialization-json-jvm = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm", version.ref = "kotlinxSerializationJsonJvm" }
+sheets-compose-dialogs-calendar = { module = "com.maxkeppeler.sheets-compose-dialogs:calendar", version.ref = "calendarVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
