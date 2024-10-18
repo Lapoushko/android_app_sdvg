@@ -19,15 +19,15 @@ import androidx.compose.ui.graphics.vector.ImageVector
 sealed class Screen(
     val route: String,
     val title: String,
-    val setIcon: ImageVector,
-    val unsetIcon: ImageVector,
+    val setIcon: ImageVector?,
+    val unsetIcon: ImageVector?,
 ) {
     /**
      * Экран календаря
      */
-    data object Calendar : Screen(
-        route = CALENDAR_KEY,
-        title = CALENDAR_NAME,
+    data object Tasker : Screen(
+        route = TASKER_KEY,
+        title = TASKER_NAME,
         setIcon = Icons.Filled.DateRange,
         unsetIcon = Icons.Outlined.DateRange
     )
@@ -53,12 +53,16 @@ sealed class Screen(
     )
 
     companion object {
-        private const val CALENDAR_KEY = "CALENDAR"
+        private const val TASKER_NAME = "Задачник"
+        private const val TASKER_KEY = "TASKER"
+
+        private const val CLICKER_NAME = "Кликер"
         private const val CLICKER_KEY = "CLICKER"
+
+        private const val PERSONAL_ACCOUNT_NAME = "Личный кабинет"
         private const val PERSONAL_ACCOUNT_KEY = "PERSONAL ACCOUNT"
 
         private const val CALENDAR_NAME = "Календарь"
-        private const val CLICKER_NAME = "Кликер"
-        private const val PERSONAL_ACCOUNT_NAME = "Личный кабинет"
+        private const val CALENDAR_KEY = "CALENDAR"
     }
 }

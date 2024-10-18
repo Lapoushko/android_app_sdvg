@@ -1,4 +1,4 @@
-package com.example.android_app_sdvg.domain.entity
+package com.example.android_app_sdvg.domain.entity.user
 
 import androidx.compose.runtime.Immutable
 import java.util.Date

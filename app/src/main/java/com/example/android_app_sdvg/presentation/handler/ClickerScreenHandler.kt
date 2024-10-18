@@ -8,5 +8,5 @@ import androidx.navigation.NavHostController
  * Функции кликера
  */
 
-class ClickerScreenHandler(navController: NavHostController) : AbstractScreenHandler() {
+class ClickerScreenHandler(val navController: NavHostController) {
 }

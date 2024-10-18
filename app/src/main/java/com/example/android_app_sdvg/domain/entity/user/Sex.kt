@@ -1,4 +1,4 @@
-package com.example.android_app_sdvg.domain.entity
+package com.example.android_app_sdvg.domain.entity.user
 
 /**
  * @author Lapoushko

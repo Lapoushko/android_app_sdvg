@@ -1,4 +1,4 @@
-package com.example.android_app_sdvg.presentation.screen
+package com.example.android_app_sdvg.presentation.screen.bottombar
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +19,7 @@ import com.example.android_app_sdvg.presentation.navigation.ui.BottomNavigationB
  * @param navController контроллер навигации
  */
 @Composable
-fun BottomBarScreen(navController: NavHostController) {
+fun BottomNavigationBarScreen(navController: NavHostController) {
     Scaffold(
         Modifier.fillMaxSize(),
         bottomBar = { BottomNavigationBar(navController = navController) }
@@ -37,5 +37,5 @@ fun BottomBarScreen(navController: NavHostController) {
 @Preview(showBackground = true)
 @Composable
 fun BottomBarScreenPreview() {
-    BottomBarScreen(navController = rememberNavController())
+    BottomNavigationBarScreen(navController = rememberNavController())
 }

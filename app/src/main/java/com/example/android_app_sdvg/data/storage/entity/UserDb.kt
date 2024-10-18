@@ -1,6 +1,6 @@
 package com.example.android_app_sdvg.data.storage.entity
 
-import com.example.android_app_sdvg.domain.entity.Sex
+import com.example.android_app_sdvg.domain.entity.user.Sex
 import java.util.Date
 
 /**

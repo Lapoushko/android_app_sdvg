@@ -22,8 +22,8 @@ fun BottomNavigationBar(
 ) {
     val items = listOf(
         Screen.Clicker,
-        Screen.Calendar,
-        Screen.PersonalAccount
+        Screen.Tasker,
+        Screen.PersonalAccount,
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()

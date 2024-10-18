@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -15,9 +16,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.android_app_sdvg.presentation.handler.AbstractScreenHandler
+import androidx.navigation.compose.rememberNavController
+import com.example.android_app_sdvg.R
+import com.example.android_app_sdvg.presentation.handler.PersonalAccountScreenHandler
 import com.example.android_app_sdvg.presentation.theme.Android_app_sdvgTheme
 
 /**
@@ -30,7 +34,7 @@ import com.example.android_app_sdvg.presentation.theme.Android_app_sdvgTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PersonalAccountScreen(
-    personalAccountScreenHandler: AbstractScreenHandler
+    personalAccountScreenHandler: PersonalAccountScreenHandler
 ) {
     Android_app_sdvgTheme {
         Surface(
@@ -41,9 +45,9 @@ fun PersonalAccountScreen(
                 modifier = Modifier
                     .fillMaxWidth(),
                 topBar = {
-                    TopAppBar(title = {
+                    CenterAlignedTopAppBar(title = {
                         Text(
-                            text = "Личный кабинет"
+                            text = stringResource(R.string.personal_account)
                         )
                     })
                 },
@@ -71,6 +75,9 @@ fun PersonalAccountScreen(
 @Preview(showBackground = true)
 @Composable
 fun PersonalAccountScreenPreview() {
-    PersonalAccountScreen(personalAccountScreenHandler = object : AbstractScreenHandler() {
-    })
+    PersonalAccountScreen(
+        personalAccountScreenHandler = PersonalAccountScreenHandler(
+            navController = rememberNavController()
+        )
+    )
 }

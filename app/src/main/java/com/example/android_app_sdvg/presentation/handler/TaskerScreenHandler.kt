@@ -6,5 +6,10 @@ import androidx.navigation.NavHostController
  * @author Lapoushko
  * Нажатия кнопок календаря
  */
-class CalendarScreenHandler(navController: NavHostController) : AbstractScreenHandler() {
+class TaskerScreenHandler(val navController: NavHostController) {
+
+    fun openCalendar(showModal: Boolean): Boolean{
+        return !showModal
+    }
+
 }

@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">android_app_sdvg</string>
     <string name="title_calendar">Задачи</string>
+    <string name="calendar">Календарь</string>
+    <string name="button_open_calendar">Открой календарь</string>
+    <string name="ok_in_calendar">OK</string>
+    <string name="close_calendar">Cancel</string>
+    <string name="personal_account">Личный кабинет</string>
+    <string name="clicker">Кликер</string>
 </resources>

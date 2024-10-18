@@ -1,6 +1,8 @@
 package com.example.android_app_sdvg.presentation.screen.extension
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
@@ -37,14 +39,14 @@ fun RowScope.AddItem(
             }
         },
         icon = {
+            val icon = if (destination?.hierarchy?.any { it.route == screen.route } == true) {
+                screen.setIcon
+            } else {
+                screen.unsetIcon
+            }
+
             Icon(
-                imageVector = if (destination?.hierarchy?.any {
-                        it.route == screen.route
-                    } == true) {
-                    screen.setIcon
-                } else {
-                    screen.unsetIcon
-                },
+                imageVector = icon ?: Icons.Filled.Close,
                 contentDescription = screen.title
             )
         },
