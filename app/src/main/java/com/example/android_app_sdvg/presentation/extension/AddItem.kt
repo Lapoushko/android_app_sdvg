@@ -1,4 +1,4 @@
-package com.example.android_app_sdvg.presentation.screen.extension
+package com.example.android_app_sdvg.presentation.extension
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
@@ -11,48 +11,48 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.example.android_app_sdvg.presentation.screen.Screen
+import com.example.android_app_sdvg.presentation.navigation.screen.ScreenBar
 import com.example.android_app_sdvg.presentation.theme.Typography
 
 /**
  * @author Lapoushko
  *
  * Экстеншен функция для бара навигации
- * @param screen скрин
+ * @param screenBar скрин
  * @param destination куда попасть
  * @param navController контроллер навигации
  */
 @Composable
 fun RowScope.AddItem(
-    screen: Screen,
+    screenBar: ScreenBar,
     destination: NavDestination?,
     navController: NavHostController
 ) {
     NavigationBarItem(
         selected = destination?.hierarchy?.any {
-            it.route == screen.route
+            it.route == screenBar.route
         } == true,
         onClick = {
-            navController.navigate(screen.route) {
+            navController.navigate(screenBar.route) {
                 popUpTo(navController.graph.findStartDestination().id)
                 launchSingleTop = true
             }
         },
         icon = {
-            val icon = if (destination?.hierarchy?.any { it.route == screen.route } == true) {
-                screen.setIcon
+            val icon = if (destination?.hierarchy?.any { it.route == screenBar.route } == true) {
+                screenBar.setIcon
             } else {
-                screen.unsetIcon
+                screenBar.unsetIcon
             }
 
             Icon(
                 imageVector = icon ?: Icons.Filled.Close,
-                contentDescription = screen.title
+                contentDescription = screenBar.title
             )
         },
         label = {
             Text(
-                text = screen.title,
+                text = screenBar.title,
                 style = Typography.bodySmall
             )
         },

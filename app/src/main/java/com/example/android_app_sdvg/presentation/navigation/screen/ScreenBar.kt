@@ -1,4 +1,4 @@
-package com.example.android_app_sdvg.presentation.screen
+package com.example.android_app_sdvg.presentation.navigation.screen
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
  * Sealed класс для определения всех скринов
  */
 @Immutable
-sealed class Screen(
+sealed class ScreenBar(
     val route: String,
     val title: String,
     val setIcon: ImageVector?,
@@ -25,7 +25,7 @@ sealed class Screen(
     /**
      * Экран календаря
      */
-    data object Tasker : Screen(
+    data object Tasker : ScreenBar(
         route = TASKER_KEY,
         title = TASKER_NAME,
         setIcon = Icons.Filled.DateRange,
@@ -35,7 +35,7 @@ sealed class Screen(
     /**
      * экран кликера
      */
-    data object Clicker : Screen(
+    data object Clicker : ScreenBar(
         route = CLICKER_KEY,
         title = CLICKER_NAME,
         setIcon = Icons.Filled.PlayArrow,
@@ -45,7 +45,7 @@ sealed class Screen(
     /**
      * Экран личного кабинета
      */
-    data object PersonalAccount : Screen(
+    data object PersonalAccount : ScreenBar(
         route = PERSONAL_ACCOUNT_KEY,
         title = PERSONAL_ACCOUNT_NAME,
         setIcon = Icons.Filled.Person,

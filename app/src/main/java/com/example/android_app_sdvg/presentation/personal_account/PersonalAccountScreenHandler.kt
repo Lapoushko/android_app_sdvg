@@ -1,4 +1,4 @@
-package com.example.android_app_sdvg.presentation.handler
+package com.example.android_app_sdvg.presentation.personal_account
 
 import androidx.navigation.NavHostController
 
