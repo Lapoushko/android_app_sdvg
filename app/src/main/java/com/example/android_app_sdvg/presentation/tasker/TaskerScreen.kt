@@ -1,23 +1,27 @@
-package com.example.android_app_sdvg.presentation.screen
+package com.example.android_app_sdvg.presentation.tasker
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -25,22 +29,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.example.android_app_sdvg.R
-import com.example.android_app_sdvg.presentation.handler.TaskerScreenHandler
-import com.example.android_app_sdvg.presentation.screen.extension.toDate
-import java.time.LocalDate
-import java.util.Calendar
+import com.example.android_app_sdvg.presentation.extension.toDateString
 
 /**
  * @author Lapoushko
+ * Экран задач
+ * @param taskerScreenHandler функции экрана
+ * @param viewModel вью модель экрана
  */
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskerScreen(
-    taskerScreenHandler: TaskerScreenHandler
+    taskerScreenHandler: TaskerScreenHandler,
+    viewModel: TaskerScreenViewModel = viewModel()
 ) {
-    var showModal by remember { mutableStateOf(false) }
-    var selectedDate by remember { mutableStateOf<Long?>(Calendar.getInstance().timeInMillis)}
+    val showModal = viewModel.showModal
+    val selectedDate = viewModel.selectedDate
 
     Scaffold(modifier = Modifier
         .fillMaxSize(),
@@ -51,35 +55,48 @@ fun TaskerScreen(
         }
     ) { innerPadding ->
         Column(Modifier.padding(innerPadding)) {
-            OutlinedButton(
-                onClick = {
-                    showModal = taskerScreenHandler
-                        .openCalendar(showModal)
+            Row {
+                OutlinedButton(
+                    onClick = {
+                        viewModel.toggleCalendar()
+                    },
+                    modifier = Modifier
+                        .padding(PaddingValues(horizontal = 30.dp))
+                        .fillMaxWidth(0.8f)
+                ) {
+                    Text(text = stringResource(R.string.button_open_calendar))
+                }
 
-                },
-                modifier = Modifier
-                    .padding(30.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(text = stringResource(R.string.button_open_calendar))
+                IconButton(onClick = { taskerScreenHandler.onToCreateTask(selectedDate!!) }) {
+                    Icon(imageVector = Icons.Filled.Add, contentDescription = null)
+                }
             }
+
 
             Text(
                 modifier = Modifier
                     .padding(10.dp),
                 textAlign = TextAlign.Center,
-                text = selectedDate?.toDate() ?: "Дата не выбрана"
+                text = selectedDate?.toDateString() ?: "Дата не выбрана"
             )
+
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(10) {
+                    Text(text = "task")
+                }
+            }
         }
     }
 
     if (showModal) {
         DatePickerModal(
             onDateSelected = {
-                selectedDate = it
-                taskerScreenHandler.openCalendar(showModal)
+                viewModel.selectDate(it ?: 0L)
+                viewModel.toggleCalendar()
             },
-            onDismiss = { showModal = taskerScreenHandler.openCalendar(showModal) })
+            onDismiss = { viewModel.toggleCalendar() })
     }
 }
 
@@ -96,7 +113,6 @@ fun DatePickerModal(
         confirmButton = {
             TextButton(onClick = {
                 onDateSelected(datePickerState.selectedDateMillis)
-                onDismiss()
             }) {
                 Text(stringResource(R.string.ok_in_calendar))
             }

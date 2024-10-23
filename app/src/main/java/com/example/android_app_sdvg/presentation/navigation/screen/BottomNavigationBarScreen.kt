@@ -1,4 +1,4 @@
-package com.example.android_app_sdvg.presentation.screen.bottombar
+package com.example.android_app_sdvg.presentation.navigation.screen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

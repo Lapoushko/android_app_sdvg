@@ -1,10 +1,13 @@
-package com.example.android_app_sdvg.domain.entity.task
+package com.example.android_app_sdvg.presentation.model.task
 
-import com.example.android_app_sdvg.domain.entity.category.Category
-import com.example.android_app_sdvg.domain.entity.prioriry.Priority
+import android.os.Parcelable
+import com.example.android_app_sdvg.domain.entity.category.CategoryItem
+import com.example.android_app_sdvg.presentation.model.prioriry.PriorityItem
+import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 /**
- * Задача domain
+ * Задача view
  * @author Lapoushko
  * @param name имя задачи
  * @param description описание задачи
@@ -14,12 +17,15 @@ import com.example.android_app_sdvg.domain.entity.prioriry.Priority
  * @param priorityItem приоритет выполнения задачи
  * @param categoryItem категория задачи
  */
-class Task(
+@Serializable
+@Parcelize
+data class TaskItem(
     val name: String = "Нет названия",
     val description: String = "Нет описания",
+    val dateStart: Long = 0L,
     val timer: Long = 0L,
     val capacity: Long = 0L,
     val periodicity: Int = 0,
-    val priority: Priority = Priority.HIGH,
-    val category: Category = Category.STANDART
-)
+    val priorityItem: PriorityItem = PriorityItem.HIGH,
+    val categoryItem: CategoryItem = CategoryItem.STANDART
+) : Parcelable
