@@ -6,22 +6,24 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.android_app_sdvg.domain.entity.category.CategoryItem
-import com.example.android_app_sdvg.presentation.model.prioriry.PriorityItem
+import com.example.android_app_sdvg.domain.entity.category.Category
+import com.example.android_app_sdvg.domain.entity.prioriry.Priority
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import com.example.android_app_sdvg.util.Constants
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 /**
  * @author Lapoushko
  * Вью модель для экрана создания зхадачи
  */
-class CreateTaskScreenViewModel : ViewModel() {
+@HiltViewModel
+class CreateTaskScreenViewModel @Inject constructor() : ViewModel() {
     var name: String by mutableStateOf("")
     var desc: String by mutableStateOf("")
     var time: String by mutableStateOf("0")
-    var priority by mutableStateOf<PriorityItem?>(null)
-    var periodicity: String by
-    mutableStateOf("")
+    var priority by mutableStateOf<Priority?>(null)
+    var periodicity: String by mutableStateOf("")
     var dateStart: Long by mutableLongStateOf(0L)
 
     init {
@@ -47,11 +49,11 @@ class CreateTaskScreenViewModel : ViewModel() {
                 timer = time.toLong(),
                 capacity = 0L,
                 periodicity = periodicity.toIntOrNull() ?: 0,
-                priorityItem = priority ?: PriorityItem.HIGH,
-                categoryItem = CategoryItem.STANDART
+                priorityItem = priority ?: Priority.HIGH,
+                categoryItem = Category.STANDART
             )
+
             onToBack()
-//            MockRepo().tasks.add(task)
             Log.d(Constants.LOG_KEY, task.toString())
         } else{
             Log.d(Constants.LOG_KEY, "Заполните полностью данные")

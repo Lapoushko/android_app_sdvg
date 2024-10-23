@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.android_app_sdvg.R
 import com.example.android_app_sdvg.presentation.extension.toDateString
@@ -42,7 +43,7 @@ import com.example.android_app_sdvg.presentation.extension.toDateString
 @Composable
 fun TaskerScreen(
     taskerScreenHandler: TaskerScreenHandler,
-    viewModel: TaskerScreenViewModel = viewModel()
+    viewModel: TaskerScreenViewModel = hiltViewModel()
 ) {
     val showModal = viewModel.showModal
     val selectedDate = viewModel.selectedDate

@@ -4,6 +4,7 @@ import com.example.android_app_sdvg.data.storage.entity.TaskDb
 import com.example.android_app_sdvg.data.storage.mock.MockTasks
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
 /**
  * @author Lapoushko
@@ -20,6 +21,6 @@ interface TaskDao {
 /**
  * Реализация одноимённого интерфейса
  */
-class TaskDaoImpl(): TaskDao{
-    override suspend fun getTasks(): Flow<List<TaskDb>> = flow { MockTasks().tasks }
+class TaskDaoImpl @Inject constructor(): TaskDao{
+    override suspend fun getTasks(): Flow<List<TaskDb>> = flow { emit(MockTasks().tasks) }
 }
