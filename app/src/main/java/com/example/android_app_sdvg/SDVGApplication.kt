@@ -3,7 +3,7 @@ package com.example.android_app_sdvg
 import android.app.Application
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
-import com.example.android_app_sdvg.presentation.screen.bottombar.BottomNavigationBarScreen
+import com.example.android_app_sdvg.presentation.navigation.screen.BottomNavigationBarScreen
 import dagger.hilt.android.HiltAndroidApp
 
 /**
