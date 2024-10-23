@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -83,8 +84,8 @@ fun TaskerScreen(
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(10) {
-                    Text(text = "task")
+                items(viewModel.tasks.value) { task ->
+                    TaskerScreenListItem(task = task)
                 }
             }
         }

@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.android_app_sdvg.domain.entity.category.CategoryItem
+import com.example.android_app_sdvg.presentation.MockRepo
 import com.example.android_app_sdvg.presentation.model.prioriry.PriorityItem
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import com.example.android_app_sdvg.util.Constants
@@ -51,6 +52,7 @@ class CreateTaskScreenViewModel : ViewModel() {
                 categoryItem = CategoryItem.STANDART
             )
             onToBack()
+            MockRepo().tasks.add(task)
             Log.d(Constants.LOG_KEY, task.toString())
         } else{
             Log.d(Constants.LOG_KEY, "Заполните полностью данные")
