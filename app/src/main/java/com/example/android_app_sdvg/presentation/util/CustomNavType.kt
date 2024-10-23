@@ -11,6 +11,8 @@ import kotlin.reflect.KClass
 /**
  * @author Lapoushko
  * Кастомный NavType для навигации сложного объекта FilmItem
+ * @param clazz нужный класс
+ * @param serializer сериализатор
  */
 class CustomNavType<T : Parcelable>(
     private val clazz: KClass<T>,

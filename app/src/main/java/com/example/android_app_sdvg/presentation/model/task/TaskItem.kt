@@ -2,7 +2,7 @@ package com.example.android_app_sdvg.presentation.model.task
 
 import android.os.Parcelable
 import com.example.android_app_sdvg.domain.entity.category.CategoryItem
-import com.example.android_app_sdvg.domain.entity.prioriry.PriorityItem
+import com.example.android_app_sdvg.presentation.model.prioriry.PriorityItem
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 

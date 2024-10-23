@@ -6,6 +6,12 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
+/**
+ * @author Lapoushko
+ * Сериализатор
+ * @param serializeFn функция сериализации
+ * @param deserializeFn десериализация
+ */
 class GenericSerializer<T : Any>(
     private val serializeFn: (T) -> String,
     private val deserializeFn: (String) -> T

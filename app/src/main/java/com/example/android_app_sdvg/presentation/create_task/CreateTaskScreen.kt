@@ -35,8 +35,11 @@ import com.example.android_app_sdvg.presentation.extension.toDateString
 /**
  * @author Lapoushko
  * Создание задачи скрин
+ *
+ * @param dateStart день создания задачи
+ * @param handler функции экрана
+ * @param viewModel вью модель экрана
  */
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateTaskScreen(

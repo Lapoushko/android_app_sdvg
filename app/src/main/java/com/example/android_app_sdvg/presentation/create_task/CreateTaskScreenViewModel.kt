@@ -7,15 +7,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.android_app_sdvg.domain.entity.category.CategoryItem
-import com.example.android_app_sdvg.domain.entity.prioriry.Priority
-import com.example.android_app_sdvg.domain.entity.prioriry.PriorityItem
-import com.example.android_app_sdvg.domain.entity.prioriry.getEnum
-import com.example.android_app_sdvg.domain.entity.task.Task
+import com.example.android_app_sdvg.presentation.model.prioriry.PriorityItem
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import com.example.android_app_sdvg.util.Constants
 
 /**
  * @author Lapoushko
+ * Вью модель для экрана создания зхадачи
  */
 class CreateTaskScreenViewModel : ViewModel() {
     var name: String by mutableStateOf("")
@@ -35,6 +33,11 @@ class CreateTaskScreenViewModel : ViewModel() {
         Log.d(Constants.LOG_KEY, "onCleared ${this::class.simpleName}")
     }
 
+    /**
+     * Сохранить задачу
+     * Здесь происходит валидация введённых значений
+     * @param onToBack кнопка для возврата на главный экран
+     */
     fun saveTask(onToBack: () -> Unit) {
         if (name.isNotEmpty() || desc.isNotEmpty()){
             val task = TaskItem(

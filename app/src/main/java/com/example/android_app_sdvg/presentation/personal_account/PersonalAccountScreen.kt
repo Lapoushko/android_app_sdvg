@@ -28,7 +28,6 @@ import com.example.android_app_sdvg.presentation.theme.Android_app_sdvgTheme
  * Экран личного кабинета
  * @param personalAccountScreenHandler методы личного кабинета
  */
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PersonalAccountScreen(

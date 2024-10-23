@@ -14,6 +14,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
  * @author Lapoushko
  *
  * Sealed класс для определения всех скринов
+ * @param route маршрут
+ * @param title имя экрана
+ * @param setIcon иконка для активного элемента
+ * @param unsetIcon иконка для неактивного элемента
  */
 @Immutable
 sealed class ScreenBar(

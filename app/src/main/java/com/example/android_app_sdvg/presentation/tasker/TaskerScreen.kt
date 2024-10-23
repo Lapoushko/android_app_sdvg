@@ -34,6 +34,8 @@ import com.example.android_app_sdvg.presentation.extension.toDateString
 /**
  * @author Lapoushko
  * Экран задач
+ * @param taskerScreenHandler функции экрана
+ * @param viewModel вью модель экрана
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

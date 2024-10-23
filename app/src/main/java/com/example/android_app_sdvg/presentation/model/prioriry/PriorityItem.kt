@@ -1,7 +1,8 @@
-package com.example.android_app_sdvg.domain.entity.prioriry
+package com.example.android_app_sdvg.presentation.model.prioriry
 
 /**
  * @author Lapoushko
+ * @param name имя приоритета
  * Приоритет
  */
 enum class PriorityItem(name: String){

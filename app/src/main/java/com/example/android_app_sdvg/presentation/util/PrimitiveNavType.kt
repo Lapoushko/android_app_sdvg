@@ -5,6 +5,8 @@ import androidx.navigation.NavType
 
 /**
  * @author Lapoushko
+ * Перевод в примитивные типы данных для навигации
+ * @param clazz нужный класс
  */
 class PrimitiveNavType<T : Any>(private val clazz: Class<T>) : NavType<T>(isNullableAllowed = false) {
 

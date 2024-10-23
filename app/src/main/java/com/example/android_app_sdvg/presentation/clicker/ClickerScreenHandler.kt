@@ -4,7 +4,7 @@ import androidx.navigation.NavHostController
 
 /**
  * @author Lapoushko
- *
+ *@param navController контроллер навигации
  * Функции кликера
  */
 
