@@ -7,8 +7,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.android_app_sdvg.presentation.screen.Screen
-import com.example.android_app_sdvg.presentation.screen.extension.AddItem
+import com.example.android_app_sdvg.presentation.navigation.screen.ScreenBar
+import com.example.android_app_sdvg.presentation.extension.AddItem
 
 /**
  * @author Lapoushko
@@ -21,9 +21,9 @@ fun BottomNavigationBar(
     navController: NavHostController,
 ) {
     val items = listOf(
-        Screen.Clicker,
-        Screen.Tasker,
-        Screen.PersonalAccount,
+        ScreenBar.Clicker,
+        ScreenBar.Tasker,
+        ScreenBar.PersonalAccount,
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -32,7 +32,7 @@ fun BottomNavigationBar(
     NavigationBar {
         items.forEach { screen ->
             AddItem(
-                screen = screen,
+                screenBar = screen,
                 destination = destination,
                 navController = navController
             )
