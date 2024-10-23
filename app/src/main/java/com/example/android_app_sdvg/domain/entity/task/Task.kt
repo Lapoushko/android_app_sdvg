@@ -11,12 +11,13 @@ import com.example.android_app_sdvg.domain.entity.prioriry.Priority
  * @param timer Длительность выполнения задачи
  * @param capacity объём задачи
  * @param periodicity периодичность появления задачи
- * @param priorityItem приоритет выполнения задачи
- * @param categoryItem категория задачи
+ * @param priority приоритет выполнения задачи
+ * @param category категория задачи
  */
 class Task(
     val name: String = "Нет названия",
     val description: String = "Нет описания",
+    val dateStart: Long = 0L,
     val timer: Long = 0L,
     val capacity: Long = 0L,
     val periodicity: Int = 0,
