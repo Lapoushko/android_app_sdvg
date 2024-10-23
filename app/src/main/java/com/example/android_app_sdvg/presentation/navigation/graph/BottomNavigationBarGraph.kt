@@ -4,13 +4,19 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.android_app_sdvg.presentation.handler.TaskerScreenHandler
-import com.example.android_app_sdvg.presentation.handler.ClickerScreenHandler
-import com.example.android_app_sdvg.presentation.handler.PersonalAccountScreenHandler
-import com.example.android_app_sdvg.presentation.screen.ClickerScreen
-import com.example.android_app_sdvg.presentation.screen.PersonalAccountScreen
-import com.example.android_app_sdvg.presentation.screen.Screen
-import com.example.android_app_sdvg.presentation.screen.TaskerScreen
+import androidx.navigation.toRoute
+import com.example.android_app_sdvg.presentation.clicker.ClickerScreenHandler
+import com.example.android_app_sdvg.presentation.personal_account.PersonalAccountScreenHandler
+import com.example.android_app_sdvg.presentation.tasker.TaskerScreenHandler
+import com.example.android_app_sdvg.presentation.clicker.ClickerScreen
+import com.example.android_app_sdvg.presentation.create_task.CreateTaskScreen
+import com.example.android_app_sdvg.presentation.create_task.CreateTaskScreenHandler
+import com.example.android_app_sdvg.presentation.model.screen.ScreenItem
+import com.example.android_app_sdvg.presentation.personal_account.PersonalAccountScreen
+import com.example.android_app_sdvg.presentation.navigation.screen.ScreenBar
+import com.example.android_app_sdvg.presentation.tasker.TaskerScreen
+import com.example.android_app_sdvg.presentation.util.PrimitiveNavType
+import kotlin.reflect.typeOf
 
 /**
  * @author Lapoushko
@@ -22,27 +28,36 @@ import com.example.android_app_sdvg.presentation.screen.TaskerScreen
 fun BottomNavigationBarGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Tasker.route
+        startDestination = ScreenBar.Tasker.route
     ) {
-        composable(route = Screen.Tasker.route) {
+        composable(route = ScreenBar.Tasker.route) {
             TaskerScreen(
                 taskerScreenHandler = TaskerScreenHandler(
                     navController = navController
                 )
             )
         }
-        composable(route = Screen.Clicker.route) {
+        composable(route = ScreenBar.Clicker.route) {
             ClickerScreen(
                 clickerScreenHandler = ClickerScreenHandler(
                     navController = navController
                 )
             )
         }
-        composable(route = Screen.PersonalAccount.route) {
+        composable(route = ScreenBar.PersonalAccount.route) {
             PersonalAccountScreen(
                 personalAccountScreenHandler = PersonalAccountScreenHandler(
                     navController = navController
                 )
+            )
+        }
+        composable<ScreenItem.CreateTask>(
+            typeMap = mapOf(typeOf<Long>() to PrimitiveNavType(Long::class.java))
+        ) { backStackEntry ->
+            val createTask = backStackEntry.toRoute<ScreenItem.CreateTask>()
+            CreateTaskScreen(
+                dateStart = createTask.dateStart,
+                handler = CreateTaskScreenHandler(navController = navController)
             )
         }
     }
