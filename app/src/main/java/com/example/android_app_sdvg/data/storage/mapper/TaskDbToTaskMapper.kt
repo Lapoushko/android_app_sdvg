@@ -17,7 +17,7 @@ interface TaskDbToTaskMapper {
      * @param tasks задачи
      * @return Список задач domain
      */
-    suspend fun invoke(tasks: List<TaskDb>): List<Task>
+    suspend operator fun invoke(tasks: List<TaskDb>): List<Task>
 }
 
 /**

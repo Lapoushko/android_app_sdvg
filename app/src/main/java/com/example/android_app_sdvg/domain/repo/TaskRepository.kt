@@ -13,4 +13,10 @@ interface TaskRepository {
      * @return список задач
      */
     suspend fun getTasks(): Flow<List<Task>>
+
+    /**
+     * вставить задачу
+     * @param task задача
+     */
+    suspend fun insertTask(task: Flow<Task>)
 }

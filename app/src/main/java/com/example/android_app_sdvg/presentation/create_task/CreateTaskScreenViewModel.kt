@@ -6,11 +6,16 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.android_app_sdvg.domain.entity.category.Category
 import com.example.android_app_sdvg.domain.entity.prioriry.Priority
+import com.example.android_app_sdvg.domain.usecase.SubscribeInsertTaskUseCase
+import com.example.android_app_sdvg.presentation.mapper.TaskUiToTaskMapper
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import com.example.android_app_sdvg.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -18,7 +23,10 @@ import javax.inject.Inject
  * Вью модель для экрана создания зхадачи
  */
 @HiltViewModel
-class CreateTaskScreenViewModel @Inject constructor() : ViewModel() {
+class CreateTaskScreenViewModel @Inject constructor(
+    private val useCase: SubscribeInsertTaskUseCase,
+    private val mapper: TaskUiToTaskMapper
+) : ViewModel() {
     var name: String by mutableStateOf("")
     var desc: String by mutableStateOf("")
     var time: String by mutableStateOf("0")
@@ -41,22 +49,24 @@ class CreateTaskScreenViewModel @Inject constructor() : ViewModel() {
      * @param onToBack кнопка для возврата на главный экран
      */
     fun saveTask(onToBack: () -> Unit) {
-        if (name.isNotEmpty() || desc.isNotEmpty()){
-            val task = TaskItem(
-                name = name,
-                description = desc,
-                dateStart = dateStart,
-                timer = time.toLong(),
-                capacity = 0L,
-                periodicity = periodicity.toIntOrNull() ?: 0,
-                priorityItem = priority ?: Priority.HIGH,
-                categoryItem = Category.STANDART
-            )
-
-            onToBack()
-            Log.d(Constants.LOG_KEY, task.toString())
-        } else{
-            Log.d(Constants.LOG_KEY, "Заполните полностью данные")
+        viewModelScope.launch {
+            if (name.isNotEmpty() || desc.isNotEmpty()) {
+                val task = TaskItem(
+                    name = name,
+                    description = desc,
+                    dateStart = dateStart,
+                    timer = time.toLong(),
+                    capacity = 0L,
+                    periodicity = periodicity.toIntOrNull() ?: 0,
+                    priorityItem = priority ?: Priority.HIGH,
+                    categoryItem = Category.STANDART
+                )
+                useCase.insertTask(flow { emit(mapper.invoke(task)) })
+                onToBack()
+                Log.d(Constants.LOG_KEY, task.toString())
+            } else {
+                Log.d(Constants.LOG_KEY, "Заполните полностью данные")
+            }
         }
     }
 

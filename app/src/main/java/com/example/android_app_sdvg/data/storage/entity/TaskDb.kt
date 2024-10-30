@@ -16,7 +16,7 @@ import com.example.android_app_sdvg.domain.entity.prioriry.Priority
  * @param category категория задачи
  */
 data class TaskDb(
-    val id: Long?,
+    val id: Long? = null,
     val name: String?,
     val description: String?,
     val dateStart: Long?,
