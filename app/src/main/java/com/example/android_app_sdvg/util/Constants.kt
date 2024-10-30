@@ -5,5 +5,5 @@ package com.example.android_app_sdvg.util
  * константы
  */
 object Constants {
-    const val LOG_KEY = "LOG_TAG"
+    const val LOG_KEY = "LOG_KEY"
 }
