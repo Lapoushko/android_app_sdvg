@@ -16,13 +16,18 @@ interface TaskDao {
      * Получить таски
      * @return flow таски
      */
-    suspend fun getTasks(): Flow<List<TaskDb>>
+    suspend fun getTasks(): List<TaskDb>
 
     /**
      * вставить в базу данных задачу
      * @param taskDb задача
      */
-    suspend fun insertTask(taskDb: Flow<TaskDb>)
+    suspend fun insertTask(taskDb: TaskDb)
+
+    /**
+     * удалить задачу
+     */
+    suspend fun deleteTask(taskDb: TaskDb)
 }
 
 /**
@@ -31,9 +36,13 @@ interface TaskDao {
 class TaskDaoImpl @Inject constructor() : TaskDao {
     val tasks = MockTasks().tasks
 
-    override suspend fun getTasks(): Flow<List<TaskDb>> = flow { emit(tasks) }
+    override suspend fun getTasks(): List<TaskDb> = tasks
 
-    override suspend fun insertTask(taskDb: Flow<TaskDb>) {
-        tasks.add(taskDb.first())
+    override suspend fun insertTask(taskDb: TaskDb) {
+        tasks.add(taskDb)
+    }
+
+    override suspend fun deleteTask(taskDb: TaskDb) {
+        tasks.remove(taskDb)
     }
 }
