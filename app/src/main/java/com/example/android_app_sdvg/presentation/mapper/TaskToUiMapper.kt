@@ -21,8 +21,8 @@ class TaskToUiMapperImpl @Inject constructor (): TaskToUiMapper{
             timer = task.timer,
             capacity = task.capacity,
             periodicity = task.periodicity,
-            priorityItem = task.priority,
-            categoryItem = task.category
+            priorityItem = task.priority.naming,
+            categoryItem = task.category.naming
         )
     }
 

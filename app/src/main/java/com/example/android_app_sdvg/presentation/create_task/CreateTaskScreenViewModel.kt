@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android_app_sdvg.domain.entity.category.Category
 import com.example.android_app_sdvg.domain.entity.prioriry.Priority
+import com.example.android_app_sdvg.domain.entity.prioriry.getEnum
 import com.example.android_app_sdvg.domain.usecase.SubscribeInsertTaskUseCase
 import com.example.android_app_sdvg.presentation.mapper.TaskUiToTaskMapper
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
@@ -30,7 +31,8 @@ class CreateTaskScreenViewModel @Inject constructor(
     var name: String by mutableStateOf("")
     var desc: String by mutableStateOf("")
     var time: String by mutableStateOf("0")
-    var priority by mutableStateOf<Priority?>(null)
+    var priority by mutableStateOf("")
+    var category: String by mutableStateOf("")
     var periodicity: String by mutableStateOf("")
     var dateStart: Long by mutableLongStateOf(0L)
 
@@ -48,26 +50,33 @@ class CreateTaskScreenViewModel @Inject constructor(
      * Здесь происходит валидация введённых значений
      * @param onToBack кнопка для возврата на главный экран
      */
-    fun saveTask(onToBack: () -> Unit) {
+    fun saveTask(): Boolean {
+        var res = false
         viewModelScope.launch {
-            if (name.isNotEmpty() || desc.isNotEmpty()) {
-                val task = TaskItem(
-                    name = name,
-                    description = desc,
-                    dateStart = dateStart,
-                    timer = time.toLong(),
-                    capacity = 0L,
-                    periodicity = periodicity.toIntOrNull() ?: 0,
-                    priorityItem = priority ?: Priority.HIGH,
-                    categoryItem = Category.STANDART
-                )
-                useCase.insertTask(flow { emit(mapper.invoke(task)) })
-                onToBack()
-                Log.d(Constants.LOG_KEY, task.toString())
-            } else {
-                Log.d(Constants.LOG_KEY, "Заполните полностью данные")
+            when (name.isNotEmpty() || desc.isNotEmpty()) {
+                true -> {
+                    val task = TaskItem(
+                        name = name,
+                        description = desc,
+                        dateStart = dateStart,
+                        timer = time.toLong(),
+                        capacity = 0L,
+                        periodicity = periodicity.toIntOrNull() ?: 0,
+                        priorityItem = priority,
+                        categoryItem = category
+                    )
+                    useCase.insertTask(mapper.invoke(task))
+                    Log.d(Constants.LOG_KEY, task.toString())
+                    res = true
+                }
+
+                false -> {
+                    res = false
+                    Log.d(Constants.LOG_KEY, "Заполните полностью данные")
+                }
             }
         }
+        return res
     }
 
     fun updateName(value: String) {
@@ -82,9 +91,13 @@ class CreateTaskScreenViewModel @Inject constructor(
         time = value
     }
 
-//    fun updatePriority(value: String) {
-//        priority = value.getEnum<PriorityItem>()
-//    }
+    fun updatePriority(value: String) {
+        priority = value
+    }
+
+    fun updateCategory(value: String) {
+        category = value
+    }
 
     fun updatePeriodicity(value: String) {
         periodicity = value

@@ -22,5 +22,5 @@ class Task(
     val capacity: Long = 0L,
     val periodicity: Int = 0,
     val priority: Priority = Priority.HIGH,
-    val category: Category = Category.STANDART
+    val category: Category = Category.STANDARD
 )

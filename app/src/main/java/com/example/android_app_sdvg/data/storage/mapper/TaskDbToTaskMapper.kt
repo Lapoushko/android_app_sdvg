@@ -34,7 +34,7 @@ class TaskDbToTaskMapperImpl @Inject constructor() : TaskDbToTaskMapper {
                 capacity = task.capacity ?: 0L,
                 periodicity = task.periodicity ?: 0,
                 priority = task.priority ?: Priority.HIGH,
-                category = task.category ?: Category.STANDART
+                category = task.category ?: Category.STANDARD
             )
         }
     }

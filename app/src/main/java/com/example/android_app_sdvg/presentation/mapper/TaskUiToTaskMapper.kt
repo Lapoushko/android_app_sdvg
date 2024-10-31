@@ -1,5 +1,8 @@
 package com.example.android_app_sdvg.presentation.mapper
 
+import com.example.android_app_sdvg.domain.entity.category.Category
+import com.example.android_app_sdvg.domain.entity.prioriry.Priority
+import com.example.android_app_sdvg.domain.entity.prioriry.getEnum
 import com.example.android_app_sdvg.domain.entity.task.Task
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import javax.inject.Inject
@@ -31,10 +34,8 @@ class TaskUiToTaskMapperImpl @Inject constructor(): TaskUiToTaskMapper{
             timer = taskUi.timer,
             capacity = taskUi.capacity,
             periodicity = taskUi.periodicity,
-            priority = taskUi.priorityItem,
-            category = taskUi.categoryItem
+            priority = taskUi.priorityItem.getEnum(Priority.HIGH),
+            category = taskUi.categoryItem.getEnum(Category.STANDARD)
         )
     }
-
-
 }

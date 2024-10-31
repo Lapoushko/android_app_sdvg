@@ -10,7 +10,7 @@ import javax.inject.Inject
  * юзкейс вставки новой задачи
  */
 interface SubscribeInsertTaskUseCase {
-    suspend fun insertTask(task: Flow<Task>)
+    suspend fun insertTask(task: Task)
 }
 
 class SubscribeInsertTaskUseCaseImpl @Inject constructor(
@@ -20,7 +20,7 @@ class SubscribeInsertTaskUseCaseImpl @Inject constructor(
      * получить задачи
      * @return список задач
      */
-    override suspend fun insertTask(task: Flow<Task>) {
+    override suspend fun insertTask(task: Task) {
         repository.insertTask(task)
     }
 

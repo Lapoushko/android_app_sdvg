@@ -26,6 +26,6 @@ data class TaskItem(
     val timer: Long = 0L,
     val capacity: Long = 0L,
     val periodicity: Int = 0,
-    val priorityItem: Priority = Priority.HIGH,
-    val categoryItem: Category = Category.STANDART
+    val priorityItem: String = Priority.HIGH.naming,
+    val categoryItem: String = Category.STANDARD.naming
 ) : Parcelable

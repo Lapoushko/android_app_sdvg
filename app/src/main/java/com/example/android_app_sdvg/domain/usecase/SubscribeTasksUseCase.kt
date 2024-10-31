@@ -15,7 +15,7 @@ interface SubscribeTasksUseCase {
      * получить задачи
      * @return список задач
      */
-    suspend fun getTasks(): Flow<List<Task>>
+    suspend fun getTasks(): List<Task>
 }
 
 /**
@@ -25,14 +25,18 @@ interface SubscribeTasksUseCase {
 class SubscribeTasksUseCaseImpl @Inject constructor(
     private val repository: TaskRepository
 ) : SubscribeTasksUseCase {
-    override suspend fun getTasks(): Flow<List<Task>> {
+    override suspend fun getTasks(): List<Task> {
         return repository
             .getTasks()
-            .map { task ->
-                task.ifEmpty {
-                    emptyList()
-                }
-            }
+
+
+//        return repository
+//            .getTasks()
+//            .map { task ->
+//                task.ifEmpty {
+//                    emptyList()
+//                }
+//            }
     }
 
 }
