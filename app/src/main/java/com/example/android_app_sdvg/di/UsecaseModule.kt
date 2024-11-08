@@ -1,6 +1,7 @@
 package com.example.android_app_sdvg.di
 
 import com.example.android_app_sdvg.domain.repo.TaskRepository
+import com.example.android_app_sdvg.domain.usecase.SubscribeClickUseCase
 import com.example.android_app_sdvg.domain.usecase.SubscribeDeleteTaskUseCase
 import com.example.android_app_sdvg.domain.usecase.SubscribeDeleteTaskUseCaseImpl
 import com.example.android_app_sdvg.domain.usecase.SubscribeInsertTaskUseCase
@@ -43,5 +44,13 @@ object UsecaseModule {
         repository: TaskRepository
     ): SubscribeDeleteTaskUseCase{
         return SubscribeDeleteTaskUseCaseImpl(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSubscribeClickUseCase(
+        repository: TaskRepository
+    ) : SubscribeClickUseCase{
+        return SubscribeTasksUseCaseImpl(repository)
     }
 }

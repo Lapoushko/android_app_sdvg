@@ -31,7 +31,8 @@ import com.example.android_app_sdvg.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClickerScreen(
-    clickerScreenHandler: ClickerScreenHandler
+    clickerScreenHandler: ClickerScreenHandler,
+    viewModel:
 ) {
     Android_app_sdvgTheme {
         Surface(
