@@ -1,13 +1,17 @@
 package com.example.android_app_sdvg.di
 
+import com.example.android_app_sdvg.domain.repo.ClickRepository
 import com.example.android_app_sdvg.domain.repo.TaskRepository
-import com.example.android_app_sdvg.domain.usecase.SubscribeClickUseCase
 import com.example.android_app_sdvg.domain.usecase.SubscribeDeleteTaskUseCase
 import com.example.android_app_sdvg.domain.usecase.SubscribeDeleteTaskUseCaseImpl
 import com.example.android_app_sdvg.domain.usecase.SubscribeInsertTaskUseCase
 import com.example.android_app_sdvg.domain.usecase.SubscribeInsertTaskUseCaseImpl
 import com.example.android_app_sdvg.domain.usecase.SubscribeTasksUseCase
 import com.example.android_app_sdvg.domain.usecase.SubscribeTasksUseCaseImpl
+import com.example.android_app_sdvg.domain.usecase.preferences.SubscribeClickUseCase
+import com.example.android_app_sdvg.domain.usecase.preferences.SubscribeClickUseCaseImpl
+import com.example.android_app_sdvg.domain.usecase.preferences.SubscribeGetClicksUseCase
+import com.example.android_app_sdvg.domain.usecase.preferences.SubscribeGetClicksUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,7 +38,7 @@ object UsecaseModule {
     @Provides
     fun provideSubscribeInsertTaskUseCase(
         repository: TaskRepository
-    ) : SubscribeInsertTaskUseCase{
+    ): SubscribeInsertTaskUseCase {
         return SubscribeInsertTaskUseCaseImpl(repository = repository)
     }
 
@@ -42,15 +46,23 @@ object UsecaseModule {
     @Provides
     fun provideSubscribeDeleteTaskUseCase(
         repository: TaskRepository
-    ): SubscribeDeleteTaskUseCase{
+    ): SubscribeDeleteTaskUseCase {
         return SubscribeDeleteTaskUseCaseImpl(repository)
     }
 
     @Singleton
     @Provides
     fun provideSubscribeClickUseCase(
-        repository: TaskRepository
-    ) : SubscribeClickUseCase{
-        return SubscribeTasksUseCaseImpl(repository)
+        repository: ClickRepository
+    ): SubscribeClickUseCase {
+        return SubscribeClickUseCaseImpl(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSubscribeGetClicksUseCase(
+        repository: ClickRepository
+    ): SubscribeGetClicksUseCase {
+        return SubscribeGetClicksUseCaseImpl(repository)
     }
 }
