@@ -28,7 +28,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.android_app_sdvg.presentation.extension.toDateString
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import com.example.android_app_sdvg.presentation.theme.Shapes
 
@@ -61,8 +60,8 @@ fun TaskerScreenListItem(
                 .fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(10.dp)) {
-                Text(text = task.dateStart.toDateString())
-                Text(text = task.dateStart.toDateString())
+                Text(text = task.dateStart)
+                Text(text = task.dateStart)
             }
             Text(
                 modifier = Modifier
@@ -82,7 +81,7 @@ fun TaskerScreenListItem(
             }
         }
         if (expandedState) {
-            Row{
+            Row {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     DetailRow("Приоритет", task.priorityItem)
                     DetailRow("Категория", task.categoryItem)
@@ -123,5 +122,5 @@ private fun DetailRow(label: String, value: String) {
 @Preview(showBackground = true)
 @Composable
 fun TaskerScreenListItemPreview() {
-    TaskerScreenListItem(task = TaskItem())
+    TaskerScreenListItem(task = TaskItem("", "", "", "", "", "", "", ""))
 }

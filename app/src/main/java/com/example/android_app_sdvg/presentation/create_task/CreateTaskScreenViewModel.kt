@@ -7,15 +7,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.android_app_sdvg.domain.entity.category.Category
-import com.example.android_app_sdvg.domain.entity.prioriry.Priority
-import com.example.android_app_sdvg.domain.entity.prioriry.getEnum
 import com.example.android_app_sdvg.domain.usecase.SubscribeInsertTaskUseCase
+import com.example.android_app_sdvg.presentation.extension.toDateString
 import com.example.android_app_sdvg.presentation.mapper.TaskUiToTaskMapper
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import com.example.android_app_sdvg.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -50,33 +47,29 @@ class CreateTaskScreenViewModel @Inject constructor(
      * Здесь происходит валидация введённых значений
      * @param onToBack кнопка для возврата на главный экран
      */
-    fun saveTask(): Boolean {
-        var res = false
+    fun saveTask(onToBack: () -> Unit) {
         viewModelScope.launch {
             when (name.isNotEmpty() || desc.isNotEmpty()) {
                 true -> {
                     val task = TaskItem(
                         name = name,
                         description = desc,
-                        dateStart = dateStart,
-                        timer = time.toLong(),
-                        capacity = 0L,
-                        periodicity = periodicity.toIntOrNull() ?: 0,
+                        dateStart = dateStart.toDateString(),
+                        timer = time,
+                        capacity = "0",
+                        periodicity = periodicity,
                         priorityItem = priority,
                         categoryItem = category
                     )
                     useCase.insertTask(mapper.invoke(task))
+                    onToBack()
                     Log.d(Constants.LOG_KEY, task.toString())
-                    res = true
                 }
-
                 false -> {
-                    res = false
                     Log.d(Constants.LOG_KEY, "Заполните полностью данные")
                 }
             }
         }
-        return res
     }
 
     fun updateName(value: String) {

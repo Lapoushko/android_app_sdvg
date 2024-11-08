@@ -66,7 +66,7 @@ fun CreateTaskScreen(
 ) {
     var name by remember { mutableStateOf(viewModel.name) }
     var desc by remember { mutableStateOf(viewModel.desc) }
-    var time by remember { mutableStateOf(viewModel.time) }
+    val time by remember { mutableStateOf(viewModel.time) }
     var periodicity by remember { mutableStateOf(viewModel.periodicity) }
 
     viewModel.dateStart = dateStart
@@ -102,9 +102,7 @@ fun CreateTaskScreen(
                 )
 
                 IconButton(onClick = {
-                    if (viewModel.saveTask()) {
-                        handler.onToBack()
-                    }
+                    viewModel.saveTask { handler.onToBack() }
                 }) {
                     Icon(imageVector = Icons.Filled.Done, contentDescription = null)
                 }

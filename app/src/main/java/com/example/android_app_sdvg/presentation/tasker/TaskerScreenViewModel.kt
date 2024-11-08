@@ -16,9 +16,6 @@ import com.example.android_app_sdvg.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
@@ -44,6 +41,10 @@ class TaskerScreenViewModel @Inject constructor(
 
     init {
         Log.d(Constants.LOG_KEY, "Init ${this::class.simpleName}")
+        load()
+    }
+
+    private fun load(){
         viewModelScope.launch {
             _tasks.value =
                 subscribeTasksUseCase
@@ -72,6 +73,7 @@ class TaskerScreenViewModel @Inject constructor(
     fun delete(task: TaskItem) {
         viewModelScope.launch {
             subscribeDeleteTaskUseCase.deleteTask(taskUiToTaskMapper.invoke(task))
+            load()
         }
     }
 

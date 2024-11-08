@@ -14,28 +14,26 @@ import javax.inject.Inject
 interface TaskDbToTaskMapper {
     /**
      * Изменить тип данных
-     * @param tasks задачи
+     * @param taskDb задачи
      * @return Список задач domain
      */
-    suspend operator fun invoke(tasks: List<TaskDb>): List<Task>
+    suspend operator fun invoke(taskDb: TaskDb): Task
 }
 
 /**
  * Реализация одноименного интерфейса
  */
 class TaskDbToTaskMapperImpl @Inject constructor() : TaskDbToTaskMapper {
-    override suspend fun invoke(tasks: List<TaskDb>): List<Task> {
-        return tasks.map { task ->
-            Task(
-                name = task.name ?: "Нет названия",
-                description = task.description ?: "Нет описания",
-                timer = task.timer ?: 0L,
-                dateStart = task.dateStart ?: 0L,
-                capacity = task.capacity ?: 0L,
-                periodicity = task.periodicity ?: 0,
-                priority = task.priority ?: Priority.HIGH,
-                category = task.category ?: Category.STANDARD
-            )
-        }
+    override suspend fun invoke(taskDb: TaskDb): Task {
+        return Task(
+            name = taskDb.name ?: "Нет названия",
+            description = taskDb.description ?: "Нет описания",
+            timer = taskDb.timer ?: 0L,
+            dateStart = taskDb.dateStart ?: 0L,
+            capacity = taskDb.capacity ?: 0L,
+            periodicity = taskDb.periodicity ?: 0,
+            priority = taskDb.priority ?: Priority.HIGH,
+            category = taskDb.category ?: Category.STANDARD
+        )
     }
 }
