@@ -1,25 +1,22 @@
 package com.example.android_app_sdvg.presentation.clicker
 
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.android_app_sdvg.presentation.theme.Android_app_sdvgTheme
 import com.example.android_app_sdvg.R
 
 /**
@@ -31,39 +28,36 @@ import com.example.android_app_sdvg.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClickerScreen(
-    clickerScreenHandler: ClickerScreenHandler
+    clickerScreenHandler: ClickerScreenHandler,
+    viewModel: ClickerScreenViewModel = hiltViewModel()
 ) {
-    Android_app_sdvgTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+    val clicks = viewModel.countClick.collectAsState()
+
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize(),
+        topBar = {
+            CenterAlignedTopAppBar(title = {
+                Text(
+                    text = stringResource(R.string.clicker)
+                )
+            })
+        },
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
         ) {
-            Scaffold(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                topBar = {
-                    CenterAlignedTopAppBar(title = {
-                        Text(
-                            text = stringResource(R.string.clicker)
-                        )
-                    })
-                },
-            ) { innerPadding ->
-                LazyColumn(
-                    modifier = Modifier
-                        .padding(innerPadding)
-                        .padding(10.dp)
-                        .fillMaxSize(),
-                    state = rememberLazyListState(),
-                    contentPadding = PaddingValues(top = 5.dp, bottom = 5.dp)
-                ) {
-                    items(
-                        items = listOf(
-                            1, 2
-                        )
-                    ) {
-                    }
-                }
+            Button(onClick = { viewModel.clearClicks() }) {
+                Text(text = "Очистить клики")
+            }
+            Text(
+                text = clicks.value.toString()
+            )
+            Button(onClick = { viewModel.click() }) {
+                Text(text = "Кликни")
             }
         }
     }
@@ -72,8 +66,10 @@ fun ClickerScreen(
 @Preview(showBackground = true)
 @Composable
 fun ClickerScreenPreview() {
-    ClickerScreen(clickerScreenHandler = ClickerScreenHandler(
-        navController = rememberNavController()
-    )
+    ClickerScreen(
+        clickerScreenHandler = ClickerScreenHandler(
+            navController = rememberNavController()
+        ),
+        viewModel = hiltViewModel()
     )
 }
