@@ -1,6 +1,11 @@
 package com.example.android_app_sdvg.presentation.mapper
 
+import com.example.android_app_sdvg.domain.entity.category.Category
+import com.example.android_app_sdvg.domain.entity.category.getCategory
+import com.example.android_app_sdvg.domain.entity.prioriry.Priority
+import com.example.android_app_sdvg.domain.entity.prioriry.getPriority
 import com.example.android_app_sdvg.domain.entity.task.Task
+import com.example.android_app_sdvg.presentation.extension.toLongDate
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import javax.inject.Inject
 
@@ -27,14 +32,12 @@ class TaskUiToTaskMapperImpl @Inject constructor(): TaskUiToTaskMapper{
         return Task(
             name = taskUi.name,
             description = taskUi.description,
-            dateStart = taskUi.dateStart,
-            timer = taskUi.timer,
-            capacity = taskUi.capacity,
-            periodicity = taskUi.periodicity,
-            priority = taskUi.priorityItem,
-            category = taskUi.categoryItem
+            dateStart = taskUi.dateStart.toLongDate(),
+            timer = taskUi.timer.toLong(),
+            capacity = taskUi.capacity.toLong(),
+            periodicity = taskUi.periodicity.toIntOrNull() ?: 0,
+            priority = taskUi.priorityItem.getPriority() ?: Priority.HIGH,
+            category = taskUi.categoryItem.getCategory() ?: Category.STANDARD
         )
     }
-
-
 }

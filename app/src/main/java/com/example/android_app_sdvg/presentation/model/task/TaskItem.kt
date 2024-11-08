@@ -1,8 +1,6 @@
 package com.example.android_app_sdvg.presentation.model.task
 
 import android.os.Parcelable
-import com.example.android_app_sdvg.domain.entity.category.Category
-import com.example.android_app_sdvg.domain.entity.prioriry.Priority
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
@@ -20,12 +18,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Parcelize
 data class TaskItem(
-    val name: String = "Нет названия",
-    val description: String = "Нет описания",
-    val dateStart: Long = 0L,
-    val timer: Long = 0L,
-    val capacity: Long = 0L,
-    val periodicity: Int = 0,
-    val priorityItem: Priority = Priority.HIGH,
-    val categoryItem: Category = Category.STANDART
+    val name: String,
+    val description: String,
+    val dateStart: String,
+    val timer: String,
+    val capacity: String,
+    val periodicity: String,
+    val priorityItem: String,
+    val categoryItem: String
 ) : Parcelable

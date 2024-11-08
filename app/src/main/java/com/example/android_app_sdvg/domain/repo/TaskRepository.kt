@@ -12,11 +12,17 @@ interface TaskRepository {
      * получить Задачи
      * @return список задач
      */
-    suspend fun getTasks(): Flow<List<Task>>
+    suspend fun getTasks(): List<Task>
 
     /**
      * вставить задачу
      * @param task задача
      */
-    suspend fun insertTask(task: Flow<Task>)
+    suspend fun insertTask(task: Task)
+
+    /**
+     * Удаление задачи
+     * @param task задача
+     */
+    suspend fun deleteTask(task: Task)
 }

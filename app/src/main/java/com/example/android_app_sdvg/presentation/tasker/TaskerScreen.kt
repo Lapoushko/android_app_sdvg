@@ -22,7 +22,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -46,7 +47,9 @@ fun TaskerScreen(
     viewModel: TaskerScreenViewModel = hiltViewModel()
 ) {
     val showModal = viewModel.showModal
-    val selectedDate = viewModel.selectedDate
+    val selectedDate =  viewModel.getDate()
+
+    val tasks by viewModel.tasks.collectAsState()
 
     Scaffold(modifier = Modifier
         .fillMaxSize(),
@@ -69,7 +72,7 @@ fun TaskerScreen(
                     Text(text = stringResource(R.string.button_open_calendar))
                 }
 
-                IconButton(onClick = { taskerScreenHandler.onToCreateTask(selectedDate!!) }) {
+                IconButton(onClick = { taskerScreenHandler.onToCreateTask(selectedDate) }) {
                     Icon(imageVector = Icons.Filled.Add, contentDescription = null)
                 }
             }
@@ -79,13 +82,13 @@ fun TaskerScreen(
                 modifier = Modifier
                     .padding(10.dp),
                 textAlign = TextAlign.Center,
-                text = selectedDate?.toDateString() ?: "Дата не выбрана"
+                text = selectedDate.toDateString()
             )
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(viewModel.tasks.value) { task ->
+                items(tasks) { task ->
                     TaskerScreenListItem(task = task)
                 }
             }

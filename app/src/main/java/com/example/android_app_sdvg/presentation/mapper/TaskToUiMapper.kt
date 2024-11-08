@@ -1,6 +1,7 @@
 package com.example.android_app_sdvg.presentation.mapper
 
 import com.example.android_app_sdvg.domain.entity.task.Task
+import com.example.android_app_sdvg.presentation.extension.toDateString
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import javax.inject.Inject
 
@@ -17,12 +18,12 @@ class TaskToUiMapperImpl @Inject constructor (): TaskToUiMapper{
         return TaskItem(
             name = task.name,
             description = task.description,
-            dateStart = task.dateStart,
-            timer = task.timer,
-            capacity = task.capacity,
-            periodicity = task.periodicity,
-            priorityItem = task.priority,
-            categoryItem = task.category
+            dateStart = task.dateStart.toDateString(),
+            timer = task.timer.toString(),
+            capacity = task.capacity.toString(),
+            periodicity = task.periodicity.toString(),
+            priorityItem = task.priority.naming,
+            categoryItem = task.category.naming
         )
     }
 

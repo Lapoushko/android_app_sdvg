@@ -1,5 +1,9 @@
 package com.example.android_app_sdvg.data.storage.entity
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.example.android_app_sdvg.data.storage.util.ConstantsDatabase
 import com.example.android_app_sdvg.domain.entity.category.Category
 import com.example.android_app_sdvg.domain.entity.prioriry.Priority
 
@@ -15,14 +19,15 @@ import com.example.android_app_sdvg.domain.entity.prioriry.Priority
  * @param priority приоритет выполнения задачи
  * @param category категория задачи
  */
+@Entity(tableName = ConstantsDatabase.NAME_TABLE_GROUPS)
 data class TaskDb(
-    val id: Long? = null,
-    val name: String?,
-    val description: String?,
-    val dateStart: Long?,
-    val timer: Long?,
-    val capacity: Long?,
-    val periodicity: Int?,
-    val priority: Priority?,
-    val category: Category?
+    @PrimaryKey(autoGenerate = true) val id: Long? = null,
+    @ColumnInfo("name") val name: String?,
+    @ColumnInfo("description") val description: String?,
+    @ColumnInfo("dateStart") val dateStart: Long?,
+    @ColumnInfo("timer") val timer: Long?,
+    @ColumnInfo("capacity") val capacity: Long?,
+    @ColumnInfo("periodicity") val periodicity: Int?,
+    @ColumnInfo("priority") val priority: Priority?,
+    @ColumnInfo("category") val category: Category?
 )

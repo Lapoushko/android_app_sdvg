@@ -19,7 +19,7 @@ class MockTasks {
                 capacity = 0L,
                 periodicity = 1,
                 priority = Priority.HIGH,
-                category = Category.STANDART
+                category = Category.STANDARD
             )
         )
 }
