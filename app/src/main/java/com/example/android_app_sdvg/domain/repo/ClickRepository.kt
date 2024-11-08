@@ -15,9 +15,4 @@ interface ClickRepository {
      * получить сохранения
      */
     fun getPreferences() : Flow<Int>
-
-    /**
-     * очистить сохранения
-     */
-    suspend fun clearPreferences()
 }
