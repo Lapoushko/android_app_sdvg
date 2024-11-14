@@ -1,12 +1,17 @@
 package com.example.android_app_sdvg.presentation.create_task
 
+import android.app.TimePickerDialog
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,20 +20,25 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Keyboard
 import androidx.compose.material.icons.outlined.Pin
+import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,6 +58,7 @@ import com.example.android_app_sdvg.domain.entity.category.Category
 import com.example.android_app_sdvg.domain.entity.prioriry.Priority
 import com.example.android_app_sdvg.presentation.extension.toDateString
 import com.example.android_app_sdvg.R
+import com.example.android_app_sdvg.presentation.tasker.DatePickerModal
 
 /**
  * @author Lapoushko
@@ -66,10 +77,14 @@ fun CreateTaskScreen(
 ) {
     var name by remember { mutableStateOf(viewModel.name) }
     var desc by remember { mutableStateOf(viewModel.desc) }
-    val time by remember { mutableStateOf(viewModel.time) }
+    var capacity by remember { mutableStateOf(viewModel.capacity) }
     var periodicity by remember { mutableStateOf(viewModel.periodicity) }
 
-    viewModel.dateStart = dateStart
+    val showModal = viewModel.showModal
+    val selectedDateStart = viewModel.dateStart.collectAsState().value
+    val selectedDateEnd = viewModel.dateEnd.collectAsState().value
+
+    var curDate by remember { mutableStateOf(CurrentDate.START) }
 
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
@@ -134,23 +149,9 @@ fun CreateTaskScreen(
                 onTextChange = { viewModel.updatePriority(it) }
             )
 
-            TextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 10.dp)
-                    .clip(RoundedCornerShape(20.dp)),
-                value = time,
-                onValueChange = {
-                    viewModel.updateTime(time)
-                },
-                placeholder = {
-                    Text(
-                        text = stringResource(R.string.create_task_time), fontSize = 15.sp
-                    )
-                },
-            )
             TextFieldOption(
-                text = periodicity, onTextChange = {
+                text = periodicity,
+                onTextChange = {
                     periodicity = it
                     viewModel.updatePeriodicity(it)
                 },
@@ -158,7 +159,35 @@ fun CreateTaskScreen(
                 keyboardType = KeyboardType.Decimal,
                 label = stringResource(id = R.string.create_task_periodicity)
             )
+
+            DateField(
+                label = "Дата начала задачи",
+                date = selectedDateStart,
+                onDateClick = { curDate = CurrentDate.START },
+                viewModel = viewModel
+            )
+
+            DateField(
+                label = "Дата завершения задачи",
+                date = selectedDateEnd,
+                onDateClick = { curDate = CurrentDate.END },
+                viewModel = viewModel
+            )
         }
+    }
+
+    if (showModal) {
+        DatePickerModal(
+            onDateSelected = {
+                if (curDate == CurrentDate.START){
+                    viewModel.updateDateStart(it ?: 0L)
+                } else{
+                    viewModel.updateDateEnd(it ?: 0L)
+                }
+                viewModel.toggleCalendar()
+            },
+            onDismiss = { viewModel.toggleCalendar() }
+        )
     }
 }
 
@@ -168,7 +197,7 @@ fun TextFieldOption(
     onTextChange: (String) -> Unit,
     imageVector: ImageVector = Icons.Outlined.Keyboard,
     keyboardType: KeyboardType = KeyboardType.Text,
-    label: String
+    label: String,
 ) {
     TextField(modifier = Modifier
         .fillMaxWidth()
@@ -248,6 +277,114 @@ fun DropdownMenuBox(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DateField(
+    label: String,
+    date: Long?,
+    onDateClick: () -> Unit,
+    viewModel: CreateTaskScreenViewModel
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth()
+            .padding(horizontal = 20.dp, vertical = 10.dp)
+            .clip(RoundedCornerShape(20.dp)),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.width(IntrinsicSize.Max)
+        )
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        TextField(
+            modifier = Modifier.clickable {
+                onDateClick()
+                viewModel.toggleCalendar()
+            },
+            placeholder = {
+                Text(
+                    text = "Выберите дату",
+                    fontSize = 15.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            },
+            enabled = false,
+            value = if (date == 0L) "" else date?.toDateString() ?: "",
+            onValueChange = {},
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.CalendarMonth,
+                    contentDescription = "Календарь",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                disabledBorderColor = MaterialTheme.colorScheme.outline,
+                disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
+            ),
+            singleLine = true
+        )
+    }
+}
+
+@Composabe
+fun CustomTimePicker(){
+    TimePickerDialog(
+        title =
+        if (showingPicker.value) {
+            "Select Time "
+        } else {
+            "Enter Time"
+        },
+        onCancel = { showTimePicker = false },
+        onConfirm = {
+            val cal = Calendar.getInstance()
+            cal.set(Calendar.HOUR_OF_DAY, state.hour)
+            cal.set(Calendar.MINUTE, state.minute)
+            cal.isLenient = false
+            snackScope.launch {
+                snackState.showSnackbar("Entered time: ${formatter.format(cal.time)}")
+            }
+            showTimePicker = false
+        },
+        toggle = {
+            if (configuration.screenHeightDp > 400) {
+                IconButton(onClick = { showingPicker.value = !showingPicker.value }) {
+                    val icon =
+                        if (showingPicker.value) {
+                            Icons.Outlined.Keyboard
+                        } else {
+                            Icons.Outlined.Schedule
+                        }
+                    Icon(
+                        icon,
+                        contentDescription =
+                        if (showingPicker.value) {
+                            "Switch to Text Input"
+                        } else {
+                            "Switch to Touch Input"
+                        }
+                    )
+                }
+            }
+        }
+    ) {
+        if (showingPicker.value && configuration.screenHeightDp > 400) {
+            TimePicker(state = state)
+        } else {
+            TimeInput(state = state)
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun CreateTaskScreenPreview() {
@@ -255,4 +392,9 @@ fun CreateTaskScreenPreview() {
         dateStart = 0L,
         handler = CreateTaskScreenHandler(rememberNavController()),
     )
+}
+
+private enum class CurrentDate{
+    START,
+    END
 }

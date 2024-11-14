@@ -1,5 +1,6 @@
 package com.example.android_app_sdvg.presentation.mapper
 
+import androidx.core.text.isDigitsOnly
 import com.example.android_app_sdvg.domain.entity.category.Category
 import com.example.android_app_sdvg.domain.entity.category.getCategory
 import com.example.android_app_sdvg.domain.entity.prioriry.Priority
@@ -33,8 +34,9 @@ class TaskUiToTaskMapperImpl @Inject constructor(): TaskUiToTaskMapper{
             name = taskUi.name,
             description = taskUi.description,
             dateStart = taskUi.dateStart.toLongDate(),
-            timer = taskUi.timer.toLong(),
-            capacity = taskUi.capacity.toLong(),
+            dateEnd = taskUi.dateEnd.toLongDate(),
+            timer = if (taskUi.timer.isEmpty()) 0 else taskUi.timer.toLong(),
+            capacity = if (taskUi.capacity.isEmpty()) 0 else taskUi.capacity.toLong(),
             periodicity = taskUi.periodicity.toIntOrNull() ?: 0,
             priority = taskUi.priorityItem.getPriority() ?: Priority.HIGH,
             category = taskUi.categoryItem.getCategory() ?: Category.STANDARD

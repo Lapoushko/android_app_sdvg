@@ -28,6 +28,7 @@ class TaskToTaskDbMapperImpl @Inject constructor() : TaskToTaskDbMapper {
             name = task.name,
             description = task.description,
             dateStart = task.dateStart,
+            dateEnd = task.dateEnd,
             timer = task.timer,
             capacity = task.capacity,
             periodicity = task.periodicity,

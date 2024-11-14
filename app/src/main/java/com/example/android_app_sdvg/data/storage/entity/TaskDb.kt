@@ -25,6 +25,7 @@ data class TaskDb(
     @ColumnInfo("name") val name: String?,
     @ColumnInfo("description") val description: String?,
     @ColumnInfo("dateStart") val dateStart: Long?,
+    @ColumnInfo("dateEnd") val dateEnd: Long?,
     @ColumnInfo("timer") val timer: Long?,
     @ColumnInfo("capacity") val capacity: Long?,
     @ColumnInfo("periodicity") val periodicity: Int?,

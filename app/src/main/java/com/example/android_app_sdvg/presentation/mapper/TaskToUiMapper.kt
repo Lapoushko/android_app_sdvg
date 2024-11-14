@@ -19,6 +19,7 @@ class TaskToUiMapperImpl @Inject constructor (): TaskToUiMapper{
             name = task.name,
             description = task.description,
             dateStart = task.dateStart.toDateString(),
+            dateEnd = task.dateEnd.toDateString(),
             timer = task.timer.toString(),
             capacity = task.capacity.toString(),
             periodicity = task.periodicity.toString(),

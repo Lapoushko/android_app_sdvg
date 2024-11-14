@@ -4,8 +4,9 @@
     <string name="calendar">Календарь</string>
     <string name="create_task">Новая задача</string>
     <string name="button_open_calendar">Открой календарь</string>
-    <string name="ok_in_calendar">OK</string>
-    <string name="close_calendar">Cancel</string>
+    <string name="button_set_deadline">Дата завершения задачи</string>
+    <string name="ok_in_calendar">Сохранить</string>
+    <string name="close_calendar">Закрыть</string>
     <string name="personal_account">Личный кабинет</string>
     <string name="clicker">Кликер</string>
     <string name="create_task_periodicity">Периодичность</string>
