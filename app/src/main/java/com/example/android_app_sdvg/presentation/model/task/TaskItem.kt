@@ -21,8 +21,7 @@ import kotlinx.serialization.Serializable
 data class TaskItem(
     val name: String,
     val description: String,
-    val dateStart: String,
-    val dateEnd: String,
+    val dates: DatesItem,
     val timer: String,
     val capacity: String,
     val periodicity: String,

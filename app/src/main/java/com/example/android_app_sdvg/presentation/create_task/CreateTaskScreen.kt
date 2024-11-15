@@ -106,8 +106,8 @@ fun CreateTaskScreen(
     var periodicity by remember { mutableStateOf(viewModel.periodicity) }
 
     val showModal = viewModel.showModal
-    val selectedDateStart = viewModel.dateStart.collectAsState().value
-    val selectedDateEnd = viewModel.dateEnd.collectAsState().value
+    val selectedDateStart = viewModel.dates.collectAsState().value!!.dateStart
+    val selectedDateEnd = viewModel.dates.collectAsState().value!!.dateEnd
 
     val showTimePicker = viewModel.showTimePicker
 

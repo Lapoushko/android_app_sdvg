@@ -47,8 +47,7 @@ class TaskRepositoryImpl @Inject constructor(
             dao.deleteTask(
                 taskDb.name ?: "",
                 taskDb.description ?: "",
-                dateStart = task.dateStart,
-                dateEnd = task.dateEnd
+                dates = task.dates
             )
         }
     }

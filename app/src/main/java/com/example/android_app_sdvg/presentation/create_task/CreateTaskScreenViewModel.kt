@@ -3,19 +3,16 @@ package com.example.android_app_sdvg.presentation.create_task
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android_app_sdvg.domain.usecase.SubscribeInsertTaskUseCase
-import com.example.android_app_sdvg.presentation.extension.toDateString
 import com.example.android_app_sdvg.presentation.extension.toTimeString
 import com.example.android_app_sdvg.presentation.mapper.TaskUiToTaskMapper
+import com.example.android_app_sdvg.presentation.model.task.DatesItem
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import com.example.android_app_sdvg.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +23,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
-import kotlin.math.min
 
 /**
  * @author Lapoushko
@@ -48,10 +44,10 @@ class CreateTaskScreenViewModel @Inject constructor(
     var showModal by mutableStateOf(false)
     private val _dateStart =
         MutableStateFlow<Long?>(state[DATESTART_STATE_TAG] ?: Calendar.getInstance().timeInMillis)
-    val dateStart: StateFlow<Long?> = _dateStart
     private val _dateEnd =
         MutableStateFlow<Long?>(state[DATEEND_STATE_TAG] ?: Calendar.getInstance().timeInMillis)
-    val dateEnd: StateFlow<Long?> = _dateEnd
+    private val _dates = MutableStateFlow<DatesItem?>(DatesItem(dateStart = _dateStart.value!!, dateEnd = _dateEnd.value!!))
+    val dates: StateFlow<DatesItem?> = _dates.asStateFlow()
 
     var showTimePicker by mutableStateOf(false)
     private var timePickerState: Pair<Int, Int> by mutableStateOf(Pair(0, 0))
@@ -76,7 +72,7 @@ class CreateTaskScreenViewModel @Inject constructor(
     fun saveTask(onToBack: () -> Unit) {
         viewModelScope.launch {
             if (name.isNotEmpty() || desc.isNotEmpty()) {
-                if (dateEnd.value!! < dateStart.value!!) {
+                if (dates.value!!.dateEnd < dates.value!!.dateStart) {
                     Toast.makeText(
                         context,
                         "Дата окончания не может быть раньше даты начала",
@@ -88,8 +84,7 @@ class CreateTaskScreenViewModel @Inject constructor(
                 val task = TaskItem(
                     name = name,
                     description = desc,
-                    dateStart = dateStart.value!!.toDateString(),
-                    dateEnd = dateEnd.value!!.toDateString(),
+                    dates = dates.value!!,
                     timer = "",
                     capacity = capacity.value,
                     periodicity = periodicity,
@@ -126,11 +121,13 @@ class CreateTaskScreenViewModel @Inject constructor(
 
     fun updateDateStart(newDate: Long) {
         _dateStart.value = newDate
+        _dates.value = DatesItem(dateStart = newDate, dateEnd = _dateEnd.value!!)
         state[DATESTART_STATE_TAG] = _dateStart.value
     }
 
     fun updateDateEnd(newDate: Long) {
         _dateEnd.value = newDate
+        _dates.value = DatesItem(dateStart = _dateStart.value!!, dateEnd = newDate)
         state[DATEEND_STATE_TAG] = _dateEnd.value
     }
 

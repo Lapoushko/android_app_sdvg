@@ -2,6 +2,7 @@ package com.example.android_app_sdvg.domain.entity.task
 
 import com.example.android_app_sdvg.domain.entity.category.Category
 import com.example.android_app_sdvg.domain.entity.prioriry.Priority
+import com.example.android_app_sdvg.presentation.model.task.DatesItem
 
 /**
  * Задача domain
@@ -17,8 +18,7 @@ import com.example.android_app_sdvg.domain.entity.prioriry.Priority
 class Task(
     val name: String,
     val description: String,
-    val dateStart: Long,
-    val dateEnd: Long,
+    val dates: Dates,
     val timer: Long,
     val capacity: Int,
     val periodicity: Int,
