@@ -31,7 +31,7 @@ class TaskDbToTaskMapperImpl @Inject constructor() : TaskDbToTaskMapper {
             timer = taskDb.timer ?: 0L,
             dateStart = taskDb.dateStart ?: 0L,
             dateEnd = taskDb.dateEnd ?: 0L,
-            capacity = taskDb.capacity ?: 0L,
+            capacity = taskDb.capacity ?: 0,
             periodicity = taskDb.periodicity ?: 0,
             priority = taskDb.priority ?: Priority.HIGH,
             category = taskDb.category ?: Category.STANDARD

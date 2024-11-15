@@ -3,7 +3,10 @@ package com.example.android_app_sdvg.presentation.create_task
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
@@ -11,6 +14,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android_app_sdvg.domain.usecase.SubscribeInsertTaskUseCase
 import com.example.android_app_sdvg.presentation.extension.toDateString
+import com.example.android_app_sdvg.presentation.extension.toTimeString
 import com.example.android_app_sdvg.presentation.mapper.TaskUiToTaskMapper
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import com.example.android_app_sdvg.util.Constants
@@ -18,9 +22,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
+import kotlin.math.min
 
 /**
  * @author Lapoushko
@@ -34,26 +40,24 @@ class CreateTaskScreenViewModel @Inject constructor(
     private val mapper: TaskUiToTaskMapper
 ) : ViewModel() {
     var name: String by mutableStateOf("")
-
     var desc: String by mutableStateOf("")
-
     var priority: String by mutableStateOf("")
-
     var category: String by mutableStateOf("")
-
     var periodicity: String by mutableStateOf("")
-    var capacity: String by mutableStateOf("")
 
     var showModal by mutableStateOf(false)
-    var showingPicker by mutableStateOf(false)
-
     private val _dateStart =
         MutableStateFlow<Long?>(state[DATESTART_STATE_TAG] ?: Calendar.getInstance().timeInMillis)
-    val dateStart : StateFlow<Long?> = _dateStart
-
+    val dateStart: StateFlow<Long?> = _dateStart
     private val _dateEnd =
         MutableStateFlow<Long?>(state[DATEEND_STATE_TAG] ?: Calendar.getInstance().timeInMillis)
-    val dateEnd : StateFlow<Long?> = _dateEnd
+    val dateEnd: StateFlow<Long?> = _dateEnd
+
+    var showTimePicker by mutableStateOf(false)
+    private var timePickerState: Pair<Int, Int> by mutableStateOf(Pair(0, 0))
+
+    private val _capacity: MutableStateFlow<String> = MutableStateFlow("0:00")
+    val capacity: StateFlow<String> = _capacity.asStateFlow()
 
     init {
         Log.d(Constants.LOG_KEY, "Init ${this::class.simpleName}")
@@ -73,7 +77,11 @@ class CreateTaskScreenViewModel @Inject constructor(
         viewModelScope.launch {
             if (name.isNotEmpty() || desc.isNotEmpty()) {
                 if (dateEnd.value!! < dateStart.value!!) {
-                    Toast.makeText(context, "Дата окончания не может быть раньше даты начала", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        context,
+                        "Дата окончания не может быть раньше даты начала",
+                        Toast.LENGTH_LONG
+                    ).show()
                     return@launch
                 }
 
@@ -83,7 +91,7 @@ class CreateTaskScreenViewModel @Inject constructor(
                     dateStart = dateStart.value!!.toDateString(),
                     dateEnd = dateEnd.value!!.toDateString(),
                     timer = "",
-                    capacity = capacity,
+                    capacity = capacity.value,
                     periodicity = periodicity,
                     priorityItem = priority,
                     categoryItem = category
@@ -126,8 +134,18 @@ class CreateTaskScreenViewModel @Inject constructor(
         state[DATEEND_STATE_TAG] = _dateEnd.value
     }
 
+    fun updateTimePickerState(hour: Int, minute: Int) {
+        timePickerState = Pair(hour, minute)
+        val totalMinutes = hour * 60 + minute
+        _capacity.value = totalMinutes.toTimeString()
+    }
+
     fun toggleCalendar() {
         showModal = !showModal
+    }
+
+    fun toggleTimer() {
+        showTimePicker = !showTimePicker
     }
 
     companion object {
