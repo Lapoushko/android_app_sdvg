@@ -28,6 +28,8 @@ import androidx.compose.material.icons.outlined.Keyboard
 import androidx.compose.material.icons.outlined.Pin
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.outlined.Timer
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -46,6 +48,7 @@ import androidx.compose.material3.TimeInput
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -109,7 +112,6 @@ fun CreateTaskScreen(
     val showTimePicker = viewModel.showTimePicker
 
     val capacity = viewModel.capacity.collectAsState().value
-    var curDate by remember { mutableStateOf(CurrentDate.START) }
 
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
@@ -188,14 +190,14 @@ fun CreateTaskScreen(
             DateField(
                 label = "Дата начала задачи",
                 date = selectedDateStart,
-                onDateClick = { curDate = CurrentDate.START },
+                onDateClick = {  },
                 viewModel = viewModel
             )
 
             DateField(
                 label = "Дата завершения задачи",
                 date = selectedDateEnd,
-                onDateClick = { curDate = CurrentDate.END },
+                onDateClick = {},
                 viewModel = viewModel
             )
 
@@ -209,13 +211,10 @@ fun CreateTaskScreen(
     }
 
     if (showModal) {
-        DatePickerModal(
-            onDateSelected = {
-                if (curDate == CurrentDate.START) {
-                    viewModel.updateDateStart(it ?: 0L)
-                } else {
-                    viewModel.updateDateEnd(it ?: 0L)
-                }
+        DateRangePickerModal(
+            onDateRangeSelected = {
+                viewModel.updateDateStart(it.first ?: 0L)
+                viewModel.updateDateEnd(it.second ?: 0L)
                 viewModel.toggleCalendar()
             },
             onDismiss = { viewModel.toggleCalendar() }
@@ -231,6 +230,52 @@ fun CreateTaskScreen(
             onCancel = {
                 viewModel.toggleTimer()
             }
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DateRangePickerModal(
+    onDateRangeSelected: (Pair<Long?, Long?>) -> Unit,
+    onDismiss: () -> Unit
+) {
+    val dateRangePickerState = rememberDateRangePickerState()
+
+    DatePickerDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onDateRangeSelected(
+                        Pair(
+                            dateRangePickerState.selectedStartDateMillis,
+                            dateRangePickerState.selectedEndDateMillis
+                        )
+                    )
+                }
+            ) {
+                Text(stringResource(R.string.ok_in_calendar))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.close_calendar))
+            }
+        }
+    ) {
+        DateRangePicker(
+            state = dateRangePickerState,
+            title = {
+                Text(
+                    text = "Выбери диапозон"
+                )
+            },
+            showModeToggle = false,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(500.dp)
+                .padding(16.dp)
         )
     }
 }
@@ -335,7 +380,7 @@ private fun DateField(
             .padding(horizontal = 20.dp, vertical = 10.dp)
             .clip(RoundedCornerShape(20.dp)),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween // Выровнять текст слева, поле ввода справа
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
             text = label,
@@ -388,7 +433,7 @@ fun TimeField(
     time: Int,
     onTimeClick: () -> Unit,
     viewModel: CreateTaskScreenViewModel
-){
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -576,9 +621,4 @@ fun CreateTaskScreenPreview() {
         dateStart = 0L,
         handler = CreateTaskScreenHandler(rememberNavController()),
     )
-}
-
-private enum class CurrentDate {
-    START,
-    END
 }
