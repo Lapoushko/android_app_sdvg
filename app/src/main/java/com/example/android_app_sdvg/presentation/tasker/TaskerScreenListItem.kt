@@ -61,7 +61,7 @@ fun TaskerScreenListItem(
         ) {
             Column(modifier = Modifier.padding(10.dp)) {
                 Text(text = task.dateStart)
-                Text(text = task.dateStart)
+                Text(text = task.dateEnd)
             }
             Text(
                 modifier = Modifier
@@ -122,5 +122,5 @@ private fun DetailRow(label: String, value: String) {
 @Preview(showBackground = true)
 @Composable
 fun TaskerScreenListItemPreview() {
-    TaskerScreenListItem(task = TaskItem("", "", "", "", "", "", "", ""))
+    TaskerScreenListItem(task = TaskItem("", "", "", "", "", "", "", "", ""))
 }

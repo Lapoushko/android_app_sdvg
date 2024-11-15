@@ -44,7 +44,12 @@ class TaskRepositoryImpl @Inject constructor(
     override suspend fun deleteTask(task: Task) {
         withContext(Dispatchers.IO) {
             val taskDb = mapperTaskToTaskDb.invoke(task)
-            dao.deleteTask(taskDb.name ?: "", taskDb.description ?: "")
+            dao.deleteTask(
+                taskDb.name ?: "",
+                taskDb.description ?: "",
+                dateStart = task.dateStart,
+                dateEnd = task.dateEnd
+            )
         }
     }
 }

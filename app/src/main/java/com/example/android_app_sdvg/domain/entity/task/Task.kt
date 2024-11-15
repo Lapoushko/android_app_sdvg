@@ -18,8 +18,9 @@ class Task(
     val name: String,
     val description: String,
     val dateStart: Long,
+    val dateEnd: Long,
     val timer: Long,
-    val capacity: Long,
+    val capacity: Int,
     val periodicity: Int,
     val priority: Priority,
     val category: Category

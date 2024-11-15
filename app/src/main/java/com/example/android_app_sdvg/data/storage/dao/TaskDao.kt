@@ -29,6 +29,6 @@ interface TaskDao {
     /**
      * удалить задачу
      */
-    @Query("DELETE FROM tasks WHERE name = :name AND description = :description")
-    suspend fun deleteTask(name: String, description: String)
+    @Query("DELETE FROM tasks WHERE name = :name AND description = :description AND dateStart = :dateStart AND dateEnd = :dateEnd")
+    suspend fun deleteTask(name: String, description: String, dateStart: Long, dateEnd: Long)
 }
