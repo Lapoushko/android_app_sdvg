@@ -51,4 +51,17 @@ class TaskRepositoryImpl @Inject constructor(
             )
         }
     }
+
+    /**
+     * Редактировать задачу
+     * @param task редактировать
+     */
+    override suspend fun editTask(task: Task) {
+        withContext(Dispatchers.IO){
+            val taskDb = mapperTaskToTaskDb.invoke(task)
+            dao.updateTask(
+                taskDb = taskDb
+            )
+        }
+    }
 }

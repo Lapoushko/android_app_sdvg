@@ -27,7 +27,6 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.android_app_sdvg.presentation.extension.toDateString
 import com.example.android_app_sdvg.presentation.model.task.DatesItem
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
@@ -40,7 +39,8 @@ import com.example.android_app_sdvg.presentation.theme.Shapes
 @Composable
 fun TaskerScreenListItem(
     task: TaskItem,
-    viewModel: TaskerScreenViewModel = hiltViewModel()
+    onDelete: () -> Unit,
+    onEdit: () -> Unit
 ) {
     var expandedState by remember {
         mutableStateOf(false)
@@ -88,10 +88,10 @@ fun TaskerScreenListItem(
                     DetailRow("Приоритет", task.priorityItem)
                     DetailRow("Категория", task.categoryItem)
                 }
-                IconButton(onClick = { viewModel.delete(task) }) {
+                IconButton(onClick = { onDelete() }) {
                     Icon(imageVector = Icons.Outlined.DeleteOutline, contentDescription = null)
                 }
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { onEdit() }) {
                     Icon(imageVector = Icons.Outlined.ModeEdit, contentDescription = null)
                 }
             }
@@ -101,9 +101,7 @@ fun TaskerScreenListItem(
 
 @Composable
 private fun DetailRow(label: String, value: String) {
-    Row(
-//        modifier = Modifier.fillMaxWidth(),
-    ) {
+    Row {
         Text(
             text = label,
             style = MaterialTheme.typography.bodyMedium,
@@ -124,5 +122,18 @@ private fun DetailRow(label: String, value: String) {
 @Preview(showBackground = true)
 @Composable
 fun TaskerScreenListItemPreview() {
-    TaskerScreenListItem(task = TaskItem("", "", DatesItem(0,0), "", "", "", "", ""))
+    val task = TaskItem(
+        "",
+        "", DatesItem(0, 0),
+        "",
+        "",
+        "",
+        "",
+        ""
+    )
+    TaskerScreenListItem(
+        task = task,
+        onDelete = { task },
+        onEdit = { task }
+    )
 }

@@ -1,5 +1,3 @@
-package com.example.android_app_sdvg.presentation.create_task
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -77,10 +75,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.android_app_sdvg.R
 import com.example.android_app_sdvg.domain.entity.category.Category
 import com.example.android_app_sdvg.domain.entity.prioriry.Priority
+import com.example.android_app_sdvg.presentation.adding.abstract_model.AbstractAddTaskScreenHandler
+import com.example.android_app_sdvg.presentation.adding.abstract_model.AbstractAddTaskScreenViewModel
+import com.example.android_app_sdvg.presentation.adding.edit_task.EditTaskScreenHandler
 import com.example.android_app_sdvg.presentation.extension.toDateString
 import com.example.android_app_sdvg.presentation.extension.toIntTime
 import com.example.android_app_sdvg.presentation.extension.toTimeString
-import com.example.android_app_sdvg.presentation.tasker.DatePickerModal
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -96,10 +96,11 @@ import java.util.Locale
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateTaskScreen(
+fun AddTaskScreen(
     dateStart: Long,
-    handler: CreateTaskScreenHandler,
-    viewModel: CreateTaskScreenViewModel = hiltViewModel()
+    handler: AbstractAddTaskScreenHandler,
+    viewModel: AbstractAddTaskScreenViewModel,
+    label: String = "Новая задача"
 ) {
     var name by remember { mutableStateOf(viewModel.name) }
     var desc by remember { mutableStateOf(viewModel.desc) }
@@ -139,7 +140,7 @@ fun CreateTaskScreen(
 
                 Text(
                     modifier = Modifier.wrapContentWidth(Alignment.CenterHorizontally),
-                    text = "Новая задача",
+                    text = label,
                     fontSize = 20.sp,
                 )
 
@@ -372,7 +373,7 @@ private fun DateField(
     label: String,
     date: Long?,
     onDateClick: () -> Unit,
-    viewModel: CreateTaskScreenViewModel,
+    viewModel: AbstractAddTaskScreenViewModel,
 ) {
     Row(
         modifier = Modifier
@@ -432,7 +433,7 @@ fun TimeField(
     label: String = "Время выполнения задачи",
     time: Int,
     onTimeClick: () -> Unit,
-    viewModel: CreateTaskScreenViewModel
+    viewModel: AbstractAddTaskScreenViewModel
 ) {
     Row(
         modifier = Modifier
@@ -616,9 +617,10 @@ fun TimePickerDialog(
 
 @Preview(showBackground = true)
 @Composable
-fun CreateTaskScreenPreview() {
-    CreateTaskScreen(
+fun AddTaskScreenPreview() {
+    AddTaskScreen(
         dateStart = 0L,
-        handler = CreateTaskScreenHandler(rememberNavController()),
+        handler = EditTaskScreenHandler(rememberNavController()),
+        viewModel = hiltViewModel()
     )
 }

@@ -1,14 +1,12 @@
-package com.example.android_app_sdvg.presentation.create_task
+package com.example.android_app_sdvg.presentation.adding.abstract_model
 
 import androidx.navigation.NavHostController
-import com.example.android_app_sdvg.presentation.model.screen.ScreenItem
 import com.example.android_app_sdvg.presentation.navigation.screen.ScreenBar
 
 /**
  * @author Lapoushko
- * @param navController контроллер навигации
  */
-class CreateTaskScreenHandler(val navController: NavHostController) {
+abstract class AbstractAddTaskScreenHandler(val navController: NavHostController) {
     /**
      * вернуться на экран задачника
      */

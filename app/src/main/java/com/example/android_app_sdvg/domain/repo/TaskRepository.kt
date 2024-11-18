@@ -25,4 +25,10 @@ interface TaskRepository {
      * @param task задача
      */
     suspend fun deleteTask(task: Task)
+
+    /**
+     * Редактировать задачу
+     * @param task редактировать
+     */
+    suspend fun editTask(task: Task)
 }

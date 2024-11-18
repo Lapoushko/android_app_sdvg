@@ -4,6 +4,8 @@ import com.example.android_app_sdvg.domain.repo.ClickRepository
 import com.example.android_app_sdvg.domain.repo.TaskRepository
 import com.example.android_app_sdvg.domain.usecase.SubscribeDeleteTaskUseCase
 import com.example.android_app_sdvg.domain.usecase.SubscribeDeleteTaskUseCaseImpl
+import com.example.android_app_sdvg.domain.usecase.SubscribeEditTaskUseCase
+import com.example.android_app_sdvg.domain.usecase.SubscribeEditTaskUseCaseImpl
 import com.example.android_app_sdvg.domain.usecase.SubscribeInsertTaskUseCase
 import com.example.android_app_sdvg.domain.usecase.SubscribeInsertTaskUseCaseImpl
 import com.example.android_app_sdvg.domain.usecase.SubscribeTasksUseCase
@@ -64,5 +66,13 @@ object UsecaseModule {
         repository: ClickRepository
     ): SubscribeGetClicksUseCase {
         return SubscribeGetClicksUseCaseImpl(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSubscribeEditTaskUseCase(
+        repository: TaskRepository
+    ) : SubscribeEditTaskUseCase{
+        return SubscribeEditTaskUseCaseImpl(repositoryImpl = repository)
     }
 }

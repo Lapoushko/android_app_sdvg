@@ -47,7 +47,7 @@ fun TaskerScreen(
     viewModel: TaskerScreenViewModel = hiltViewModel()
 ) {
     val showModal = viewModel.showModal
-    val selectedDate =  viewModel.getDate()
+    val selectedDate = viewModel.getDate()
 
     val tasks by viewModel.tasks.collectAsState()
 
@@ -89,7 +89,10 @@ fun TaskerScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(tasks) { task ->
-                    TaskerScreenListItem(task = task)
+                    TaskerScreenListItem(
+                        task = task,
+                        onDelete = { viewModel.delete(task) },
+                        onEdit = { taskerScreenHandler.onToEditTask(task) })
                 }
             }
         }

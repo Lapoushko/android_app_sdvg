@@ -1,13 +1,11 @@
 package com.example.android_app_sdvg.presentation.mapper
 
-import androidx.core.text.isDigitsOnly
 import com.example.android_app_sdvg.domain.entity.category.Category
 import com.example.android_app_sdvg.domain.entity.category.getCategory
 import com.example.android_app_sdvg.domain.entity.prioriry.Priority
 import com.example.android_app_sdvg.domain.entity.prioriry.getPriority
 import com.example.android_app_sdvg.domain.entity.task.Task
 import com.example.android_app_sdvg.presentation.extension.toIntTime
-import com.example.android_app_sdvg.presentation.extension.toLongDate
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import com.example.android_app_sdvg.presentation.model.task.toDate
 import javax.inject.Inject
