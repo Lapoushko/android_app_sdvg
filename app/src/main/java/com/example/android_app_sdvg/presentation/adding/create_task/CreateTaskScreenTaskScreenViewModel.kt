@@ -22,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateTaskScreenTaskScreenViewModel @Inject constructor(
     @ApplicationContext val context: Context,
-    private val state: SavedStateHandle,
+    state: SavedStateHandle,
     private val useCase: SubscribeInsertTaskUseCase,
     private val mapper: TaskUiToTaskMapper
 ) : AbstractAddTaskScreenViewModel(

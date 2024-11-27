@@ -49,7 +49,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -102,19 +101,7 @@ fun AddTaskScreen(
     viewModel: AbstractAddTaskScreenViewModel,
     label: String = "Новая задача"
 ) {
-//    var name by remember { mutableStateOf(viewModel.name) }
-//    var desc by remember { mutableStateOf(viewModel.desc) }
-//    var periodicity by remember { mutableStateOf(viewModel.periodicity) }
-//
-//    val showModal = viewModel.showModal
-//    val selectedDateStart = viewModel.dates.collectAsState().value!!.dateStart
-//    val selectedDateEnd = viewModel.dates.collectAsState().value!!.dateEnd
-//
-//    val showTimePicker = viewModel.showTimePicker
-//
-//    val capacity = viewModel.capacity.collectAsState().value
-
-    var taskState = viewModel.taskState
+    val taskState = viewModel.taskState
 
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {

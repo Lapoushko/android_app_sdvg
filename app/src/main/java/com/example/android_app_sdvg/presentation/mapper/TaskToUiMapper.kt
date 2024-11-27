@@ -2,7 +2,6 @@ package com.example.android_app_sdvg.presentation.mapper
 
 import com.example.android_app_sdvg.domain.entity.task.Task
 import com.example.android_app_sdvg.domain.entity.task.toDateItem
-import com.example.android_app_sdvg.presentation.extension.toDateString
 import com.example.android_app_sdvg.presentation.extension.toTimeString
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import javax.inject.Inject

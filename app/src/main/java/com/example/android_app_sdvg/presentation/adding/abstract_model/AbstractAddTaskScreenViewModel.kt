@@ -1,7 +1,6 @@
 package com.example.android_app_sdvg.presentation.adding.abstract_model
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
@@ -9,9 +8,6 @@ import androidx.lifecycle.ViewModel
 import com.example.android_app_sdvg.presentation.extension.toTimeString
 import com.example.android_app_sdvg.presentation.model.task.DatesItem
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import java.util.Calendar
 
 /**
@@ -21,31 +17,6 @@ abstract class AbstractAddTaskScreenViewModel(
     private val state: SavedStateHandle,
     taskItem: TaskItem? = null
 ) : ViewModel() {
-//    var name: String by mutableStateOf(taskItem?.name ?: "")
-//    var desc: String by mutableStateOf(taskItem?.description ?: "")
-//    var priority: String by mutableStateOf(taskItem?.priorityItem ?: "")
-//    var category: String by mutableStateOf(taskItem?.categoryItem ?: "")
-//    var periodicity: String by mutableStateOf(taskItem?.periodicity ?: "")
-//
-//    var showModal by mutableStateOf(false)
-//    private val _dateStart =
-//        MutableStateFlow<Long?>(state[DATESTART_STATE_TAG] ?: Calendar.getInstance().timeInMillis)
-//    private val _dateEnd =
-//        MutableStateFlow<Long?>(state[DATEEND_STATE_TAG] ?: Calendar.getInstance().timeInMillis)
-//    private val _dates = MutableStateFlow<DatesItem?>(
-//        DatesItem(
-//            dateStart = _dateStart.value!!,
-//            dateEnd = _dateEnd.value!!
-//        )
-//    )
-//    val dates: StateFlow<DatesItem?> = _dates.asStateFlow()
-//
-//    var showTimePicker by mutableStateOf(false)
-//    private var timePickerState: Pair<Int, Int> by mutableStateOf(Pair(0, 0))
-//
-//    private val _capacity: MutableStateFlow<String> = MutableStateFlow(taskItem?.capacity ?: "0:00")
-//    val capacity: StateFlow<String> = _capacity.asStateFlow()
-
     private var _taskState = MutableAbstractAddTasScreenState(state = state, taskItem = taskItem)
     val taskState = _taskState as AbstractAddTaskScreenState
 

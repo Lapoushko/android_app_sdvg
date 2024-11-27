@@ -14,7 +14,6 @@ import kotlinx.serialization.Serializable
  * @param periodicity периодичность появления задачи
  * @param priorityItem приоритет выполнения задачи
  * @param categoryItem категория задачи
- * @param dateStart дата начала задачи
  */
 @Serializable
 @Parcelize

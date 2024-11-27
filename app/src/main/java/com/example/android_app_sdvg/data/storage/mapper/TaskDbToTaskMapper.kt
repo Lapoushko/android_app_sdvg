@@ -5,7 +5,6 @@ import com.example.android_app_sdvg.domain.entity.category.Category
 import com.example.android_app_sdvg.domain.entity.prioriry.Priority
 import com.example.android_app_sdvg.domain.entity.task.Dates
 import com.example.android_app_sdvg.domain.entity.task.Task
-import com.example.android_app_sdvg.presentation.model.task.DatesItem
 import javax.inject.Inject
 
 /**

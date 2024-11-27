@@ -13,7 +13,6 @@ import com.example.android_app_sdvg.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EditTaskScreenTaskScreenViewModel @Inject constructor(
     @ApplicationContext val context: Context,
-    private val state: SavedStateHandle,
+    state: SavedStateHandle,
     private val useCase: SubscribeEditTaskUseCase,
     private val mapper: TaskUiToTaskMapper,
 ) : AbstractAddTaskScreenViewModel(

@@ -134,7 +134,7 @@ fun TaskerScreenListItemPreview() {
     )
     TaskerScreenListItem(
         task = task,
-        onDelete = { task },
-        onEdit = { task }
+        onDelete = {  },
+        onEdit = { }
     )
 }

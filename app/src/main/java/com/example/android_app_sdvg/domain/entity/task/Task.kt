@@ -2,7 +2,6 @@ package com.example.android_app_sdvg.domain.entity.task
 
 import com.example.android_app_sdvg.domain.entity.category.Category
 import com.example.android_app_sdvg.domain.entity.prioriry.Priority
-import com.example.android_app_sdvg.presentation.model.task.DatesItem
 
 /**
  * Задача domain
