@@ -16,6 +16,7 @@ import com.example.android_app_sdvg.presentation.model.task.DatesItem
  * @param category категория задачи
  */
 class Task(
+    val id: Long?,
     val name: String,
     val description: String,
     val dates: Dates,

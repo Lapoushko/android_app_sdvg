@@ -44,8 +44,8 @@ class CreateTaskScreenTaskScreenViewModel @Inject constructor(
      */
     override fun saveTask(onToBack: () -> Unit) {
         viewModelScope.launch {
-            if (name.isNotEmpty() || desc.isNotEmpty()) {
-                if (dates.value!!.dateEnd < dates.value!!.dateStart) {
+            if (taskState.name.isNotEmpty() || taskState.desc.isNotEmpty()) {
+                if (taskState.dates.dateEnd < taskState.dates.dateStart) {
                     Toast.makeText(
                         context,
                         "Дата окончания не может быть раньше даты начала",
@@ -55,14 +55,15 @@ class CreateTaskScreenTaskScreenViewModel @Inject constructor(
                 }
 
                 val task = TaskItem(
-                    name = name,
-                    description = desc,
-                    dates = dates.value!!,
+                    id = null,
+                    name = taskState.name,
+                    description = taskState.desc,
+                    dates = taskState.dates,
                     timer = "",
-                    capacity = capacity.value,
-                    periodicity = periodicity,
-                    priorityItem = priority,
-                    categoryItem = category
+                    capacity = taskState.capacity,
+                    periodicity = taskState.periodicity,
+                    priorityItem = taskState.priority,
+                    categoryItem = taskState.category
                 )
                 useCase.insertTask(mapper.invoke(task))
                 onToBack()

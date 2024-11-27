@@ -28,6 +28,7 @@ interface TaskDbToTaskMapper {
 class TaskDbToTaskMapperImpl @Inject constructor() : TaskDbToTaskMapper {
     override suspend fun invoke(taskDb: TaskDb): Task {
         return Task(
+            id = taskDb.id,
             name = taskDb.name ?: "Нет названия",
             description = taskDb.description ?: "Нет описания",
             timer = taskDb.timer ?: 0L,

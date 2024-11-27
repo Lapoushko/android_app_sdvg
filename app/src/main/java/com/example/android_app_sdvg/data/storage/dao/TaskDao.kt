@@ -38,7 +38,6 @@ interface TaskDao {
      * обновить задачу
      * @param taskDb задача из бд
      */
-//    @Query("UPDATE tasks SET name = :name, description = :description, dates = :dates WHERE id = :id")
     @Update
     suspend fun updateTask(taskDb: TaskDb)
 }

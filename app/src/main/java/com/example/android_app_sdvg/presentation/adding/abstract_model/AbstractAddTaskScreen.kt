@@ -102,17 +102,19 @@ fun AddTaskScreen(
     viewModel: AbstractAddTaskScreenViewModel,
     label: String = "Новая задача"
 ) {
-    var name by remember { mutableStateOf(viewModel.name) }
-    var desc by remember { mutableStateOf(viewModel.desc) }
-    var periodicity by remember { mutableStateOf(viewModel.periodicity) }
+//    var name by remember { mutableStateOf(viewModel.name) }
+//    var desc by remember { mutableStateOf(viewModel.desc) }
+//    var periodicity by remember { mutableStateOf(viewModel.periodicity) }
+//
+//    val showModal = viewModel.showModal
+//    val selectedDateStart = viewModel.dates.collectAsState().value!!.dateStart
+//    val selectedDateEnd = viewModel.dates.collectAsState().value!!.dateEnd
+//
+//    val showTimePicker = viewModel.showTimePicker
+//
+//    val capacity = viewModel.capacity.collectAsState().value
 
-    val showModal = viewModel.showModal
-    val selectedDateStart = viewModel.dates.collectAsState().value!!.dateStart
-    val selectedDateEnd = viewModel.dates.collectAsState().value!!.dateEnd
-
-    val showTimePicker = viewModel.showTimePicker
-
-    val capacity = viewModel.capacity.collectAsState().value
+    var taskState = viewModel.taskState
 
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
@@ -152,17 +154,17 @@ fun AddTaskScreen(
             }
 
             TextFieldOption(
-                text = name,
+                text = taskState.name,
                 onTextChange = {
-                    name = it
+//                    name = it
                     viewModel.updateName(it)
                 },
                 label = stringResource(id = R.string.create_task_name)
             )
             TextFieldOption(
-                text = desc,
+                text = taskState.desc,
                 onTextChange = {
-                    desc = it
+//                    desc = it
                     viewModel.updateDesc(it)
                 }, label = stringResource(id = R.string.create_task_desc)
             )
@@ -178,9 +180,9 @@ fun AddTaskScreen(
             )
 
             TextFieldOption(
-                text = periodicity,
+                text = taskState.periodicity,
                 onTextChange = {
-                    periodicity = it
+//                    periodicity = it
                     viewModel.updatePeriodicity(it)
                 },
                 imageVector = Icons.Outlined.Pin,
@@ -190,28 +192,28 @@ fun AddTaskScreen(
 
             DateField(
                 label = "Дата начала задачи",
-                date = selectedDateStart,
+                date = taskState.dateStart,
                 onDateClick = {  },
                 viewModel = viewModel
             )
 
             DateField(
                 label = "Дата завершения задачи",
-                date = selectedDateEnd,
+                date = taskState.dateEnd,
                 onDateClick = {},
                 viewModel = viewModel
             )
 
             TimeField(
                 label = "Время выполнения задачи",
-                time = capacity.toIntTime(),
+                time = taskState.capacity.toIntTime(),
                 onTimeClick = {},
                 viewModel = viewModel
             )
         }
     }
 
-    if (showModal) {
+    if (taskState.showModal) {
         DateRangePickerModal(
             onDateRangeSelected = {
                 viewModel.updateDateStart(it.first ?: 0L)
@@ -222,7 +224,7 @@ fun AddTaskScreen(
         )
     }
 
-    if (showTimePicker) {
+    if (taskState.showTimePicker) {
         TimePickerSwitchable(
             onConfirm = {
                 viewModel.updateTimePickerState(it.hour, it.minute)

@@ -25,6 +25,7 @@ class TaskToTaskDbMapperImpl @Inject constructor() : TaskToTaskDbMapper {
      */
     override suspend fun invoke(task: Task): TaskDb {
         return TaskDb(
+            id = task.id,
             name = task.name,
             description = task.description,
             dates = task.dates,

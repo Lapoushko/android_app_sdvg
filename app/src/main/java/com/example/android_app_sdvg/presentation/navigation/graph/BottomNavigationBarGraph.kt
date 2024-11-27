@@ -73,7 +73,8 @@ fun BottomNavigationBarGraph(navController: NavHostController) {
                 handler = EditTaskScreenHandler(
                     navController = navController
                 ),
-                task = TaskItem(
+                taskItem = TaskItem(
+                    id = task.task.id,
                     name = task.task.name,
                     description = task.task.description,
                     dates = task.task.dates,

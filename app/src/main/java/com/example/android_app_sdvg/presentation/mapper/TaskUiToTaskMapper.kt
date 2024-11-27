@@ -31,6 +31,7 @@ class TaskUiToTaskMapperImpl @Inject constructor(): TaskUiToTaskMapper{
      */
     override fun invoke(taskUi: TaskItem): Task {
         return Task(
+            id = taskUi.id,
             name = taskUi.name,
             description = taskUi.description,
             dates = taskUi.dates.toDate(),

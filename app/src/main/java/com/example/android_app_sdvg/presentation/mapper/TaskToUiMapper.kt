@@ -18,6 +18,7 @@ interface TaskToUiMapper {
 class TaskToUiMapperImpl @Inject constructor (): TaskToUiMapper{
     override fun invoke(task: Task): TaskItem {
         return TaskItem(
+            id = task.id,
             name = task.name,
             description = task.description,
             dates = task.dates.toDateItem(),

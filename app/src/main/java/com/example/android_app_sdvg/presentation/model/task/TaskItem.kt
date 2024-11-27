@@ -19,6 +19,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Parcelize
 data class TaskItem(
+    val id: Long?,
     val name: String,
     val description: String,
     val dates: DatesItem,

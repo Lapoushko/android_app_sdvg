@@ -12,6 +12,8 @@ import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import com.example.android_app_sdvg.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,10 +26,13 @@ class EditTaskScreenTaskScreenViewModel @Inject constructor(
     @ApplicationContext val context: Context,
     private val state: SavedStateHandle,
     private val useCase: SubscribeEditTaskUseCase,
-    private val mapper: TaskUiToTaskMapper
+    private val mapper: TaskUiToTaskMapper,
 ) : AbstractAddTaskScreenViewModel(
-    state = state
+    state = state,
 ) {
+
+    private var _taskItem : MutableStateFlow<TaskItem?> = MutableStateFlow(null)
+
     init {
         Log.d(Constants.LOG_KEY, "Init ${this::class.simpleName}")
     }
@@ -37,6 +42,10 @@ class EditTaskScreenTaskScreenViewModel @Inject constructor(
         Log.d(Constants.LOG_KEY, "onCleared ${this::class.simpleName}")
     }
 
+    fun updateTask(taskItem: TaskItem){
+        _taskItem.value = taskItem
+    }
+
     /**
      * Сохранить задачу
      * Здесь происходит валидация введённых значений
@@ -44,8 +53,8 @@ class EditTaskScreenTaskScreenViewModel @Inject constructor(
      */
     override fun saveTask(onToBack: () -> Unit) {
         viewModelScope.launch {
-            if (name.isNotEmpty() || desc.isNotEmpty()) {
-                if (dates.value!!.dateEnd < dates.value!!.dateStart) {
+            if (taskState.name.isNotEmpty() || taskState.desc.isNotEmpty()) {
+                if (taskState.dates.dateEnd < taskState.dates.dateStart) {
                     Toast.makeText(
                         context,
                         "Дата окончания не может быть раньше даты начала",
@@ -55,14 +64,15 @@ class EditTaskScreenTaskScreenViewModel @Inject constructor(
                 }
 
                 val task = TaskItem(
-                    name = name,
-                    description = desc,
-                    dates = dates.value!!,
+                    id = _taskItem.value?.id,
+                    name = taskState.name,
+                    description = taskState.desc,
+                    dates = taskState.dates,
                     timer = "",
-                    capacity = capacity.value,
-                    periodicity = periodicity,
-                    priorityItem = priority,
-                    categoryItem = category
+                    capacity = taskState.capacity,
+                    periodicity = taskState.periodicity,
+                    priorityItem = taskState.priority,
+                    categoryItem = taskState.category
                 )
                 useCase.editTask(mapper.invoke(task))
                 onToBack()

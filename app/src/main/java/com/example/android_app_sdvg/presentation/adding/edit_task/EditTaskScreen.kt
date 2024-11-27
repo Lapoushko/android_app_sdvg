@@ -12,11 +12,12 @@ import com.example.android_app_sdvg.presentation.model.task.TaskItem
 @Composable
 fun EditTaskScreen(
     handler: EditTaskScreenHandler,
-    task: TaskItem,
+    taskItem: TaskItem,
     viewModel: EditTaskScreenTaskScreenViewModel = hiltViewModel()
 ) {
+    viewModel.updateTask(taskItem = taskItem)
     AddTaskScreen(
-        dateStart = task.dates.dateStart,
+        dateStart = taskItem.dates.dateStart,
         handler = handler,
         viewModel = viewModel,
         label = "Изменить задачу"

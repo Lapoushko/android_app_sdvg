@@ -123,6 +123,7 @@ private fun DetailRow(label: String, value: String) {
 @Composable
 fun TaskerScreenListItemPreview() {
     val task = TaskItem(
+        0,
         "",
         "", DatesItem(0, 0),
         "",
