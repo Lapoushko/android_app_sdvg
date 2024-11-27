@@ -14,8 +14,6 @@ import com.example.android_app_sdvg.presentation.mapper.TaskUiToTaskMapper
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import com.example.android_app_sdvg.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
@@ -25,19 +23,14 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class TaskerScreenViewModel @Inject constructor(
-    private val state: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle,
     private val subscribeTasksUseCase: SubscribeTasksUseCase,
     private val subscribeDeleteTaskUseCase: SubscribeDeleteTaskUseCase,
     private val uiMapper: TaskToUiMapper,
     private val taskUiToTaskMapper: TaskUiToTaskMapper
 ) : ViewModel() {
-    var showModal by mutableStateOf(false)
-
-    private val _selectedDate =
-        MutableStateFlow<Long?>(state[STATE_TAG] ?: Calendar.getInstance().timeInMillis)
-
-    private var _tasks: MutableStateFlow<List<TaskItem>> = MutableStateFlow(emptyList())
-    val tasks: StateFlow<List<TaskItem>> = _tasks
+    private val _state = MutableTaskerScreenState(savedStateHandle = savedStateHandle)
+    val state = _state as TaskerScreenState
 
     init {
         Log.d(Constants.LOG_KEY, "Init ${this::class.simpleName}")
@@ -46,11 +39,11 @@ class TaskerScreenViewModel @Inject constructor(
 
     private fun load(){
         viewModelScope.launch {
-            _tasks.value =
+            _state.tasks =
                 subscribeTasksUseCase
                     .getTasks()
                     .map { uiMapper(it) }
-            state[STATE_TAG] = _selectedDate.value
+            savedStateHandle[STATE_TAG] = _state.selectedDate
         }
     }
 
@@ -60,14 +53,12 @@ class TaskerScreenViewModel @Inject constructor(
     }
 
     fun selectDate(newDate: Long) {
-        _selectedDate.value = newDate
-        state[STATE_TAG] = _selectedDate.value
+        _state.selectedDate = newDate
+        savedStateHandle[STATE_TAG] = _state.selectedDate
     }
 
-    fun getDate(): Long = _selectedDate.value ?: Calendar.getInstance().timeInMillis
-
     fun toggleCalendar() {
-        showModal = !showModal
+        _state.showModal = !_state.showModal
     }
 
     fun delete(task: TaskItem) {
@@ -75,6 +66,14 @@ class TaskerScreenViewModel @Inject constructor(
             subscribeDeleteTaskUseCase.deleteTask(taskUiToTaskMapper.invoke(task))
             load()
         }
+    }
+
+    private class MutableTaskerScreenState(
+        savedStateHandle: SavedStateHandle
+    ): TaskerScreenState{
+        override var showModal: Boolean by mutableStateOf(false)
+        override var selectedDate: Long? by mutableStateOf(savedStateHandle[STATE_TAG] ?: Calendar.getInstance().timeInMillis)
+        override var tasks: List<TaskItem> by mutableStateOf(emptyList())
     }
 
     companion object {

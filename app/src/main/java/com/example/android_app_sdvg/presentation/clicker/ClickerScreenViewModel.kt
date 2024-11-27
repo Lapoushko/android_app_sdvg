@@ -29,7 +29,7 @@ class ClickerScreenViewModel @Inject constructor(
         getClicks()
     }
 
-    fun getClicks(){
+    private fun getClicks(){
         viewModelScope.launch {
             _countClick.value = subscribeGetClicksUseCase.getClicks().first()
         }

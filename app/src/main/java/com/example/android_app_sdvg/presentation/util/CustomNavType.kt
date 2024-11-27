@@ -4,7 +4,9 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.navigation.NavType
+import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlin.reflect.KClass
 
@@ -14,28 +16,24 @@ import kotlin.reflect.KClass
  * @param clazz нужный класс
  * @param serializer сериализатор
  */
-class CustomNavType<T : Parcelable>(
-    private val clazz: KClass<T>,
-    private val serializer: KSerializer<T>
-) : NavType<T>(isNullableAllowed = false) {
-
-    override fun get(bundle: Bundle, key: String): T {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            bundle.getParcelable(key, clazz.java) as T
-        } else {
-            bundle.getParcelable(key)!!
+val CustomNavType = object : NavType<TaskItem>(isNullableAllowed = false){
+    override fun get(bundle: Bundle, key: String): TaskItem {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            bundle.getParcelable(key, TaskItem::class.java) as TaskItem
+        } else{
+            bundle.getParcelable<TaskItem>(key) as TaskItem
         }
     }
 
-    override fun parseValue(value: String): T {
-        return Json.decodeFromString(serializer, value)
+    override fun parseValue(value: String): TaskItem {
+        return Json.decodeFromString<TaskItem>(value)
     }
 
-    override fun put(bundle: Bundle, key: String, value: T) {
+    override fun put(bundle: Bundle, key: String, value: TaskItem) {
         bundle.putParcelable(key, value)
     }
 
-    override fun serializeAsValue(value: T): String = Json.encodeToString(serializer, value)
+    override fun serializeAsValue(value: TaskItem): String = Json.encodeToString<TaskItem>(value)
 
-    override val name: String = clazz.java.name
+    override val name: String = TaskItem::class.java.name
 }

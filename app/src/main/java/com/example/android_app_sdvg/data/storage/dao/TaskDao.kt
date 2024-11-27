@@ -4,7 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.android_app_sdvg.data.storage.entity.TaskDb
+import com.example.android_app_sdvg.domain.entity.task.Dates
 
 /**
  * @author Lapoushko
@@ -29,6 +31,13 @@ interface TaskDao {
     /**
      * удалить задачу
      */
-    @Query("DELETE FROM tasks WHERE name = :name AND description = :description AND dateStart = :dateStart AND dateEnd = :dateEnd")
-    suspend fun deleteTask(name: String, description: String, dateStart: Long, dateEnd: Long)
+    @Query("DELETE FROM tasks WHERE name = :name AND description = :description AND dates = :dates")
+    suspend fun deleteTask(name: String, description: String, dates: Dates)
+
+    /**
+     * обновить задачу
+     * @param taskDb задача из бд
+     */
+    @Update
+    suspend fun updateTask(taskDb: TaskDb)
 }

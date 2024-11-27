@@ -3,9 +3,14 @@ package com.example.android_app_sdvg.data.storage.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
 import com.example.android_app_sdvg.data.storage.util.ConstantsDatabase
+import com.example.android_app_sdvg.data.storage.util.CustomTypeConverters
 import com.example.android_app_sdvg.domain.entity.category.Category
 import com.example.android_app_sdvg.domain.entity.prioriry.Priority
+import com.example.android_app_sdvg.domain.entity.task.Dates
+import com.example.android_app_sdvg.presentation.model.task.DatesItem
 
 /**
  * @author Lapoushko
@@ -24,8 +29,8 @@ data class TaskDb(
     @PrimaryKey(autoGenerate = true) val id: Long? = null,
     @ColumnInfo("name") val name: String?,
     @ColumnInfo("description") val description: String?,
-    @ColumnInfo("dateStart") val dateStart: Long?,
-    @ColumnInfo("dateEnd") val dateEnd: Long?,
+    @TypeConverters(CustomTypeConverters::class)
+    @ColumnInfo("dates") val dates: Dates?,
     @ColumnInfo("timer") val timer: Long?,
     @ColumnInfo("capacity") val capacity: Int?,
     @ColumnInfo("periodicity") val periodicity: Int?,

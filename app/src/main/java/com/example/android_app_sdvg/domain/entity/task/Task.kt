@@ -15,10 +15,10 @@ import com.example.android_app_sdvg.domain.entity.prioriry.Priority
  * @param category категория задачи
  */
 class Task(
+    val id: Long?,
     val name: String,
     val description: String,
-    val dateStart: Long,
-    val dateEnd: Long,
+    val dates: Dates,
     val timer: Long,
     val capacity: Int,
     val periodicity: Int,

@@ -14,15 +14,14 @@ import kotlinx.serialization.Serializable
  * @param periodicity периодичность появления задачи
  * @param priorityItem приоритет выполнения задачи
  * @param categoryItem категория задачи
- * @param dateStart дата начала задачи
  */
 @Serializable
 @Parcelize
 data class TaskItem(
+    val id: Long?,
     val name: String,
     val description: String,
-    val dateStart: String,
-    val dateEnd: String,
+    val dates: DatesItem,
     val timer: String,
     val capacity: String,
     val periodicity: String,

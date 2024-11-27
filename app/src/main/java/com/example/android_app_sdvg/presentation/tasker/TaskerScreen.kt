@@ -22,8 +22,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -46,11 +44,7 @@ fun TaskerScreen(
     taskerScreenHandler: TaskerScreenHandler,
     viewModel: TaskerScreenViewModel = hiltViewModel()
 ) {
-    val showModal = viewModel.showModal
-    val selectedDate =  viewModel.getDate()
-
-    val tasks by viewModel.tasks.collectAsState()
-
+    val state = viewModel.state
     Scaffold(modifier = Modifier
         .fillMaxSize(),
         topBar = {
@@ -72,7 +66,7 @@ fun TaskerScreen(
                     Text(text = stringResource(R.string.button_open_calendar))
                 }
 
-                IconButton(onClick = { taskerScreenHandler.onToCreateTask(selectedDate) }) {
+                IconButton(onClick = { taskerScreenHandler.onToCreateTask(state.selectedDate!!) }) {
                     Icon(imageVector = Icons.Filled.Add, contentDescription = null)
                 }
             }
@@ -82,20 +76,23 @@ fun TaskerScreen(
                 modifier = Modifier
                     .padding(10.dp),
                 textAlign = TextAlign.Center,
-                text = selectedDate.toDateString()
+                text = state.selectedDate!!.toDateString()
             )
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(tasks) { task ->
-                    TaskerScreenListItem(task = task)
+                items(state.tasks) { task ->
+                    TaskerScreenListItem(
+                        task = task,
+                        onDelete = { viewModel.delete(task) },
+                        onEdit = { taskerScreenHandler.onToEditTask(task) })
                 }
             }
         }
     }
 
-    if (showModal) {
+    if (state.showModal) {
         DatePickerModal(
             onDateSelected = {
                 viewModel.selectDate(it ?: 0L)

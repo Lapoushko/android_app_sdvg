@@ -47,8 +47,20 @@ class TaskRepositoryImpl @Inject constructor(
             dao.deleteTask(
                 taskDb.name ?: "",
                 taskDb.description ?: "",
-                dateStart = task.dateStart,
-                dateEnd = task.dateEnd
+                dates = task.dates
+            )
+        }
+    }
+
+    /**
+     * Редактировать задачу
+     * @param task редактировать
+     */
+    override suspend fun editTask(task: Task) {
+        withContext(Dispatchers.IO){
+            val taskDb = mapperTaskToTaskDb.invoke(task)
+            dao.updateTask(
+                taskDb = taskDb
             )
         }
     }

@@ -1,5 +1,3 @@
-package com.example.android_app_sdvg.presentation.create_task
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -51,7 +49,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -77,10 +74,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.android_app_sdvg.R
 import com.example.android_app_sdvg.domain.entity.category.Category
 import com.example.android_app_sdvg.domain.entity.prioriry.Priority
+import com.example.android_app_sdvg.presentation.adding.abstract_model.AbstractAddTaskScreenHandler
+import com.example.android_app_sdvg.presentation.adding.abstract_model.AbstractAddTaskScreenViewModel
+import com.example.android_app_sdvg.presentation.adding.edit_task.EditTaskScreenHandler
 import com.example.android_app_sdvg.presentation.extension.toDateString
 import com.example.android_app_sdvg.presentation.extension.toIntTime
 import com.example.android_app_sdvg.presentation.extension.toTimeString
-import com.example.android_app_sdvg.presentation.tasker.DatePickerModal
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -96,22 +95,13 @@ import java.util.Locale
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateTaskScreen(
+fun AddTaskScreen(
     dateStart: Long,
-    handler: CreateTaskScreenHandler,
-    viewModel: CreateTaskScreenViewModel = hiltViewModel()
+    handler: AbstractAddTaskScreenHandler,
+    viewModel: AbstractAddTaskScreenViewModel,
+    label: String = "Новая задача"
 ) {
-    var name by remember { mutableStateOf(viewModel.name) }
-    var desc by remember { mutableStateOf(viewModel.desc) }
-    var periodicity by remember { mutableStateOf(viewModel.periodicity) }
-
-    val showModal = viewModel.showModal
-    val selectedDateStart = viewModel.dateStart.collectAsState().value
-    val selectedDateEnd = viewModel.dateEnd.collectAsState().value
-
-    val showTimePicker = viewModel.showTimePicker
-
-    val capacity = viewModel.capacity.collectAsState().value
+    val taskState = viewModel.taskState
 
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
@@ -139,7 +129,7 @@ fun CreateTaskScreen(
 
                 Text(
                     modifier = Modifier.wrapContentWidth(Alignment.CenterHorizontally),
-                    text = "Новая задача",
+                    text = label,
                     fontSize = 20.sp,
                 )
 
@@ -151,17 +141,17 @@ fun CreateTaskScreen(
             }
 
             TextFieldOption(
-                text = name,
+                text = taskState.name,
                 onTextChange = {
-                    name = it
+//                    name = it
                     viewModel.updateName(it)
                 },
                 label = stringResource(id = R.string.create_task_name)
             )
             TextFieldOption(
-                text = desc,
+                text = taskState.desc,
                 onTextChange = {
-                    desc = it
+//                    desc = it
                     viewModel.updateDesc(it)
                 }, label = stringResource(id = R.string.create_task_desc)
             )
@@ -177,9 +167,9 @@ fun CreateTaskScreen(
             )
 
             TextFieldOption(
-                text = periodicity,
+                text = taskState.periodicity,
                 onTextChange = {
-                    periodicity = it
+//                    periodicity = it
                     viewModel.updatePeriodicity(it)
                 },
                 imageVector = Icons.Outlined.Pin,
@@ -189,28 +179,28 @@ fun CreateTaskScreen(
 
             DateField(
                 label = "Дата начала задачи",
-                date = selectedDateStart,
+                date = taskState.dateStart,
                 onDateClick = {  },
                 viewModel = viewModel
             )
 
             DateField(
                 label = "Дата завершения задачи",
-                date = selectedDateEnd,
+                date = taskState.dateEnd,
                 onDateClick = {},
                 viewModel = viewModel
             )
 
             TimeField(
                 label = "Время выполнения задачи",
-                time = capacity.toIntTime(),
+                time = taskState.capacity.toIntTime(),
                 onTimeClick = {},
                 viewModel = viewModel
             )
         }
     }
 
-    if (showModal) {
+    if (taskState.showModal) {
         DateRangePickerModal(
             onDateRangeSelected = {
                 viewModel.updateDateStart(it.first ?: 0L)
@@ -221,7 +211,7 @@ fun CreateTaskScreen(
         )
     }
 
-    if (showTimePicker) {
+    if (taskState.showTimePicker) {
         TimePickerSwitchable(
             onConfirm = {
                 viewModel.updateTimePickerState(it.hour, it.minute)
@@ -372,7 +362,7 @@ private fun DateField(
     label: String,
     date: Long?,
     onDateClick: () -> Unit,
-    viewModel: CreateTaskScreenViewModel,
+    viewModel: AbstractAddTaskScreenViewModel,
 ) {
     Row(
         modifier = Modifier
@@ -432,7 +422,7 @@ fun TimeField(
     label: String = "Время выполнения задачи",
     time: Int,
     onTimeClick: () -> Unit,
-    viewModel: CreateTaskScreenViewModel
+    viewModel: AbstractAddTaskScreenViewModel
 ) {
     Row(
         modifier = Modifier
@@ -616,9 +606,10 @@ fun TimePickerDialog(
 
 @Preview(showBackground = true)
 @Composable
-fun CreateTaskScreenPreview() {
-    CreateTaskScreen(
+fun AddTaskScreenPreview() {
+    AddTaskScreen(
         dateStart = 0L,
-        handler = CreateTaskScreenHandler(rememberNavController()),
+        handler = EditTaskScreenHandler(rememberNavController()),
+        viewModel = hiltViewModel()
     )
 }
