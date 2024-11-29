@@ -8,10 +8,17 @@
     <string name="ok_in_calendar">Сохранить</string>
     <string name="close_calendar">Закрыть</string>
     <string name="personal_account">Личный кабинет</string>
+    <string name="edit_profile">Редактировать профиль</string>
     <string name="clicker">Кликер</string>
     <string name="create_task_periodicity">Периодичность</string>
     <string name="create_task_priority">Приоритет</string>
     <string name="create_task_time">Время(пофиксить)</string>
     <string name="create_task_desc">Описание</string>
     <string name="create_task_name">Название</string>
+    <string name="profile_screen_result">"Ваш результат: "</string>
+
+    <string name="edit_profile_name">Имя</string>
+    <string name="edit_profile_email">Почта</string>
+    <string name="edit_profile_dateBirthday">Дата рождения</string>
+    <string name="edit_profile_open_gallery">Открыть галерею</string>
 </resources>
