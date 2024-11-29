@@ -1,4 +1,4 @@
-package com.example.android_app_sdvg.data.storage.mapper
+package com.example.android_app_sdvg.data.storage.mapper.task
 
 import com.example.android_app_sdvg.data.storage.entity.TaskDb
 import com.example.android_app_sdvg.domain.entity.task.Task

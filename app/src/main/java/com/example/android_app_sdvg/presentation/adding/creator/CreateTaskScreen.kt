@@ -1,4 +1,4 @@
-package com.example.android_app_sdvg.presentation.adding.create_task
+package com.example.android_app_sdvg.presentation.adding.creator
 
 import AddTaskScreen
 import androidx.compose.runtime.Composable

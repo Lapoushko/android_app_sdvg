@@ -1,4 +1,4 @@
-package com.example.android_app_sdvg.domain.usecase
+package com.example.android_app_sdvg.domain.usecase.task
 
 import com.example.android_app_sdvg.domain.entity.task.Task
 import com.example.android_app_sdvg.domain.repo.TaskRepository
@@ -12,7 +12,7 @@ interface SubscribeEditTaskUseCase {
 
 class SubscribeEditTaskUseCaseImpl(
     private val repositoryImpl: TaskRepository
-) : SubscribeEditTaskUseCase{
+) : SubscribeEditTaskUseCase {
     override suspend fun editTask(task: Task) {
         repositoryImpl.editTask(task)
     }

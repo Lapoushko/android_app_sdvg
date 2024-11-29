@@ -1,4 +1,4 @@
-package com.example.android_app_sdvg.presentation.mapper
+package com.example.android_app_sdvg.presentation.mapper.task
 
 import com.example.android_app_sdvg.domain.entity.category.Category
 import com.example.android_app_sdvg.domain.entity.category.getCategory
@@ -14,7 +14,7 @@ import javax.inject.Inject
  * @author Lapoushko
  * маппер из ui в task
  */
-interface TaskUiToTaskMapper {
+interface TaskUiToTaskDomainMapper {
     /**
      * перевод
      * @param taskUi задача из ui
@@ -23,7 +23,7 @@ interface TaskUiToTaskMapper {
     operator fun invoke(taskUi: TaskItem) : Task
 }
 
-class TaskUiToTaskMapperImpl @Inject constructor(): TaskUiToTaskMapper{
+class TaskUiToTaskDomainMapperImpl @Inject constructor(): TaskUiToTaskDomainMapper {
     /**
      * перевод
      * @param taskUi задача из ui

@@ -1,8 +1,7 @@
-package com.example.android_app_sdvg.domain.usecase
+package com.example.android_app_sdvg.domain.usecase.task
 
 import com.example.android_app_sdvg.domain.entity.task.Task
 import com.example.android_app_sdvg.domain.repo.TaskRepository
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
@@ -15,7 +14,7 @@ interface SubscribeInsertTaskUseCase {
 
 class SubscribeInsertTaskUseCaseImpl @Inject constructor(
     private val repository: TaskRepository
-): SubscribeInsertTaskUseCase{
+): SubscribeInsertTaskUseCase {
     /**
      * получить задачи
      * @return список задач

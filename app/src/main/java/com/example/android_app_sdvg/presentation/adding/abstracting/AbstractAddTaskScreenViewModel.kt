@@ -1,4 +1,4 @@
-package com.example.android_app_sdvg.presentation.adding.abstract_model
+package com.example.android_app_sdvg.presentation.adding.abstracting
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

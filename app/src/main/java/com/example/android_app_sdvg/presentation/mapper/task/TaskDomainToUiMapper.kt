@@ -1,4 +1,4 @@
-package com.example.android_app_sdvg.presentation.mapper
+package com.example.android_app_sdvg.presentation.mapper.task
 
 import com.example.android_app_sdvg.domain.entity.task.Task
 import com.example.android_app_sdvg.domain.entity.task.toDateItem
@@ -10,11 +10,11 @@ import javax.inject.Inject
  * @author Lapoushko
  * перевод задачи domain в TaskUi
  */
-interface TaskToUiMapper {
+interface TaskDomainToUiMapper {
     operator fun invoke(task: Task): TaskItem
 }
 
-class TaskToUiMapperImpl @Inject constructor (): TaskToUiMapper{
+class TaskDomainToUiMapperImpl @Inject constructor (): TaskDomainToUiMapper {
     override fun invoke(task: Task): TaskItem {
         return TaskItem(
             id = task.id,

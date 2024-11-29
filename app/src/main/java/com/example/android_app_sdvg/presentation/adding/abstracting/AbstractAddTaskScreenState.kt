@@ -1,4 +1,4 @@
-package com.example.android_app_sdvg.presentation.adding.abstract_model
+package com.example.android_app_sdvg.presentation.adding.abstracting
 
 import com.example.android_app_sdvg.presentation.model.task.DatesItem
 
