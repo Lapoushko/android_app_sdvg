@@ -22,7 +22,7 @@ fun Int.toTimeString(): String{
 
 fun String.toLongDate(): Long {
     val format = SimpleDateFormat(FORMAT, Locale.US)
-    return format.parse(this)?.time ?: throw IllegalArgumentException("Invalid time string")
+    return format.parse(this)?.time ?: 0
 }
 
 fun String.toIntTime() : Int{
