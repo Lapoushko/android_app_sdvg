@@ -46,14 +46,17 @@ val CustomNavTypeProfile = object : NavType<ProfileItem>(isNullableAllowed = fal
     }
 
     override fun parseValue(value: String): ProfileItem {
-        return Json.decodeFromString<ProfileItem>(value)
+        return Json.decodeFromString<ProfileItem>(value.replace("\\","/"))
     }
 
     override fun put(bundle: Bundle, key: String, value: ProfileItem) {
         bundle.putParcelable(key, value)
     }
 
-    override fun serializeAsValue(value: ProfileItem): String = Json.encodeToString<ProfileItem>(value)
+    override fun serializeAsValue(value: ProfileItem): String{
+        val profile = value.copy(photo = value.photo.replace("/","\\"))
+        return Json.encodeToString<ProfileItem>(profile)
+    }
 
     override val name: String = ProfileItem::class.java.name
 }

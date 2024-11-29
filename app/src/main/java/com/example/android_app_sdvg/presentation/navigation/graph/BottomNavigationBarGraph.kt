@@ -90,6 +90,12 @@ fun BottomNavigationBarGraph(navController: NavHostController) {
                 )
             )
         }
+//        composable<ScreenItem.EditProfile>(
+//            deepLinks = listOf(
+//                navDeepLink<>()
+//            )
+//        )
+
         composable<ScreenItem.EditProfile>(
             typeMap = mapOf(typeOf<ProfileItem>() to CustomNavTypeProfile)
         ) { backStackEntry ->
@@ -101,7 +107,7 @@ fun BottomNavigationBarGraph(navController: NavHostController) {
                     email = profile.profile.email,
                     sex = profile.profile.sex,
                     photo = profile.profile.photo,
-                    dateBirthday = profile.profile.dateBirthday.replace("\\","/")
+                    dateBirthday = profile.profile.dateBirthday
                 )
             )
         }
