@@ -34,7 +34,7 @@ class ProfileMapperUIImpl @Inject constructor() : ProfileMapperUI{
             email = if (profile.email == EMPTY) "" else profile.email,
             sex = profile.sex.naming,
             photo = if (profile.photo == EMPTY) "" else profile.photo,
-            dateBirthday = profile.dateBirthday.toDateString().replace("/","\\")
+            dateBirthday = profile.dateBirthday.toDateString()
         )
     }
     companion object{

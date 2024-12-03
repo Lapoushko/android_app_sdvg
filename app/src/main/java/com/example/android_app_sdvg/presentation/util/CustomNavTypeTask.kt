@@ -14,11 +14,11 @@ import kotlinx.serialization.json.Json
  * @param clazz нужный класс
  * @param serializer сериализатор
  */
-val CustomNavTypeTask = object : NavType<TaskItem>(isNullableAllowed = false){
+val CustomNavTypeTask = object : NavType<TaskItem>(isNullableAllowed = false) {
     override fun get(bundle: Bundle, key: String): TaskItem {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             bundle.getParcelable(key, TaskItem::class.java) as TaskItem
-        } else{
+        } else {
             bundle.getParcelable<TaskItem>(key) as TaskItem
         }
     }
@@ -36,26 +36,30 @@ val CustomNavTypeTask = object : NavType<TaskItem>(isNullableAllowed = false){
     override val name: String = TaskItem::class.java.name
 }
 
-val CustomNavTypeProfile = object : NavType<ProfileItem>(isNullableAllowed = false){
+val CustomNavTypeProfile = object : NavType<ProfileItem>(isNullableAllowed = false) {
     override fun get(bundle: Bundle, key: String): ProfileItem {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             bundle.getParcelable(key, ProfileItem::class.java) as ProfileItem
-        } else{
+        } else {
             bundle.getParcelable<ProfileItem>(key) as ProfileItem
         }
     }
 
     override fun parseValue(value: String): ProfileItem {
-        return Json.decodeFromString<ProfileItem>(value.replace("\\","/"))
+        return Json.decodeFromString<ProfileItem>(value.replace("\\", "/"))
     }
 
     override fun put(bundle: Bundle, key: String, value: ProfileItem) {
         bundle.putParcelable(key, value)
     }
 
-    override fun serializeAsValue(value: ProfileItem): String{
-        val profile = value.copy(photo = value.photo.replace("/","\\"))
-        return Json.encodeToString<ProfileItem>(profile)
+    override fun serializeAsValue(value: ProfileItem): String {
+        return Json.encodeToString<ProfileItem>(
+            value.copy(
+                photo = value.photo.replace("/", "\\"),
+                dateBirthday = value.dateBirthday.replace("/", "\\")
+            )
+        )
     }
 
     override val name: String = ProfileItem::class.java.name
