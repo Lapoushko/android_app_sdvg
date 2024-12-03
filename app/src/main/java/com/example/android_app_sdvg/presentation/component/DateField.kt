@@ -13,10 +13,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,8 +45,6 @@ fun DateField(
     ) {
         Text(
             text = label,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.width(IntrinsicSize.Max)
         )
 
@@ -63,7 +59,6 @@ fun DateField(
                 Text(
                     text = "Выберите дату",
                     fontSize = 15.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             },
             enabled = false,
@@ -73,17 +68,8 @@ fun DateField(
                 Icon(
                     imageVector = Icons.Outlined.CalendarMonth,
                     contentDescription = "Календарь",
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                disabledTextColor = MaterialTheme.colorScheme.onSurface,
-                disabledBorderColor = MaterialTheme.colorScheme.outline,
-                disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
-            ),
             singleLine = true
         )
     }

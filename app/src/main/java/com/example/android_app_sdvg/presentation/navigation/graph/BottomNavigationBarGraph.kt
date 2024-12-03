@@ -6,7 +6,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
-import com.example.android_app_sdvg.presentation.clicker.ClickerScreenHandler
 import com.example.android_app_sdvg.presentation.profile.ProfileScreenHandler
 import com.example.android_app_sdvg.presentation.tasker.TaskerScreenHandler
 import com.example.android_app_sdvg.presentation.clicker.ClickerScreen
@@ -46,11 +45,7 @@ fun BottomNavigationBarGraph(navController: NavHostController) {
             )
         }
         composable(route = ScreenBar.Clicker.route) {
-            ClickerScreen(
-                clickerScreenHandler = ClickerScreenHandler(
-                    navController = navController
-                )
-            )
+            ClickerScreen()
         }
         composable(route = ScreenBar.PersonalAccount.route) {
             ProfileScreen(

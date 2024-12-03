@@ -12,10 +12,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,8 +43,6 @@ fun TimeField(
     ) {
         Text(
             text = label,
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.width(IntrinsicSize.Max)
         )
 
@@ -61,7 +57,6 @@ fun TimeField(
                 Text(
                     text = label,
                     fontSize = 15.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             },
             enabled = false,
@@ -71,17 +66,9 @@ fun TimeField(
                 Icon(
                     imageVector = Icons.Outlined.Timer,
                     contentDescription = "Таймер",
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                disabledTextColor = MaterialTheme.colorScheme.onSurface,
-                disabledBorderColor = MaterialTheme.colorScheme.outline,
-                disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
-            ),
+
             singleLine = true
         )
     }
