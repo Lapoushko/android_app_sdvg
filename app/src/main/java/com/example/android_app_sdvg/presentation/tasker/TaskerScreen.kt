@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.android_app_sdvg.R
+import com.example.android_app_sdvg.presentation.component.CustomTopAppBar
+import com.example.android_app_sdvg.presentation.component.DatePickerModal
 import com.example.android_app_sdvg.presentation.extension.toDateString
 
 /**
@@ -38,7 +40,6 @@ import com.example.android_app_sdvg.presentation.extension.toDateString
  * @param taskerScreenHandler функции экрана
  * @param viewModel вью модель экрана
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskerScreen(
     taskerScreenHandler: TaskerScreenHandler,
@@ -48,9 +49,7 @@ fun TaskerScreen(
     Scaffold(modifier = Modifier
         .fillMaxSize(),
         topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text(text = stringResource(R.string.calendar)) }
-            )
+            CustomTopAppBar(stringResource(R.string.calendar))
         }
     ) { innerPadding ->
         Column(Modifier.padding(innerPadding)) {
@@ -99,33 +98,6 @@ fun TaskerScreen(
                 viewModel.toggleCalendar()
             },
             onDismiss = { viewModel.toggleCalendar() })
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DatePickerModal(
-    onDateSelected: (Long?) -> Unit,
-    onDismiss: () -> Unit
-) {
-    val datePickerState = rememberDatePickerState()
-
-    DatePickerDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(onClick = {
-                onDateSelected(datePickerState.selectedDateMillis)
-            }) {
-                Text(stringResource(R.string.ok_in_calendar))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.close_calendar))
-            }
-        }
-    ) {
-        DatePicker(state = datePickerState)
     }
 }
 

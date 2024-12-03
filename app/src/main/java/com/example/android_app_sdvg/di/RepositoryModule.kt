@@ -1,18 +1,15 @@
 package com.example.android_app_sdvg.di
 
-import com.example.android_app_sdvg.data.storage.dao.TaskDao
-import com.example.android_app_sdvg.data.storage.mapper.TaskDbToTaskMapper
-import com.example.android_app_sdvg.data.storage.mapper.TaskToTaskDbMapper
 import com.example.android_app_sdvg.data.storage.repo.ClickRepositoryImpl
+import com.example.android_app_sdvg.data.storage.repo.ProfileRepositoryImpl
 import com.example.android_app_sdvg.data.storage.repo.TaskRepositoryImpl
 import com.example.android_app_sdvg.domain.repo.ClickRepository
+import com.example.android_app_sdvg.domain.repo.ProfileRepository
 import com.example.android_app_sdvg.domain.repo.TaskRepository
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 /**
  * @author Lapoushko
@@ -31,4 +28,9 @@ abstract class RepositoryModule {
     abstract fun bindClickRepository(
         clickRepository: ClickRepositoryImpl
     ): ClickRepository
+
+    @Binds
+    abstract fun bindProfileRepository(
+        taskRepository: ProfileRepositoryImpl
+    ): ProfileRepository
 }

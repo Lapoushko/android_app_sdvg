@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.android_app_sdvg.R
+import com.example.android_app_sdvg.presentation.component.CustomTopAppBar
 
 /**
  * @author Lapoushko
@@ -25,7 +26,6 @@ import com.example.android_app_sdvg.R
  * Экран кликера
  *@param clickerScreenHandler методы кликера
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClickerScreen(
     clickerScreenHandler: ClickerScreenHandler,
@@ -37,11 +37,7 @@ fun ClickerScreen(
         modifier = Modifier
             .fillMaxSize(),
         topBar = {
-            CenterAlignedTopAppBar(title = {
-                Text(
-                    text = stringResource(R.string.clicker)
-                )
-            })
+            CustomTopAppBar(stringResource(R.string.clicker))
         },
     ) { innerPadding ->
         Column(

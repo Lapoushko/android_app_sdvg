@@ -4,21 +4,25 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
 import com.example.android_app_sdvg.presentation.clicker.ClickerScreenHandler
-import com.example.android_app_sdvg.presentation.personal_account.PersonalAccountScreenHandler
+import com.example.android_app_sdvg.presentation.profile.ProfileScreenHandler
 import com.example.android_app_sdvg.presentation.tasker.TaskerScreenHandler
 import com.example.android_app_sdvg.presentation.clicker.ClickerScreen
-import com.example.android_app_sdvg.presentation.adding.create_task.CreateTaskScreen
-import com.example.android_app_sdvg.presentation.adding.create_task.CreateTaskScreenHandler
-import com.example.android_app_sdvg.presentation.adding.edit_task.EditTaskScreen
-import com.example.android_app_sdvg.presentation.adding.edit_task.EditTaskScreenHandler
+import com.example.android_app_sdvg.presentation.adding.creator.CreateTaskScreen
+import com.example.android_app_sdvg.presentation.adding.creator.CreateTaskScreenHandler
+import com.example.android_app_sdvg.presentation.adding.editor.EditTaskScreen
+import com.example.android_app_sdvg.presentation.adding.editor.EditTaskScreenHandler
+import com.example.android_app_sdvg.presentation.model.profile.ProfileItem
 import com.example.android_app_sdvg.presentation.model.screen.ScreenItem
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
-import com.example.android_app_sdvg.presentation.personal_account.PersonalAccountScreen
+import com.example.android_app_sdvg.presentation.profile.ProfileScreen
 import com.example.android_app_sdvg.presentation.navigation.screen.ScreenBar
+import com.example.android_app_sdvg.presentation.profile.editor.EditProfileScreen
 import com.example.android_app_sdvg.presentation.tasker.TaskerScreen
-import com.example.android_app_sdvg.presentation.util.CustomNavType
+import com.example.android_app_sdvg.presentation.util.CustomNavTypeProfile
+import com.example.android_app_sdvg.presentation.util.CustomNavTypeTask
 import com.example.android_app_sdvg.presentation.util.PrimitiveNavType
 import kotlin.reflect.typeOf
 
@@ -49,8 +53,8 @@ fun BottomNavigationBarGraph(navController: NavHostController) {
             )
         }
         composable(route = ScreenBar.PersonalAccount.route) {
-            PersonalAccountScreen(
-                personalAccountScreenHandler = PersonalAccountScreenHandler(
+            ProfileScreen(
+                profileScreenHandler = ProfileScreenHandler(
                     navController = navController
                 )
             )
@@ -66,7 +70,7 @@ fun BottomNavigationBarGraph(navController: NavHostController) {
         }
 
         composable<ScreenItem.EditTask>(
-            typeMap = mapOf(typeOf<TaskItem>() to CustomNavType)
+            typeMap = mapOf(typeOf<TaskItem>() to CustomNavTypeTask)
         ) { backStackEntry ->
             val task = backStackEntry.toRoute<ScreenItem.EditTask>()
             EditTaskScreen(
@@ -86,6 +90,26 @@ fun BottomNavigationBarGraph(navController: NavHostController) {
                 )
             )
         }
+//        composable<ScreenItem.EditProfile>(
+//            deepLinks = listOf(
+//                navDeepLink<>()
+//            )
+//        )
 
+        composable<ScreenItem.EditProfile>(
+            typeMap = mapOf(typeOf<ProfileItem>() to CustomNavTypeProfile)
+        ) { backStackEntry ->
+            val profile = backStackEntry.toRoute<ScreenItem.EditProfile>()
+            EditProfileScreen(
+                onToBack = { navController.popBackStack() },
+                profile = ProfileItem(
+                    name = profile.profile.name,
+                    email = profile.profile.email,
+                    sex = profile.profile.sex,
+                    photo = profile.profile.photo,
+                    dateBirthday = profile.profile.dateBirthday
+                )
+            )
+        }
     }
 }

@@ -7,10 +7,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.android_app_sdvg.domain.usecase.SubscribeDeleteTaskUseCase
-import com.example.android_app_sdvg.domain.usecase.SubscribeTasksUseCase
-import com.example.android_app_sdvg.presentation.mapper.TaskToUiMapper
-import com.example.android_app_sdvg.presentation.mapper.TaskUiToTaskMapper
+import com.example.android_app_sdvg.domain.usecase.task.SubscribeDeleteTaskUseCase
+import com.example.android_app_sdvg.domain.usecase.task.SubscribeTasksUseCase
+import com.example.android_app_sdvg.presentation.mapper.task.TaskDomainToUiMapper
+import com.example.android_app_sdvg.presentation.mapper.task.TaskUiToTaskDomainMapper
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import com.example.android_app_sdvg.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,8 +26,8 @@ class TaskerScreenViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val subscribeTasksUseCase: SubscribeTasksUseCase,
     private val subscribeDeleteTaskUseCase: SubscribeDeleteTaskUseCase,
-    private val uiMapper: TaskToUiMapper,
-    private val taskUiToTaskMapper: TaskUiToTaskMapper
+    private val uiMapper: TaskDomainToUiMapper,
+    private val taskUiToTaskDomainMapper: TaskUiToTaskDomainMapper
 ) : ViewModel() {
     private val _state = MutableTaskerScreenState(savedStateHandle = savedStateHandle)
     val state = _state as TaskerScreenState
@@ -63,7 +63,7 @@ class TaskerScreenViewModel @Inject constructor(
 
     fun delete(task: TaskItem) {
         viewModelScope.launch {
-            subscribeDeleteTaskUseCase.deleteTask(taskUiToTaskMapper.invoke(task))
+            subscribeDeleteTaskUseCase.deleteTask(taskUiToTaskDomainMapper.invoke(task))
             load()
         }
     }

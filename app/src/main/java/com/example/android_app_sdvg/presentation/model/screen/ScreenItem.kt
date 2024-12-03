@@ -1,5 +1,6 @@
 package com.example.android_app_sdvg.presentation.model.screen
 
+import com.example.android_app_sdvg.presentation.model.profile.ProfileItem
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import kotlinx.serialization.Serializable
 
@@ -17,5 +18,10 @@ sealed class ScreenItem{
     @Serializable
     data class EditTask(
         val task: TaskItem
+    ) : ScreenItem()
+
+    @Serializable
+    data class EditProfile(
+        val profile: ProfileItem
     ) : ScreenItem()
 }
