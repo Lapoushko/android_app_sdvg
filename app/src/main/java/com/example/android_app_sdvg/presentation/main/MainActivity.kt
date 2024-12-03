@@ -26,7 +26,6 @@ class MainActivity : ComponentActivity() {
             AppTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = AppTheme.colorScheme.background
                 ) {
                     SDVGApplication().SDVGNavHost()
                 }

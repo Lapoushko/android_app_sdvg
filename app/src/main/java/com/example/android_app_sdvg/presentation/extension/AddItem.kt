@@ -12,7 +12,6 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.android_app_sdvg.presentation.navigation.screen.ScreenBar
-import com.example.android_app_sdvg.presentation.theme.Typography
 
 /**
  * @author Lapoushko
@@ -53,7 +52,6 @@ fun RowScope.AddItem(
         label = {
             Text(
                 text = screenBar.title,
-                style = Typography.bodySmall
             )
         },
 //        alwaysShowLabel = false

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -85,8 +86,8 @@ private fun ClickableImage(
                 .size(256.dp)
                 .clip(CircleShape),
             colors = ButtonDefaults.buttonColors(
-                containerColor = AppTheme.colorScheme.primary,
-                contentColor = AppTheme.colorScheme.onPrimary
+                containerColor = colorScheme.primary,
+                contentColor = colorScheme.onPrimary
             )
         ) {
             Text(
