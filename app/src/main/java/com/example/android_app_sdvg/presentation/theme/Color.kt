@@ -2,13 +2,11 @@ package com.example.android_app_sdvg.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+val backgroundDark = Color(0xFF0B141B)
+val backgroundLight = Color(0xFFEDF5F8)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val primaryDark = Color(0xFF008CFF)
+val primaryLight = Color(0xFFEDF5F8)
 
-val ClickerButtonColor = Color(0xFFD9D9D9)
-val ButtonsColor = Color(0xFF008CFF)
+val secondaryDark = Color(0xFFFFFFFF)
+val secondaryLight = Color(0xFF778189)

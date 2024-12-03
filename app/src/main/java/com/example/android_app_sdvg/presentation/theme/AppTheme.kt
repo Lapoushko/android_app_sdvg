@@ -16,21 +16,25 @@ import androidx.compose.ui.unit.sp
  * @author Lapoushko
  */
 private val darkColorScheme = AppColorScheme(
-    background = Color.Black,
-    onBackground = Purple80,
-    primary = PurpleGrey40,
-    onPrimary = PurpleGrey80,
-    secondary = Pink40,
-    onSecondary = Pink80,
+    background = backgroundDark,
+    onBackground = backgroundLight,
+    primary = primaryDark,
+    onPrimary = primaryLight,
+    secondary = secondaryDark,
+    onSecondary = secondaryLight,
+    separator = Color.LightGray,
+    error = Color.Red,
 )
 
 private val lightColorScheme = AppColorScheme(
-    background = Color.White,
-    onBackground = Purple40,
-    primary = PurpleGrey80,
-    onPrimary = PurpleGrey40,
-    secondary = Pink80,
-    onSecondary = Pink40
+    background = backgroundLight,
+    onBackground = backgroundDark,
+    primary = primaryLight,
+    onPrimary = primaryDark,
+    secondary = secondaryLight,
+    onSecondary = secondaryDark,
+    separator = Color.LightGray,
+    error = Color.Red,
 )
 
 private val typography = AppTypography(
@@ -65,7 +69,7 @@ private val typography = AppTypography(
 
 private val shape = AppShape(
     container = RoundedCornerShape(12.dp),
-    button = RoundedCornerShape(50)
+    button = RoundedCornerShape(50),
 )
 
 private val size = AppSize(

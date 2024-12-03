@@ -27,7 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.android_app_sdvg.R
 import com.example.android_app_sdvg.presentation.component.ButtonClick
 import com.example.android_app_sdvg.presentation.component.CustomTopAppBar
-import com.example.android_app_sdvg.presentation.theme.ClickerButtonColor
+import com.example.android_app_sdvg.presentation.theme.AppTheme
 
 /**
  * @author Lapoushko
@@ -85,8 +85,8 @@ private fun ClickableImage(
                 .size(256.dp)
                 .clip(CircleShape),
             colors = ButtonDefaults.buttonColors(
-                containerColor = ClickerButtonColor,
-                contentColor = Color.Gray
+                containerColor = AppTheme.colorScheme.primary,
+                contentColor = AppTheme.colorScheme.onPrimary
             )
         ) {
             Text(
