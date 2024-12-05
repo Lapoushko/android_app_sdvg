@@ -14,7 +14,6 @@ import androidx.compose.material.icons.outlined.ModeEdit
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -46,7 +45,9 @@ fun TaskerScreenListItem(
         mutableStateOf(false)
     }
 
-    val rotationScale by animateFloatAsState(targetValue = if (expandedState) 180f else 0f)
+    val rotationScale by animateFloatAsState(targetValue = if (expandedState) 180f else 0f,
+        label = ""
+    )
 
     Card(
         modifier = Modifier
@@ -70,7 +71,6 @@ fun TaskerScreenListItem(
                     .weight(6f)
                     .align(Alignment.CenterVertically),
                 text = task.name,
-                color = Color.Blue
             )
             IconButton(
                 modifier = Modifier
@@ -104,7 +104,6 @@ private fun DetailRow(label: String, value: String) {
     Row {
         Text(
             text = label,
-            style = MaterialTheme.typography.bodyMedium,
             color = Color.Gray,
             modifier = Modifier
                 .fillMaxWidth(0.3f)
@@ -113,8 +112,6 @@ private fun DetailRow(label: String, value: String) {
         )
         Text(
             text = value,
-            style = MaterialTheme.typography.bodyMedium,
-            color = Color.Blue
         )
     }
 }

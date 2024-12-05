@@ -25,5 +25,6 @@ fun CustomTopAppBar(
             Text(
                 text = title
             )
-        })
+        }
+    )
 }
