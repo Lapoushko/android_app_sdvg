@@ -146,10 +146,10 @@ private fun ShortDescriptionPerson(
     text: String
 ) {
     Column {
-        Text(text = title, color = Color.Black)
+        Text(text = title)
     }
     Column {
-        Text(text = text, color = Color.Gray)
+        Text(text = text)
     }
 }
 
@@ -197,13 +197,11 @@ private fun OpenTest(
         Text(
             text = "ТЕСТ",
             fontSize = 26.sp,
-            color = Color.White
         )
     }
     if (isClosed) {
         Text(
             text = "Следующий тест откроется через $remainingOpeningTime",
-            color = Color.Gray
         )
     }
 }

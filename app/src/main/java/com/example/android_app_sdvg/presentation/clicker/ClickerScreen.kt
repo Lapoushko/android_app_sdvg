@@ -83,10 +83,10 @@ private fun ClickableImage(
             modifier = Modifier
                 .size(256.dp)
                 .clip(CircleShape),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = colorScheme.primary,
-                contentColor = colorScheme.onPrimary
-            )
+//            colors = ButtonDefaults.buttonColors(
+//                containerColor = colorScheme.primary,
+//                contentColor = colorScheme.onPrimary
+//            )
         ) {
             Text(
                 fontSize = 64.sp,

@@ -52,7 +52,7 @@ fun DropdownMenuBox(
                     .menuAnchor(),
                 value = selectedItem,
                 readOnly = true,
-                colors = ExposedDropdownMenuDefaults.textFieldColors(),
+//                colors = ExposedDropdownMenuDefaults.textFieldColors(),
                 onValueChange = {
                 },
                 placeholder = {

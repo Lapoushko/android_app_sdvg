@@ -45,7 +45,9 @@ fun TaskerScreenListItem(
         mutableStateOf(false)
     }
 
-    val rotationScale by animateFloatAsState(targetValue = if (expandedState) 180f else 0f)
+    val rotationScale by animateFloatAsState(targetValue = if (expandedState) 180f else 0f,
+        label = ""
+    )
 
     Card(
         modifier = Modifier
@@ -69,7 +71,6 @@ fun TaskerScreenListItem(
                     .weight(6f)
                     .align(Alignment.CenterVertically),
                 text = task.name,
-                color = Color.Blue
             )
             IconButton(
                 modifier = Modifier
@@ -111,7 +112,6 @@ private fun DetailRow(label: String, value: String) {
         )
         Text(
             text = value,
-            color = Color.Blue
         )
     }
 }

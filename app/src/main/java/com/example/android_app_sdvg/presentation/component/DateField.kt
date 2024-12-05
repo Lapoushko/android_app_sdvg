@@ -27,7 +27,6 @@ import com.example.android_app_sdvg.presentation.extension.toDateString
 /**
  * @author Lapoushko
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateField(
     label: String,
