@@ -3,9 +3,13 @@ package com.example.android_app_sdvg.presentation.adding.abstracting
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.android_app_sdvg.presentation.extension.toTimeString
+import com.example.android_app_sdvg.presentation.model.input.Input
+import com.example.android_app_sdvg.presentation.model.input.TaskErrors
+import com.example.android_app_sdvg.presentation.model.input.checkErrorInput
 import com.example.android_app_sdvg.presentation.model.task.DatesItem
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import java.util.Calendar
@@ -26,26 +30,57 @@ abstract class AbstractAddTaskScreenViewModel(
      * @param onToBack кнопка для возврата на главный экран
      */
     open fun saveTask(onToBack: () -> Unit) {
+
     }
 
-    fun updateName(value: String) {
-        _taskState.name = value
+    fun updateName(input: String) {
+        val error = TaskErrors.NAME_ERROR
+        _taskState.name = input.checkErrorInput(
+            error = error,
+            adding = { _taskState.errors.add(error) },
+            removing = { _taskState.errors.remove(error) },
+            isCorrect = input.isNotEmpty()
+        )
     }
 
-    fun updateDesc(value: String) {
-        _taskState.desc = value
+    fun updateDesc(input: String) {
+        val error = TaskErrors.DESC_ERROR
+        _taskState.desc = input.checkErrorInput(
+            error = error,
+            adding = { _taskState.errors.add(error) },
+            removing = { _taskState.errors.remove(error) },
+            isCorrect = input.isNotEmpty()
+        )
     }
 
-    fun updatePriority(value: String) {
-        _taskState.priority = value
+    fun updatePriority(input: String) {
+        val error = TaskErrors.PRIORITY_ERROR
+        _taskState.priority = input.checkErrorInput(
+            error = error,
+            adding = { _taskState.errors.add(error) },
+            removing = { _taskState.errors.remove(error) },
+            isCorrect = input.isNotEmpty()
+        )
     }
 
-    fun updateCategory(value: String) {
-        _taskState.category = value
+    fun updateCategory(input: String) {
+        val error = TaskErrors.CATEGORY_ERROR
+        _taskState.category = input.checkErrorInput(
+            error = error,
+            adding = { _taskState.errors.add(error) },
+            removing = { _taskState.errors.remove(error) },
+            isCorrect = input.isNotEmpty()
+        )
     }
 
-    fun updatePeriodicity(value: String) {
-        _taskState.periodicity = value
+    fun updatePeriodicity(input: String) {
+        val error = TaskErrors.PERIODICITY_ERROR
+        _taskState.periodicity = input.checkErrorInput(
+            error = error,
+            adding = { _taskState.errors.add(error) },
+            removing = { _taskState.errors.remove(error) },
+            isCorrect = (input.isNotEmpty() && input.isDigitsOnly())
+        )
     }
 
     fun updateDateStart(newDate: Long) {
@@ -78,11 +113,32 @@ abstract class AbstractAddTaskScreenViewModel(
         state: SavedStateHandle,
         taskItem: TaskItem? = null
     ) : AbstractAddTaskScreenState {
-        override var name: String by mutableStateOf(taskItem?.name ?: "")
-        override var desc: String by mutableStateOf(taskItem?.description ?: "")
-        override var priority: String by mutableStateOf(taskItem?.priorityItem ?: "")
-        override var category: String by mutableStateOf(taskItem?.categoryItem ?: "")
-        override var periodicity: String by mutableStateOf(taskItem?.periodicity ?: "")
+        override var name: Input<TaskErrors> by mutableStateOf(
+            Input(
+                text = taskItem?.name ?: "",
+                error = TaskErrors.NAME_ERROR
+            )
+        )
+        override var desc: Input<TaskErrors> by mutableStateOf(
+            Input(
+                text = taskItem?.description ?: "", error = TaskErrors.DESC_ERROR
+            )
+        )
+        override var priority: Input<TaskErrors> by mutableStateOf(
+            Input(
+                text = taskItem?.priorityItem ?: "", error = TaskErrors.PRIORITY_ERROR
+            )
+        )
+        override var category: Input<TaskErrors> by mutableStateOf(
+            Input(
+                text = taskItem?.categoryItem ?: "", error = TaskErrors.CATEGORY_ERROR
+            )
+        )
+        override var periodicity: Input<TaskErrors> by mutableStateOf(
+            Input(
+                text = taskItem?.periodicity ?: "", error = TaskErrors.PERIODICITY_ERROR
+            )
+        )
         override var showModal: Boolean by mutableStateOf(false)
         override var dateStart: Long? by mutableStateOf(
             state[DATESTART_STATE_TAG] ?: Calendar.getInstance().timeInMillis
@@ -92,14 +148,14 @@ abstract class AbstractAddTaskScreenViewModel(
         )
         override var dates: DatesItem by mutableStateOf(
             DatesItem(
-                dateStart = dateStart!!,
-                dateEnd = dateEnd!!
+                dateStart = dateStart ?: 0L,
+                dateEnd = dateEnd ?: 0L
             )
         )
         override var showTimePicker: Boolean by mutableStateOf(false)
         override var timePickerState: Pair<Int, Int> by mutableStateOf(Pair(0, 0))
         override var capacity: String by mutableStateOf(taskItem?.capacity ?: "0:00")
-
+        override var errors: MutableSet<TaskErrors> by mutableStateOf(TaskErrors.entries.toMutableSet())
     }
 
     companion object {

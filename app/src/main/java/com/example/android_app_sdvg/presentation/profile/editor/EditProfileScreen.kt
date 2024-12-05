@@ -111,40 +111,40 @@ fun EditProfileScreen(
             )
 
             TextFieldOption(
-                text = profileState.name!!.text,
+                text = profileState.name?.text ?: "",
                 onTextChange = {
                     viewModel.updateName(it)
                 },
                 label = stringResource(id = R.string.edit_profile_name),
-                isError = !profileState.name?.error.isNullOrEmpty(),
-                error = profileState.name?.error ?: ""
+                isError = !profileState.name?.error?.naming.isNullOrEmpty(),
+                error = profileState.name?.error?.naming ?: ""
             )
 
             TextFieldOption(
-                text = profileState.email!!.text,
+                text = profileState.email?.text ?: "",
                 onTextChange = {
                     viewModel.updateEmail(it)
                 },
                 label = stringResource(id = R.string.edit_profile_email),
-                isError = !profileState.email?.error.isNullOrEmpty(),
-                error = profileState.email?.error ?: ""
+                isError = !profileState.email?.error?.naming.isNullOrEmpty(),
+                error = profileState.email?.error?.naming ?: ""
             )
 
             DropdownMenuBox(
                 items = Sex.entries.map { it.naming },
                 label = "Пол",
                 onTextChange = { viewModel.updateSex(it) },
-                isError = !profileState.sex?.error.isNullOrEmpty(),
-                error = profileState.sex?.error ?: ""
+                isError = !profileState.sex?.error?.naming.isNullOrEmpty(),
+                error = profileState.sex?.error?.naming ?: ""
             )
             TextFieldOption(
-                text = profileState.dateBirthday!!.text,
+                text = profileState.dateBirthday?.text ?: "",
                 onTextChange = {
                     viewModel.updateDateBirthday(it)
                 },
                 label = stringResource(id = R.string.edit_profile_dateBirthday),
-                isError = !profileState.dateBirthday?.error.isNullOrEmpty(),
-                error = profileState.dateBirthday?.error ?: "",
+                isError = !profileState.dateBirthday?.error?.naming.isNullOrEmpty(),
+                error = profileState.dateBirthday?.error?.naming ?: "",
                 trailingImage = Icons.Filled.DateRange,
                 trailingClick = { viewModel.toggleDatePicker() }
             )

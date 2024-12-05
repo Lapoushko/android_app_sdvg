@@ -26,13 +26,14 @@ import com.example.android_app_sdvg.presentation.extension.toTimeString
 /**
  * @author Lapoushko
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimeField(
     label: String = "Время выполнения задачи",
     time: Int,
     onTimeClick: () -> Unit,
-    viewModel: AbstractAddTaskScreenViewModel
+    viewModel: AbstractAddTaskScreenViewModel,
+    isError: Boolean = false,
+    error: String = "",
 ) {
     Row(
         modifier = Modifier
@@ -62,13 +63,21 @@ fun TimeField(
             enabled = false,
             value = time.toTimeString(),
             onValueChange = {},
+            isError = isError,
+            supportingText = {
+                if (isError) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = error,
+                    )
+                }
+            },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Outlined.Timer,
                     contentDescription = "Таймер",
                 )
             },
-
             singleLine = true
         )
     }
