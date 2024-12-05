@@ -72,38 +72,51 @@ fun AddTaskScreen(
             )
 
             TextFieldOption(
-                text = taskState.name,
+                text = taskState.name.text,
                 onTextChange = {
                     viewModel.updateName(it)
                 },
-                label = stringResource(id = R.string.create_task_name)
+                label = stringResource(id = R.string.create_task_name),
+                isError = !taskState.name.error?.naming.isNullOrEmpty(),
+                error = taskState.name.error?.naming ?: ""
+
             )
             TextFieldOption(
-                text = taskState.desc,
+                text = taskState.desc.text,
                 onTextChange = {
                     viewModel.updateDesc(it)
                 },
-                label = stringResource(id = R.string.create_task_desc)
+                label = stringResource(id = R.string.create_task_desc),
+                isError = !taskState.desc.error?.naming.isNullOrEmpty(),
+                error = taskState.desc.error?.naming ?: ""
+
             )
 
             DropdownMenuBox(
                 items = Category.entries.map { it.naming },
                 label = "Категория",
-                onTextChange = { viewModel.updateCategory(it) })
+                onTextChange = { viewModel.updateCategory(it) }
+                ,
+                isError = !taskState.category.error?.naming.isNullOrEmpty(),
+                error = taskState.category.error?.naming ?: "")
             DropdownMenuBox(
                 items = Priority.entries.map { it.naming },
                 label = "Приоритет",
-                onTextChange = { viewModel.updatePriority(it) }
+                onTextChange = { viewModel.updatePriority(it) },
+                isError = !taskState.priority.error?.naming.isNullOrEmpty(),
+                error = taskState.priority.error?.naming ?: ""
             )
 
             TextFieldOption(
-                text = taskState.periodicity,
+                text = taskState.periodicity.text,
                 onTextChange = {
                     viewModel.updatePeriodicity(it)
                 },
                 imageVector = Icons.Outlined.Pin,
                 keyboardType = KeyboardType.Decimal,
-                label = stringResource(id = R.string.create_task_periodicity)
+                label = stringResource(id = R.string.create_task_periodicity),
+                isError = !taskState.periodicity.error?.naming.isNullOrEmpty(),
+                error = taskState.periodicity.error?.naming ?: ""
             )
 
             DateField(
@@ -124,7 +137,7 @@ fun AddTaskScreen(
                 label = "Время выполнения задачи",
                 time = taskState.capacity.toIntTime(),
                 onTimeClick = {},
-                viewModel = viewModel
+                viewModel = viewModel,
             )
         }
     }
