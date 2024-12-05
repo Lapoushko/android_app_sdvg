@@ -15,5 +15,12 @@ interface EditProfileScreenState{
 }
 class Input(
     var text: String,
-    var error: String?
+    var error: Errors?
 )
+enum class Errors(val naming: String){
+    NAME_ERROR("Неправильное имя"),
+    EMAIL_ERROR("Неправильная почта"),
+    SEX_ERROR("Не указан пол"),
+    DATE_ERROR("Неправильная дата"),
+    PHOTO_ERROR("Неправильное фото")
+}

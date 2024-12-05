@@ -28,7 +28,7 @@ class EditProfileScreenViewModel @Inject constructor(
     val profileState = _profileState as EditProfileScreenState
 
     private var _profileItem: MutableStateFlow<ProfileItem?> = MutableStateFlow(null)
-    private val errors: MutableSet<String> = mutableSetOf()
+    private val errors: MutableSet<Errors> = Errors.entries.toMutableSet()
 
     init {
         _profileState.isNeedToShowPermission = false
@@ -39,35 +39,32 @@ class EditProfileScreenViewModel @Inject constructor(
     }
 
     fun updateName(input: String) {
-        val error = "Неправильное имя"
         _profileState.name = checkErrorInput(
             input = input,
-            error = error,
+            error = Errors.NAME_ERROR,
             input.isNotEmpty()
         )
     }
 
     fun updateEmail(input: String) {
-        val error = "Неправильная почта"
         _profileState.email = checkErrorInput(
             input = input,
-            error = error,
+            error = Errors.EMAIL_ERROR,
             (input.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(input).matches())
         )
     }
 
 
     fun updateSex(input: String) {
-        val error = "Неправильный пол"
         _profileState.sex = checkErrorInput(
             input = input,
-            error = error,
+            error = Errors.SEX_ERROR,
             (input.isNotEmpty())
         )
     }
 
     fun updateDateBirthday(input: String) {
-        val error = "Неправильная дата"
+        val error = Errors.DATE_ERROR
         try {
             input.toLongDate()
             _profileState.dateBirthday = Input(
@@ -131,7 +128,7 @@ class EditProfileScreenViewModel @Inject constructor(
 
     private fun checkErrorInput(
         input: String,
-        error: String,
+        error: Errors,
         isCorrect: Boolean,
     ): Input {
         if (isCorrect) {
@@ -144,12 +141,11 @@ class EditProfileScreenViewModel @Inject constructor(
     }
 
     private class MutableEditProfileScreenState : EditProfileScreenState {
-        val inputInit = Input(text = "", error = null)
-        override var name: Input by mutableStateOf(inputInit)
-        override var email: Input by mutableStateOf(inputInit)
-        override var sex: Input by mutableStateOf(inputInit)
-        override var photo: Input by mutableStateOf(inputInit)
-        override var dateBirthday: Input by mutableStateOf(Input("", null))
+        override var name: Input by mutableStateOf(Input(text = "", error = Errors.NAME_ERROR))
+        override var email: Input by mutableStateOf(Input(text = "", error = Errors.EMAIL_ERROR))
+        override var sex: Input by mutableStateOf(Input(text = "", error = Errors.SEX_ERROR))
+        override var photo: Input by mutableStateOf(Input(text = "", error = Errors.PHOTO_ERROR))
+        override var dateBirthday: Input by mutableStateOf(Input("", Errors.DATE_ERROR))
         override var isNeedToShowDatePicker: Boolean by mutableStateOf(false)
         override var isNeedToShowPermission: Boolean by mutableStateOf(false)
         override var isNeedToShowSelect: Boolean by mutableStateOf(false)
