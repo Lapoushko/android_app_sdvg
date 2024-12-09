@@ -5,6 +5,7 @@ import com.example.android_app_sdvg.domain.entity.category.Category
 import com.example.android_app_sdvg.domain.entity.prioriry.Priority
 import com.example.android_app_sdvg.domain.entity.task.Dates
 import com.example.android_app_sdvg.domain.entity.task.Task
+import com.example.android_app_sdvg.domain.entity.task.TaskStatus
 import javax.inject.Inject
 
 /**
@@ -35,7 +36,8 @@ class TaskDbToTaskMapperImpl @Inject constructor() : TaskDbToTaskMapper {
             capacity = taskDb.capacity ?: 0,
             periodicity = taskDb.periodicity ?: 0,
             priority = taskDb.priority ?: Priority.HIGH,
-            category = taskDb.category ?: Category.STANDARD
+            category = taskDb.category ?: Category.STANDARD,
+            taskStatus = taskDb.taskStatus ?: TaskStatus.IN_PROGRESS
         )
     }
 }

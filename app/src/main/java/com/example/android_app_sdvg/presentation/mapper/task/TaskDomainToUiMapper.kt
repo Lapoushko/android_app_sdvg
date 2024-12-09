@@ -25,7 +25,8 @@ class TaskDomainToUiMapperImpl @Inject constructor (): TaskDomainToUiMapper {
             capacity = task.capacity.toTimeString(),
             periodicity = task.periodicity.toString(),
             priorityItem = task.priority.naming,
-            categoryItem = task.category.naming
+            categoryItem = task.category.naming,
+            taskStatus = task.taskStatus.naming
         )
     }
 

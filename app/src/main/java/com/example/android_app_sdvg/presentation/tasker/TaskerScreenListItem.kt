@@ -7,11 +7,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DeleteOutline
+import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.ModeEdit
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -24,12 +27,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.android_app_sdvg.domain.entity.task.TaskStatus
+import com.example.android_app_sdvg.domain.entity.task.getTaskStatus
 import com.example.android_app_sdvg.presentation.extension.toDateString
 import com.example.android_app_sdvg.presentation.model.task.DatesItem
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
-import com.example.android_app_sdvg.presentation.theme.Shapes
 
 /**
  * @author Lapoushko
@@ -39,7 +44,8 @@ import com.example.android_app_sdvg.presentation.theme.Shapes
 fun TaskerScreenListItem(
     task: TaskItem,
     onDelete: () -> Unit,
-    onEdit: () -> Unit
+    onEdit: () -> Unit,
+    onComplete: () -> Unit,
 ) {
     var expandedState by remember {
         mutableStateOf(false)
@@ -53,10 +59,10 @@ fun TaskerScreenListItem(
         modifier = Modifier
             .padding(10.dp)
             .animateContentSize(),
-        shape = Shapes.small,
+        shape = RoundedCornerShape(20.dp),
         onClick = {
             expandedState = !expandedState
-        }
+        },
     ) {
         Row(
             modifier = Modifier
@@ -71,6 +77,7 @@ fun TaskerScreenListItem(
                     .weight(6f)
                     .align(Alignment.CenterVertically),
                 text = task.name,
+                color = if (task.taskStatus.getTaskStatus() == TaskStatus.IN_PROGRESS) Color.Green else Color.Red
             )
             IconButton(
                 modifier = Modifier
@@ -88,14 +95,32 @@ fun TaskerScreenListItem(
                     DetailRow("Приоритет", task.priorityItem)
                     DetailRow("Категория", task.categoryItem)
                 }
-                IconButton(onClick = { onDelete() }) {
-                    Icon(imageVector = Icons.Outlined.DeleteOutline, contentDescription = null)
-                }
-                IconButton(onClick = { onEdit() }) {
-                    Icon(imageVector = Icons.Outlined.ModeEdit, contentDescription = null)
-                }
+                RowIconButton(
+                    onClick = {onDelete()},
+                    imageVector = Icons.Outlined.DeleteOutline
+                )
+
+                RowIconButton(
+                    onClick = {onEdit()},
+                    imageVector = Icons.Outlined.ModeEdit
+                )
+
+                RowIconButton(
+                    onClick = {onComplete()},
+                    imageVector = Icons.Outlined.Done
+                )
             }
         }
+    }
+}
+
+@Composable
+private fun RowIconButton(
+    onClick: () -> Unit,
+    imageVector: ImageVector
+){
+    IconButton(onClick = { onClick() }) {
+        Icon(imageVector = imageVector, contentDescription = null)
     }
 }
 
@@ -127,11 +152,13 @@ fun TaskerScreenListItemPreview() {
         "",
         "",
         "",
+        "",
         ""
     )
     TaskerScreenListItem(
         task = task,
         onDelete = {  },
-        onEdit = { }
+        onEdit = { },
+        onComplete = {}
     )
 }
