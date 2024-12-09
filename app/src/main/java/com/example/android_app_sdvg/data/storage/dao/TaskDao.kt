@@ -21,6 +21,9 @@ interface TaskDao {
     @Query("SELECT * FROM tasks")
     suspend fun getTasks(): List<TaskDb>
 
+    @Query("SELECT * FROM tasks WHERE id = :id")
+    suspend fun getTaskById(id: Long) : TaskDb
+
     /**
      * вставить в базу данных задачу
      * @param taskDb задача
