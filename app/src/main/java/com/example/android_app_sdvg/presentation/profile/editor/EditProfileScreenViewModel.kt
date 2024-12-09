@@ -149,7 +149,7 @@ class EditProfileScreenViewModel @Inject constructor(
         override var photo: Input<ProfileErrors>? by mutableStateOf(
             Input(
                 text = "",
-                error = ProfileErrors.PHOTO_ERROR
+                error = null
             )
         )
         override var dateBirthday: Input<ProfileErrors>? by mutableStateOf(

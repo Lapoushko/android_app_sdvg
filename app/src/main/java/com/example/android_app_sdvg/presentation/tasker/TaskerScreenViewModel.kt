@@ -4,13 +4,9 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.android_app_sdvg.domain.entity.prioriry.getPriority
-import com.example.android_app_sdvg.domain.entity.task.Task
 import com.example.android_app_sdvg.domain.entity.task.TaskStatus
-import com.example.android_app_sdvg.domain.entity.task.getTaskStatus
 import com.example.android_app_sdvg.domain.usecase.task.SubscribeDeleteTaskUseCase
 import com.example.android_app_sdvg.domain.usecase.task.SubscribeEditTaskUseCase
 import com.example.android_app_sdvg.domain.usecase.task.SubscribeTasksUseCase
@@ -21,7 +17,6 @@ import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import com.example.android_app_sdvg.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.Calendar
 import javax.inject.Inject
 
 /**
@@ -37,6 +32,7 @@ class TaskerScreenViewModel @Inject constructor(
 ) : ViewModel() {
     private val _state = MutableTaskerScreenState()
     val state = _state as TaskerScreenState
+    private var initialList = listOf<TaskItem>()
 
     init {
         Log.d(Constants.LOG_KEY, "Init ${this::class.simpleName}")
@@ -49,6 +45,7 @@ class TaskerScreenViewModel @Inject constructor(
                 subscribeTasksUseCase
                     .getTasks()
                     .map { uiMapper(it) }
+            initialList = _state.tasks
         }
     }
 
@@ -94,7 +91,7 @@ class TaskerScreenViewModel @Inject constructor(
     }
 
     private fun filteringByComparator() {
-        _state.tasks = _state.tasks.filter {
+        _state.tasks = initialList.filter {
             it.dates.dateStart >= (state.selectedDates?.dateStart ?: 0L)
                     && it.dates.dateEnd <= (state.selectedDates?.dateEnd ?: Long.MAX_VALUE)
         }
