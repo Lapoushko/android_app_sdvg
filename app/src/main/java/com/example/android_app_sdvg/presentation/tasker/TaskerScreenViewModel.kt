@@ -54,8 +54,12 @@ class TaskerScreenViewModel @Inject constructor(
         Log.d(Constants.LOG_KEY, "onCleared ${this::class.simpleName}")
     }
 
-    fun selectDate(newDate: Pair<Long, Long>) {
-        _state.selectedDates = DatesItem(newDate.first, newDate.second)
+    fun selectDate(newDate: Pair<Long?, Long?>) {
+        if (newDate.second == null){
+            _state.selectedDates = DatesItem(newDate.first ?: 0L, newDate.first ?: 0L)
+        } else{
+            _state.selectedDates = DatesItem(newDate.first ?: 0L, newDate.second!!)
+        }
         filteringByComparator()
     }
 

@@ -95,7 +95,7 @@ fun TaskerScreen(
     if (state.showModal) {
         DateRangePickerModal(
             onDateRangeSelected = {
-                viewModel.selectDate(Pair(first = it.first ?: 0L, second = it.second ?: 0L))
+                viewModel.selectDate(Pair(first = it.first, second = it.second))
                 viewModel.toggleCalendar()
             },
             onDismiss = { viewModel.toggleCalendar() })
