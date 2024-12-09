@@ -30,6 +30,7 @@ import com.example.android_app_sdvg.presentation.adding.abstracting.AbstractAddT
 import com.example.android_app_sdvg.presentation.adding.editor.EditTaskScreenHandler
 import com.example.android_app_sdvg.presentation.component.CustomTopAppBar
 import com.example.android_app_sdvg.presentation.component.DateField
+import com.example.android_app_sdvg.presentation.component.DateRangePickerModal
 import com.example.android_app_sdvg.presentation.component.DropdownMenuBox
 import com.example.android_app_sdvg.presentation.component.TextFieldOption
 import com.example.android_app_sdvg.presentation.component.TimeField
@@ -165,53 +166,6 @@ fun AddTaskScreen(
         )
     }
 }
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DateRangePickerModal(
-    onDateRangeSelected: (Pair<Long?, Long?>) -> Unit,
-    onDismiss: () -> Unit
-) {
-    val dateRangePickerState = rememberDateRangePickerState()
-
-    DatePickerDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onDateRangeSelected(
-                        Pair(
-                            dateRangePickerState.selectedStartDateMillis,
-                            dateRangePickerState.selectedEndDateMillis
-                        )
-                    )
-                }
-            ) {
-                Text(stringResource(R.string.ok_in_calendar))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.close_calendar))
-            }
-        }
-    ) {
-        DateRangePicker(
-            state = dateRangePickerState,
-            title = {
-                Text(
-                    text = "Выбери диапозон"
-                )
-            },
-            showModeToggle = false,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(500.dp)
-                .padding(16.dp)
-        )
-    }
-}
-
 
 @Preview(showBackground = true)
 @Composable
