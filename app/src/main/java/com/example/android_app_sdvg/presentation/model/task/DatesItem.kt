@@ -17,10 +17,6 @@ class DatesItem(
     val dateEnd: Long
 ) : Parcelable
 
-//fun DatesItem.toDate(): Dates {
-//    return Dates(dateStart = this.dateStart.toLongDate(), dateEnd = this.dateEnd.toLongDate())
-//}
-
 fun DatesItem.toDate(): Dates {
     return Dates(dateStart = this.dateStart, dateEnd = this.dateEnd)
 }
