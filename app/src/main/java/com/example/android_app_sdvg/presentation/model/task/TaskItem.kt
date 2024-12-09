@@ -26,5 +26,6 @@ data class TaskItem(
     val capacity: String,
     val periodicity: String,
     val priorityItem: String,
-    val categoryItem: String
+    val categoryItem: String,
+    val taskStatus: String
 ) : Parcelable

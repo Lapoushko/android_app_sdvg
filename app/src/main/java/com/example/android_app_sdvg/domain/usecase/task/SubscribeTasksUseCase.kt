@@ -14,6 +14,11 @@ interface SubscribeTasksUseCase {
      * @return список задач
      */
     suspend fun getTasks(): List<Task>
+
+    /**
+     * задача по айди
+     */
+    suspend fun getTaskById(id: Long) : Task
 }
 
 /**
@@ -26,15 +31,10 @@ class SubscribeTasksUseCaseImpl @Inject constructor(
     override suspend fun getTasks(): List<Task> {
         return repository
             .getTasks()
+    }
 
-
-//        return repository
-//            .getTasks()
-//            .map { task ->
-//                task.ifEmpty {
-//                    emptyList()
-//                }
-//            }
+    override suspend fun getTaskById(id: Long): Task {
+        return repository.getTaskById(id)
     }
 
 }

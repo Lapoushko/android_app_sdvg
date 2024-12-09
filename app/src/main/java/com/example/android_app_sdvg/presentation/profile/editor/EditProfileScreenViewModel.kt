@@ -91,7 +91,6 @@ class EditProfileScreenViewModel @Inject constructor(
     }
 
     fun save(onToBack: () -> Unit) {
-        validate()
         if (errors.size == 0) {
             viewModelScope.launch {
                 val profile = ProfileItem(
@@ -128,13 +127,6 @@ class EditProfileScreenViewModel @Inject constructor(
         }
     }
 
-    private fun validate() {
-        updateDateBirthday(profileState.dateBirthday?.text ?: "")
-        updateEmail(profileState.email?.text ?: "")
-        updateSex(profileState.sex?.text ?: "")
-        updateName(profileState.name?.text ?: "")
-    }
-
     private class MutableEditProfileScreenState : EditProfileScreenState {
         override var name: Input<ProfileErrors>? by mutableStateOf(
             Input(
@@ -157,7 +149,7 @@ class EditProfileScreenViewModel @Inject constructor(
         override var photo: Input<ProfileErrors>? by mutableStateOf(
             Input(
                 text = "",
-                error = ProfileErrors.PHOTO_ERROR
+                error = null
             )
         )
         override var dateBirthday: Input<ProfileErrors>? by mutableStateOf(

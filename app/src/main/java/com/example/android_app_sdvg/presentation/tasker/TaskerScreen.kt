@@ -25,7 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.android_app_sdvg.R
 import com.example.android_app_sdvg.presentation.component.CustomTopAppBar
-import com.example.android_app_sdvg.presentation.component.DatePickerModal
+import com.example.android_app_sdvg.presentation.component.DateRangePickerModal
 import com.example.android_app_sdvg.presentation.extension.toDateString
 
 /**
@@ -59,7 +59,11 @@ fun TaskerScreen(
                     Text(text = stringResource(R.string.button_open_calendar))
                 }
 
-                IconButton(onClick = { taskerScreenHandler.onToCreateTask(state.selectedDate!!) }) {
+                IconButton(onClick = {
+                    taskerScreenHandler.onToCreateTask(
+                        state.selectedDates?.dateStart ?: 0L
+                    )
+                }) {
                     Icon(imageVector = Icons.Filled.Add, contentDescription = null)
                 }
             }
@@ -69,7 +73,8 @@ fun TaskerScreen(
                 modifier = Modifier
                     .padding(10.dp),
                 textAlign = TextAlign.Center,
-                text = state.selectedDate!!.toDateString()
+                text =
+                "${state.selectedDates?.dateStart?.toDateString() ?: ""} - ${state.selectedDates?.dateEnd?.toDateString() ?: ""}"
             )
 
             LazyColumn(
@@ -79,16 +84,18 @@ fun TaskerScreen(
                     TaskerScreenListItem(
                         task = task,
                         onDelete = { viewModel.delete(task) },
-                        onEdit = { taskerScreenHandler.onToEditTask(task) })
+                        onEdit = { taskerScreenHandler.onToEditTask(task) },
+                        onComplete = { viewModel.completeTask(task) }
+                    )
                 }
             }
         }
     }
 
     if (state.showModal) {
-        DatePickerModal(
-            onDateSelected = {
-                viewModel.selectDate(it ?: 0L)
+        DateRangePickerModal(
+            onDateRangeSelected = {
+                viewModel.selectDate(Pair(first = it.first, second = it.second))
                 viewModel.toggleCalendar()
             },
             onDismiss = { viewModel.toggleCalendar() })

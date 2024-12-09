@@ -1,25 +1,17 @@
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Pin
-import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.android_app_sdvg.R
@@ -30,6 +22,7 @@ import com.example.android_app_sdvg.presentation.adding.abstracting.AbstractAddT
 import com.example.android_app_sdvg.presentation.adding.editor.EditTaskScreenHandler
 import com.example.android_app_sdvg.presentation.component.CustomTopAppBar
 import com.example.android_app_sdvg.presentation.component.DateField
+import com.example.android_app_sdvg.presentation.component.DateRangePickerModal
 import com.example.android_app_sdvg.presentation.component.DropdownMenuBox
 import com.example.android_app_sdvg.presentation.component.TextFieldOption
 import com.example.android_app_sdvg.presentation.component.TimeField
@@ -165,53 +158,6 @@ fun AddTaskScreen(
         )
     }
 }
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DateRangePickerModal(
-    onDateRangeSelected: (Pair<Long?, Long?>) -> Unit,
-    onDismiss: () -> Unit
-) {
-    val dateRangePickerState = rememberDateRangePickerState()
-
-    DatePickerDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onDateRangeSelected(
-                        Pair(
-                            dateRangePickerState.selectedStartDateMillis,
-                            dateRangePickerState.selectedEndDateMillis
-                        )
-                    )
-                }
-            ) {
-                Text(stringResource(R.string.ok_in_calendar))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.close_calendar))
-            }
-        }
-    ) {
-        DateRangePicker(
-            state = dateRangePickerState,
-            title = {
-                Text(
-                    text = "Выбери диапозон"
-                )
-            },
-            showModeToggle = false,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(500.dp)
-                .padding(16.dp)
-        )
-    }
-}
-
 
 @Preview(showBackground = true)
 @Composable

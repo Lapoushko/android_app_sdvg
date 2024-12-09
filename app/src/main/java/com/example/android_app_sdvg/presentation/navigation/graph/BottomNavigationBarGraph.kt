@@ -80,7 +80,8 @@ fun BottomNavigationBarGraph(navController: NavHostController) {
                     capacity = task.task.capacity,
                     periodicity = task.task.periodicity,
                     priorityItem = task.task.priorityItem,
-                    categoryItem = task.task.categoryItem
+                    categoryItem = task.task.categoryItem,
+                    taskStatus = task.task.taskStatus
                 )
             )
         }

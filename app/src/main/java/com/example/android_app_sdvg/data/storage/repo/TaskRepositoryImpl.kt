@@ -28,6 +28,17 @@ class TaskRepositoryImpl @Inject constructor(
     }
 
     /**
+     * получить задачу по айди
+     * @param id айди
+     * @return задача
+     */
+    override suspend fun getTaskById(id: Long): Task {
+        return withContext(Dispatchers.IO){
+            mapperTaskDbToTask.invoke(dao.getTaskById(id))
+        }
+    }
+
+    /**
      * вставить задачу
      * @param task задача
      */

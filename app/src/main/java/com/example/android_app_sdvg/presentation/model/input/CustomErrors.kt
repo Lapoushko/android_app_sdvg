@@ -27,7 +27,6 @@ enum class ProfileErrors(override val naming: String) : CustomErrors{
     EMAIL_ERROR("Неправильная почта"),
     SEX_ERROR("Не указан пол"),
     DATE_ERROR("Неправильная дата"),
-    PHOTO_ERROR("Неправильное фото")
 }
 enum class TaskErrors(override val naming: String) : CustomErrors{
     NAME_ERROR("Неправильное название"),

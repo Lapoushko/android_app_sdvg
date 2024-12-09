@@ -1,7 +1,6 @@
 package com.example.android_app_sdvg.domain.repo
 
 import com.example.android_app_sdvg.domain.entity.task.Task
-import kotlinx.coroutines.flow.Flow
 
 /**
  * @author Lapoushko
@@ -13,6 +12,13 @@ interface TaskRepository {
      * @return список задач
      */
     suspend fun getTasks(): List<Task>
+
+    /**
+     * получить задачу по айди
+     * @param id айди
+     * @return задача
+     */
+    suspend fun getTaskById(id: Long) : Task
 
     /**
      * вставить задачу

@@ -5,6 +5,8 @@ import com.example.android_app_sdvg.domain.entity.category.getCategory
 import com.example.android_app_sdvg.domain.entity.prioriry.Priority
 import com.example.android_app_sdvg.domain.entity.prioriry.getPriority
 import com.example.android_app_sdvg.domain.entity.task.Task
+import com.example.android_app_sdvg.domain.entity.task.TaskStatus
+import com.example.android_app_sdvg.domain.entity.task.getTaskStatus
 import com.example.android_app_sdvg.presentation.extension.toIntTime
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import com.example.android_app_sdvg.presentation.model.task.toDate
@@ -39,7 +41,8 @@ class TaskUiToTaskDomainMapperImpl @Inject constructor(): TaskUiToTaskDomainMapp
             capacity = taskUi.capacity.toIntTime(),
             periodicity = taskUi.periodicity.toIntOrNull() ?: 0,
             priority = taskUi.priorityItem.getPriority() ?: Priority.HIGH,
-            category = taskUi.categoryItem.getCategory() ?: Category.STANDARD
+            category = taskUi.categoryItem.getCategory() ?: Category.STANDARD,
+            taskStatus = taskUi.taskStatus.getTaskStatus() ?: TaskStatus.IN_PROGRESS
         )
     }
 }

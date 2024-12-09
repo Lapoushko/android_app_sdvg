@@ -23,5 +23,6 @@ class Task(
     val capacity: Int,
     val periodicity: Int,
     val priority: Priority,
-    val category: Category
+    val category: Category,
+    val taskStatus: TaskStatus
 )
