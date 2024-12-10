@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,7 +30,6 @@ import com.example.android_app_sdvg.presentation.component.CustomTopAppBar
  * @author Lapoushko
  *
  * Экран кликера
- *@param clickerScreenHandler методы кликера
  */
 @Composable
 fun ClickerScreen(
