@@ -87,16 +87,17 @@ fun AddTaskScreen(
             DropdownMenuBox(
                 items = Category.entries.map { it.naming },
                 label = "Категория",
-                onTextChange = { viewModel.updateCategory(it) }
-                ,
+                onTextChange = { viewModel.updateCategory(it) },
                 isError = !taskState.category.error?.naming.isNullOrEmpty(),
-                error = taskState.category.error?.naming ?: "")
+                error = taskState.category.error?.naming ?: "",
+                start = taskState.category.text)
             DropdownMenuBox(
                 items = Priority.entries.map { it.naming },
                 label = "Приоритет",
                 onTextChange = { viewModel.updatePriority(it) },
                 isError = !taskState.priority.error?.naming.isNullOrEmpty(),
-                error = taskState.priority.error?.naming ?: ""
+                error = taskState.priority.error?.naming ?: "",
+                start = taskState.priority.text
             )
 
             TextFieldOption(

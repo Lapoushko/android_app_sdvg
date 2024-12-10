@@ -9,7 +9,6 @@ import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -33,13 +32,14 @@ fun DropdownMenuBox(
     label: String,
     onTextChange: (String) -> Unit,
     isError: Boolean = false,
-    error: String = ""
+    error: String = "",
+    start: String = ""
 ) {
     var isExpanded by remember {
         mutableStateOf(false)
     }
     var selectedItem by remember {
-        mutableStateOf("")
+        mutableStateOf(start)
     }
 
     Box {
