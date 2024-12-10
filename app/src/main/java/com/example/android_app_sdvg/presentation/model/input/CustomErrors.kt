@@ -8,9 +8,9 @@ interface CustomErrors {
 }
 
 fun <E : CustomErrors> String.checkErrorInput(
-    error: E,
-    adding: () -> Unit,
-    removing: () -> Unit,
+    error: E?,
+    adding: () -> Unit = {},
+    removing: () -> Unit = {},
     isCorrect: Boolean
 ) : Input<E> {
     if (isCorrect) {
@@ -30,7 +30,7 @@ enum class ProfileErrors(override val naming: String) : CustomErrors{
 }
 enum class TaskErrors(override val naming: String) : CustomErrors{
     NAME_ERROR("Неправильное название"),
-    DESC_ERROR("Неправильное описание"),
+//    DESC_ERROR("Неправильное описание"),
     PRIORITY_ERROR("Приоритет не выбран"),
     CATEGORY_ERROR("Категория не выбрана"),
     PERIODICITY_ERROR("Периодичность не выбрана"),

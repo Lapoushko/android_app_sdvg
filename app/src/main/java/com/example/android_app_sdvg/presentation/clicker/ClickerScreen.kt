@@ -51,7 +51,7 @@ fun ClickerScreen(
                 .padding(innerPadding)
                 .fillMaxHeight(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Text(
                 text = clicks.value.toString(),

@@ -44,17 +44,19 @@ abstract class AbstractAddTaskScreenViewModel(
     }
 
     fun updateDesc(input: String) {
-        val error = TaskErrors.DESC_ERROR
+//        val error = TaskErrors.DESC_ERROR
+        val error = null
         _taskState.desc = input.checkErrorInput(
             error = error,
-            adding = { _taskState.errors.add(error) },
-            removing = { _taskState.errors.remove(error) },
+//            adding = { _taskState.errors.add(error) },
+//            removing = { _taskState.errors.remove(error) },
             isCorrect = input.isNotEmpty()
         )
     }
 
     fun updatePriority(input: String) {
         val error = TaskErrors.PRIORITY_ERROR
+//        val error = null
         _taskState.priority = input.checkErrorInput(
             error = error,
             adding = { _taskState.errors.add(error) },
@@ -121,7 +123,7 @@ abstract class AbstractAddTaskScreenViewModel(
         )
         override var desc: Input<TaskErrors> by mutableStateOf(
             Input(
-                text = taskItem?.description ?: "", error = TaskErrors.DESC_ERROR
+                text = taskItem?.description ?: "", error = null
             )
         )
         override var priority: Input<TaskErrors> by mutableStateOf(

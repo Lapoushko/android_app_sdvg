@@ -68,7 +68,6 @@ fun TaskerScreen(
                 }
             }
 
-
             Text(
                 modifier = Modifier
                     .padding(10.dp),
