@@ -13,10 +13,6 @@ class TaskerScreenHandler(val navController: NavHostController) {
         navController.navigate(ScreenItem.CreateTask)
     }
 
-    fun onToFilter(){
-        navController.navigate(ScreenItem.TaskerFilter)
-    }
-
     fun onToEditTask(taskItem: TaskItem){
         navController.navigate(ScreenItem.EditTask(task = taskItem))
     }
