@@ -1,6 +1,6 @@
 package com.example.android_app_sdvg.presentation.adding.editor
 
-import AddTaskScreen
+import com.example.android_app_sdvg.presentation.adding.abstracting.AddTaskScreen
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.android_app_sdvg.presentation.model.task.TaskItem

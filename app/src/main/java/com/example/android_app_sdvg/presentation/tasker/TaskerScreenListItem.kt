@@ -1,5 +1,6 @@
 package com.example.android_app_sdvg.presentation.tasker
 
+import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.android_app_sdvg.domain.entity.task.TaskStatus
@@ -53,6 +55,7 @@ fun TaskerScreenListItem(
     val rotationScale by animateFloatAsState(targetValue = if (expandedState) 180f else 0f,
         label = ""
     )
+    val context = LocalContext.current
 
     Card(
         modifier = Modifier
@@ -95,17 +98,23 @@ fun TaskerScreenListItem(
                     DetailRow("Категория", task.categoryItem)
                 }
                 RowIconButton(
-                    onClick = {onDelete()},
+                    onClick = { onDelete() },
                     imageVector = Icons.Outlined.DeleteOutline
                 )
 
                 RowIconButton(
-                    onClick = {onEdit()},
+                    onClick = {
+                        onEdit() },
                     imageVector = Icons.Outlined.ModeEdit
                 )
 
                 RowIconButton(
-                    onClick = {onComplete()},
+                    onClick = {
+                        if (task.taskStatus.getTaskStatus() == TaskStatus.IN_PROGRESS) {
+                            onComplete()
+                            Toast.makeText(context, "Задача выполнена", Toast.LENGTH_SHORT).show()
+                        }
+                    },
                     imageVector = Icons.Outlined.Done
                 )
             }

@@ -16,7 +16,6 @@ import dagger.hilt.android.AndroidEntryPoint
  *
  * Основная активность
  */
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

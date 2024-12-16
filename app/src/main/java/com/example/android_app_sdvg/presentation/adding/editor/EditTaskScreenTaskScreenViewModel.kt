@@ -44,6 +44,20 @@ class EditTaskScreenTaskScreenViewModel @Inject constructor(
 
     fun updateTask(taskItem: TaskItem){
         _taskItem.value = taskItem
+        updateTaskState(taskItem)
+    }
+
+    /** TODO рассмотреть другие варианты реализации **/
+    private fun updateTaskState(taskItem: TaskItem?) {
+        taskItem?.let { item ->
+            updateName(item.name)
+            updateDesc(item.description)
+            updateDateStart(item.dates.dateStart)
+            updateDateEnd(item.dates.dateEnd)
+            updatePeriodicity(item.periodicity)
+            updatePriority(item.priorityItem)
+            updateCategory(item.categoryItem)
+        }
     }
 
     /**

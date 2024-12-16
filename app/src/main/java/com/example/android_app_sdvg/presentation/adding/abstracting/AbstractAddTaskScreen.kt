@@ -1,5 +1,7 @@
+package com.example.android_app_sdvg.presentation.adding.abstracting
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -17,8 +19,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.android_app_sdvg.R
 import com.example.android_app_sdvg.domain.entity.category.Category
 import com.example.android_app_sdvg.domain.entity.prioriry.Priority
-import com.example.android_app_sdvg.presentation.adding.abstracting.AbstractAddTaskScreenHandler
-import com.example.android_app_sdvg.presentation.adding.abstracting.AbstractAddTaskScreenViewModel
 import com.example.android_app_sdvg.presentation.adding.editor.EditTaskScreenHandler
 import com.example.android_app_sdvg.presentation.component.CustomTopAppBar
 import com.example.android_app_sdvg.presentation.component.DateField
@@ -28,7 +28,6 @@ import com.example.android_app_sdvg.presentation.component.TextFieldOption
 import com.example.android_app_sdvg.presentation.component.TimeField
 import com.example.android_app_sdvg.presentation.component.TimePickerSwitchable
 import com.example.android_app_sdvg.presentation.component.TopBarForEditing
-import com.example.android_app_sdvg.presentation.extension.toDateString
 import com.example.android_app_sdvg.presentation.extension.toIntTime
 
 /**
@@ -50,7 +49,7 @@ fun AddTaskScreen(
     val taskState = viewModel.taskState
 
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        CustomTopAppBar(dateStart.toDateString())
+        CustomTopAppBar(label)
     }) { innerPadding ->
         Column(
             modifier = Modifier
@@ -61,7 +60,7 @@ fun AddTaskScreen(
             TopBarForEditing(
                 onToBack = {handler.onToBack() },
                 save = {viewModel.saveTask { handler.onToBack() }},
-                label = label,
+                label = "",
             )
 
             TextFieldOption(
@@ -88,16 +87,17 @@ fun AddTaskScreen(
             DropdownMenuBox(
                 items = Category.entries.map { it.naming },
                 label = "Категория",
-                onTextChange = { viewModel.updateCategory(it) }
-                ,
+                onTextChange = { viewModel.updateCategory(it) },
                 isError = !taskState.category.error?.naming.isNullOrEmpty(),
-                error = taskState.category.error?.naming ?: "")
+                error = taskState.category.error?.naming ?: "",
+                start = taskState.category.text)
             DropdownMenuBox(
                 items = Priority.entries.map { it.naming },
                 label = "Приоритет",
                 onTextChange = { viewModel.updatePriority(it) },
                 isError = !taskState.priority.error?.naming.isNullOrEmpty(),
-                error = taskState.priority.error?.naming ?: ""
+                error = taskState.priority.error?.naming ?: "",
+                start = taskState.priority.text
             )
 
             TextFieldOption(
@@ -112,22 +112,25 @@ fun AddTaskScreen(
                 error = taskState.periodicity.error?.naming ?: ""
             )
 
-            DateField(
-                label = "Дата начала задачи",
-                date = taskState.dateStart,
-                onDateClick = { },
-                viewModel = viewModel
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+            ){
+                DateField(
+                    label = "Дата начала",
+                    date = taskState.dateStart,
+                    onDateClick = { viewModel.toggleCalendar() },
+                )
 
-            DateField(
-                label = "Дата завершения задачи",
-                date = taskState.dateEnd,
-                onDateClick = {},
-                viewModel = viewModel
-            )
+                DateField(
+                    label = "Дата завершения",
+                    date = taskState.dateEnd,
+                    onDateClick = { viewModel.toggleCalendar() },
+                )
+            }
 
             TimeField(
-                label = "Время выполнения задачи",
+                label = "Время выполнения",
                 time = taskState.capacity.toIntTime(),
                 onTimeClick = {},
                 viewModel = viewModel,
