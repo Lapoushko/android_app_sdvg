@@ -10,7 +10,6 @@ import com.example.android_app_sdvg.presentation.adding.abstracting.AddTaskScree
  * @author Lapoushko
  * Создание задачи скрин
  *
- * @param dateStart день создания задачи
  * @param handler функции экрана
  * @param viewModel вью модель экрана
  */

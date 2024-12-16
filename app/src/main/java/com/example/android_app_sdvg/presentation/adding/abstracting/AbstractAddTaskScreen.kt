@@ -34,7 +34,6 @@ import com.example.android_app_sdvg.presentation.extension.toIntTime
  * @author Lapoushko
  * Создание задачи скрин
  *
- * @param dateStart день создания задачи
  * @param handler функции экрана
  * @param viewModel вью модель экрана
  */
