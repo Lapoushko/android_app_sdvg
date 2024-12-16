@@ -41,7 +41,6 @@ import com.example.android_app_sdvg.presentation.extension.toIntTime
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTaskScreen(
-    dateStart: Long,
     handler: AbstractAddTaskScreenHandler,
     viewModel: AbstractAddTaskScreenViewModel,
     label: String = "Новая задача"
@@ -166,7 +165,6 @@ fun AddTaskScreen(
 @Composable
 fun AddTaskScreenPreview() {
     AddTaskScreen(
-        dateStart = 0L,
         handler = EditTaskScreenHandler(rememberNavController()),
         viewModel = hiltViewModel()
     )

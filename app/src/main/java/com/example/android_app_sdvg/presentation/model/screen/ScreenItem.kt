@@ -24,4 +24,7 @@ sealed class ScreenItem{
     data class EditProfile(
         val profile: ProfileItem
     ) : ScreenItem()
+
+    @Serializable
+    data object TaskerFilter: ScreenItem()
 }

@@ -33,7 +33,7 @@ class ProfileMapperUIImpl @Inject constructor() : ProfileMapperUI{
             name = if (profile.name == EMPTY) "" else profile.name,
             email = if (profile.email == EMPTY) "" else profile.email,
             sex = profile.sex.naming,
-            photo = if (profile.photo == EMPTY) "" else profile.photo,
+            photo = if (profile.photo == EMPTY) "" else profile.photo.replace("/","\\"),
             dateBirthday = profile.dateBirthday.toDateString()
         )
     }

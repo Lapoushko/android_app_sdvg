@@ -12,7 +12,6 @@ import com.example.android_app_sdvg.domain.usecase.task.SubscribeEditTaskUseCase
 import com.example.android_app_sdvg.domain.usecase.task.SubscribeTasksUseCase
 import com.example.android_app_sdvg.presentation.mapper.task.TaskDomainToUiMapper
 import com.example.android_app_sdvg.presentation.mapper.task.TaskUiToTaskDomainMapper
-import com.example.android_app_sdvg.presentation.model.task.DatesItem
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import com.example.android_app_sdvg.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,19 +53,6 @@ class TaskerScreenViewModel @Inject constructor(
         Log.d(Constants.LOG_KEY, "onCleared ${this::class.simpleName}")
     }
 
-    fun selectDate(newDate: Pair<Long?, Long?>) {
-        if (newDate.second == null){
-            _state.selectedDates = DatesItem(newDate.first ?: 0L, newDate.first ?: 0L)
-        } else{
-            _state.selectedDates = DatesItem(newDate.first ?: 0L, newDate.second!!)
-        }
-        filteringByComparator()
-    }
-
-    fun toggleCalendar() {
-        _state.showModal = !_state.showModal
-    }
-
     fun completeTask(task: TaskItem) {
         editStatusTask(task, TaskStatus.COMPLETED)
     }
@@ -94,16 +80,7 @@ class TaskerScreenViewModel @Inject constructor(
         }
     }
 
-    private fun filteringByComparator() {
-        _state.tasks = initialList.filter {
-            it.dates.dateStart >= (state.selectedDates?.dateStart ?: 0L)
-                    && it.dates.dateEnd <= (state.selectedDates?.dateEnd ?: Long.MAX_VALUE)
-        }
-    }
-
     private class MutableTaskerScreenState : TaskerScreenState {
-        override var showModal: Boolean by mutableStateOf(false)
-        override var selectedDates: DatesItem? by mutableStateOf(null)
         override var tasks: List<TaskItem> by mutableStateOf(emptyList())
     }
 }
