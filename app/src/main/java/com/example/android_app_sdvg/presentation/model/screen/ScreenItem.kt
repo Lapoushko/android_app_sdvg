@@ -11,9 +11,7 @@ import kotlinx.serialization.Serializable
 
 sealed class ScreenItem{
     @Serializable
-    data class CreateTask(
-        val dateStart: Long
-    ) : ScreenItem()
+    data object CreateTask : ScreenItem()
 
     @Serializable
     data class EditTask(
@@ -24,7 +22,4 @@ sealed class ScreenItem{
     data class EditProfile(
         val profile: ProfileItem
     ) : ScreenItem()
-
-    @Serializable
-    data object TaskerFilter: ScreenItem()
 }

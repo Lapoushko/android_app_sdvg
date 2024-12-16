@@ -19,7 +19,6 @@ import com.example.android_app_sdvg.presentation.profile.ProfileScreenHandler
 import com.example.android_app_sdvg.presentation.profile.editor.EditProfileScreen
 import com.example.android_app_sdvg.presentation.tasker.TaskerScreen
 import com.example.android_app_sdvg.presentation.tasker.TaskerScreenHandler
-import com.example.android_app_sdvg.presentation.tasker.filter.FilterScreen
 import com.example.android_app_sdvg.presentation.util.CustomNavTypeProfile
 import com.example.android_app_sdvg.presentation.util.CustomNavTypeTask
 import kotlin.reflect.typeOf
@@ -101,9 +100,6 @@ fun BottomNavigationBarGraph(navController: NavHostController) {
                     dateBirthday = profile.profile.dateBirthday
                 )
             )
-        }
-        composable<ScreenItem.TaskerFilter> {
-            FilterScreen(onToBack = { navController.popBackStack() })
         }
     }
 }
