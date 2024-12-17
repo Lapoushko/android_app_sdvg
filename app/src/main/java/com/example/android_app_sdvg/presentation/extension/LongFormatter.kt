@@ -31,5 +31,5 @@ fun String.toIntTime(): Int {
     return times[0].toInt() * 60 + times[1].toInt()
 }
 
-private const val FORMAT = "dd/MM/yyyy"
+private const val FORMAT = "dd-MM-yyyy"
 private const val SEPARATOR_TIME = ":"
