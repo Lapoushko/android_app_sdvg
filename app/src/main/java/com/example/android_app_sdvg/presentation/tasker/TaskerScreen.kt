@@ -20,8 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.android_app_sdvg.R
-import com.example.android_app_sdvg.presentation.component.BottomSheetMenu
-import com.example.android_app_sdvg.presentation.component.ChipButton
 import com.example.android_app_sdvg.presentation.component.CustomTopAppBar
 import com.example.android_app_sdvg.presentation.component.DateRangePickerModal
 import com.example.android_app_sdvg.presentation.component.chip.CustomAssistChip
@@ -38,7 +36,7 @@ fun TaskerScreen(
     viewModel: TaskerScreenViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
-
+    val chipsState = viewModel.chipsState
     Scaffold(modifier = Modifier
         .fillMaxSize(),
         topBar = {
@@ -55,7 +53,7 @@ fun TaskerScreen(
             }
 
             LazyRow(modifier = Modifier.padding(10.dp)) {
-                items(viewModel.chips) { chip ->
+                items(chipsState.value) { chip ->
                     CustomAssistChip(chip)
                 }
             }
@@ -73,26 +71,11 @@ fun TaskerScreen(
                 }
             }
         }
-        if (state.isNeedToShowBottomSheet) {
-            BottomSheetMenu(
-                onDismissRequest = { viewModel.toggleBottomSheet() },
-                buttons = listOf(
-                    ChipButton(
-                        text = TaskerScreenViewModel.PRIORITY_KEY,
-                        onClick = { viewModel.sortByQuery(TaskerScreenViewModel.PRIORITY_KEY) }
-                    ),
-                    ChipButton(
-                        text = TaskerScreenViewModel.CATEGORY_KEY,
-                        onClick = { viewModel.sortByQuery(TaskerScreenViewModel.CATEGORY_KEY) }
-                    )
-                )
-            )
-        }
 
         if (state.isNeedToShowCalendar) {
             DateRangePickerModal(
                 onDateRangeSelected = {
-                    viewModel.selectDate(Pair(first = it.first, second = it.second))
+                    viewModel.filterByDate(Pair(first = it.first, second = it.second))
                     viewModel.toggleCalendar()
                 },
                 onDismiss = { viewModel.toggleCalendar() }
