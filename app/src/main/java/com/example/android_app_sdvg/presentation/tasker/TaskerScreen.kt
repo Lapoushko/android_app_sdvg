@@ -13,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,7 +37,7 @@ fun TaskerScreen(
     viewModel: TaskerScreenViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
-    val chipsState = viewModel.chipsState
+    val chipsState = viewModel.chipsState.collectAsState()
     Scaffold(modifier = Modifier
         .fillMaxSize(),
         topBar = {

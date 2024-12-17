@@ -105,12 +105,18 @@ class TaskerScreenViewModel @Inject constructor(
         val newChip = ChipActions(
             label = text,
             onClick = {
-                _state.tasks = initialList
-                _chipsState.value = listOf(initialChipAction)
+                resetFilter()
             },
             isAdded = true
         )
         _chipsState.value = listOf(newChip)
+    }
+
+    private fun resetFilter() {
+        viewModelScope.launch {
+            _state.tasks = initialList
+            _chipsState.emit(listOf(initialChipAction))
+        }
     }
 
     private fun editStatusTask(
