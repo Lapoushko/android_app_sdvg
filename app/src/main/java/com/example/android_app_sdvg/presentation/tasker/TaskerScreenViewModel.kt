@@ -38,13 +38,8 @@ class TaskerScreenViewModel @Inject constructor(
         label = "Период",
         onClick = { toggleCalendar() }
     )
-    private var _chipsState = MutableStateFlow(
-        listOf(
-            initialChipAction
-        )
-    )
+    private var _chipsState = MutableStateFlow(listOf(initialChipAction))
     val chipsState = _chipsState.asStateFlow()
-
 
     private val _state = MutableTaskerScreenState()
     val state = _state as TaskerScreenState
@@ -56,38 +51,53 @@ class TaskerScreenViewModel @Inject constructor(
         load()
     }
 
-    fun toggleCalendar() {
-        _state.isNeedToShowCalendar = !_state.isNeedToShowCalendar
-    }
-
     private fun load() {
         viewModelScope.launch {
             _state.tasks =
                 subscribeTasksUseCase
                     .getTasks()
                     .map { uiMapper(it) }
+                    .sortedBy { it.dates.dateStart }
             initialList = _state.tasks
         }
+    }
+
+    fun toggleCalendar() {
+        _state.isNeedToShowCalendar = !_state.isNeedToShowCalendar
     }
 
     fun completeTask(task: TaskItem) {
         editStatusTask(task, TaskStatus.COMPLETED)
     }
 
-    fun delete(task: TaskItem) {
+    private fun editStatusTask(
+        task: TaskItem,
+        status: TaskStatus
+    ) {
         viewModelScope.launch {
-            subscribeDeleteTaskUseCase.deleteTask(taskUiToTaskDomainMapper.invoke(task))
+            subscribeEditTaskUseCase.editTask(
+                task = taskUiToTaskDomainMapper(
+                    task.copy(
+                        taskStatus = status.naming
+                    )
+                )
+            )
             load()
         }
     }
 
-    fun filterByDate(newDate: Pair<Long?, Long?>) {
-        if (newDate.second == null) {
-            _state.selectedDates = DatesItem(newDate.first ?: 0L, newDate.first ?: 0L)
-        } else {
-            _state.selectedDates = DatesItem(newDate.first ?: 0L, newDate.second!!)
+    fun delete(task: TaskItem) {
+        viewModelScope.launch {
+            subscribeDeleteTaskUseCase.deleteTask(taskUiToTaskDomainMapper.invoke(task))
+            _state.tasks = _state.tasks.filterNot { it == task }
         }
-        filterPeriod()
+    }
+
+    fun filterByDate(newDate: Pair<Long?, Long?>) {
+        if (newDate.first != null && newDate.second != null) {
+            _state.selectedDates = DatesItem(newDate.first ?: 0L, newDate.second ?: 0L)
+            filterPeriod()
+        }
     }
 
     private fun filterPeriod() {
@@ -114,24 +124,8 @@ class TaskerScreenViewModel @Inject constructor(
 
     private fun resetFilter() {
         viewModelScope.launch {
-            _state.tasks = initialList
-            _chipsState.emit(listOf(initialChipAction))
-        }
-    }
-
-    private fun editStatusTask(
-        task: TaskItem,
-        status: TaskStatus
-    ) {
-        viewModelScope.launch {
-            subscribeEditTaskUseCase.editTask(
-                task = taskUiToTaskDomainMapper(
-                    task.copy(
-                        taskStatus = status.naming
-                    )
-                )
-            )
             load()
+            _chipsState.value = listOf(initialChipAction)
         }
     }
 
@@ -142,6 +136,7 @@ class TaskerScreenViewModel @Inject constructor(
 
     private class MutableTaskerScreenState : TaskerScreenState {
         override var tasks: List<TaskItem> by mutableStateOf(emptyList())
+        override val tasksWithDates: Map<String, List<TaskItem>> by mutableMapOf()
         override var isNeedToShowBottomSheet: Boolean by mutableStateOf(false)
         override var isNeedToShowCalendar: Boolean by mutableStateOf(false)
         override var selectedDates: DatesItem by mutableStateOf(DatesItem(0, Long.MAX_VALUE))

@@ -33,7 +33,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.android_app_sdvg.domain.entity.task.TaskStatus
 import com.example.android_app_sdvg.domain.entity.task.getTaskStatus
-import com.example.android_app_sdvg.presentation.extension.toDateString
 import com.example.android_app_sdvg.presentation.model.task.DatesItem
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 
@@ -70,9 +69,8 @@ fun TaskerScreenListItem(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            Column(modifier = Modifier.padding(10.dp)) {
-                Text(text = task.dates.dateStart.toDateString())
-                Text(text = task.dates.dateEnd.toDateString())
+            Column(modifier = Modifier.padding(20.dp)) {
+                Text(text = task.capacity,)
             }
             Text(
                 modifier = Modifier
@@ -140,7 +138,7 @@ private fun DetailRow(label: String, value: String) {
             color = Color.Gray,
             modifier = Modifier
                 .fillMaxWidth(0.3f)
-                .padding(horizontal = 10.dp)
+                .padding(horizontal = 20.dp)
 
         )
         Text(
