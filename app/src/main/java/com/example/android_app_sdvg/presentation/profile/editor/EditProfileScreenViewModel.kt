@@ -75,7 +75,7 @@ class EditProfileScreenViewModel @Inject constructor(
     fun updateDateBirthday(input: String) {
         val error = ProfileErrors.DATE_ERROR
         try {
-            if(input.toLongDate() <= System.currentTimeMillis()) {
+            if(input.toLongDate(isRu = false) <= System.currentTimeMillis()) {
                 _profileState.dateBirthday = Input(
                     text = input,
                     error = null

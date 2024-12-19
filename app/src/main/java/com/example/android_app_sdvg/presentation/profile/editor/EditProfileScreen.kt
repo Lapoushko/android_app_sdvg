@@ -147,7 +147,7 @@ fun EditProfileScreen(
         if (profileState.isNeedToShowDatePicker) {
             DatePickerModal(
                 onDateSelected = {
-                    viewModel.updateDateBirthday(it?.toDateString() ?: "")
+                    viewModel.updateDateBirthday(it?.toDateString(isRu = false) ?: "")
                     viewModel.toggleDatePicker()
                 },
                 onDismiss = { viewModel.toggleDatePicker() }

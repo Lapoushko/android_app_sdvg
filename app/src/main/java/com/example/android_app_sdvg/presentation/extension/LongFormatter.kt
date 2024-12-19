@@ -9,17 +9,18 @@ import java.util.Locale
  * перевод даты из Long в String
  * @return отформатированная дата
  */
-fun Long.toDateString(timeDay: TimeDay = TimeDay.START): String {
+fun Long.toDateString(timeDay: TimeDay = TimeDay.START, isRu: Boolean = true): String {
     val dateTime = LocalDate.ofEpochDay(this / (24 * 60 * 60 * 1000)) // Преобразование в LocalDate
+    val format = if (isRu) RU_FORMATTER else US_FORMATTER
     return when (timeDay) {
         TimeDay.START -> {
-            dateTime.atStartOfDay().format(FORMATTER)
+            dateTime.atStartOfDay().format(format)
         }
         TimeDay.END -> {
-            dateTime.atTime(23, 59, 59).format(FORMATTER)
+            dateTime.atTime(23, 59, 59).format(format)
         }
         else -> {
-            dateTime.format(FORMATTER)
+            dateTime.format(format)
         }
     }
 }
@@ -30,8 +31,9 @@ fun Int.toTimeString(): String {
     return "${hour}${SEPARATOR_TIME}${minute}"
 }
 
-fun String.toLongDate(): Long {
-    return LocalDate.parse(this, FORMATTER).toEpochDay() * (24 * 60 * 60 * 1000) // Возвращаем в миллисекундах
+fun String.toLongDate(isRu: Boolean = true): Long {
+    val format = if (isRu) RU_FORMATTER else US_FORMATTER
+    return LocalDate.parse(this, format).toEpochDay() * (24 * 60 * 60 * 1000) // Возвращаем в миллисекундах
 }
 
 fun String.toIntTime(): Int {
@@ -40,7 +42,8 @@ fun String.toIntTime(): Int {
 }
 
 private const val SEPARATOR_TIME = ":"
-private val FORMATTER = DateTimeFormatter.ofPattern("EEEE, dd MMMM", Locale("ru", "RU"))
+private val RU_FORMATTER = DateTimeFormatter.ofPattern("EEEE, dd MMMM", Locale("ru", "RU"))
+private val US_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.US)
 
 enum class TimeDay(){
     START,
