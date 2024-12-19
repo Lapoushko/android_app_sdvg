@@ -9,10 +9,19 @@ import java.util.Locale
  * перевод даты из Long в String
  * @return отформатированная дата
  */
-fun Long.toDateString(): String {
+fun Long.toDateString(timeDay: TimeDay = TimeDay.START): String {
     val dateTime = LocalDate.ofEpochDay(this / (24 * 60 * 60 * 1000)) // Преобразование в LocalDate
-    val format = DateTimeFormatter.ofPattern(FORMAT, Locale.US)
-    return dateTime.format(format)
+    return when (timeDay) {
+        TimeDay.START -> {
+            dateTime.atStartOfDay().format(FORMATTER)
+        }
+        TimeDay.END -> {
+            dateTime.atTime(23, 59, 59).format(FORMATTER)
+        }
+        else -> {
+            dateTime.format(FORMATTER)
+        }
+    }
 }
 
 fun Int.toTimeString(): String {
@@ -22,8 +31,7 @@ fun Int.toTimeString(): String {
 }
 
 fun String.toLongDate(): Long {
-    val format = DateTimeFormatter.ofPattern(FORMAT, Locale.US)
-    return LocalDate.parse(this, format).toEpochDay() * (24 * 60 * 60 * 1000) // Возвращаем в миллисекундах
+    return LocalDate.parse(this, FORMATTER).toEpochDay() * (24 * 60 * 60 * 1000) // Возвращаем в миллисекундах
 }
 
 fun String.toIntTime(): Int {
@@ -31,5 +39,11 @@ fun String.toIntTime(): Int {
     return times[0].toInt() * 60 + times[1].toInt()
 }
 
-private const val FORMAT = "dd/MM/yyyy"
 private const val SEPARATOR_TIME = ":"
+private val FORMATTER = DateTimeFormatter.ofPattern("EEEE, dd MMMM", Locale("ru", "RU"))
+
+enum class TimeDay(){
+    START,
+    NOW,
+    END
+}

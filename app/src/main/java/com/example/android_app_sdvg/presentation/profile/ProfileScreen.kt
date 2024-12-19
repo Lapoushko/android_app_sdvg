@@ -35,6 +35,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.android_app_sdvg.R
 import com.example.android_app_sdvg.presentation.component.CustomTopAppBar
+import com.example.android_app_sdvg.presentation.component.UnderLine
 import com.example.android_app_sdvg.presentation.model.profile.ProfileItem
 
 /**
@@ -59,7 +60,6 @@ fun ProfileScreen(
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .padding(horizontal = 10.dp)
         ) {
             ProfileInfo(
                 name = profileState.name,
@@ -101,41 +101,44 @@ private fun ProfileInfo(
     photo: String,
     onToEdit: () -> Unit
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        AsyncImage(
-            model = Uri.parse(photo),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(200.dp)
-                .clip(RoundedCornerShape(16.dp)),
-            error = painterResource(R.drawable.person)
-        )
-        Column(
-            modifier = Modifier
-                .padding(PaddingValues(bottom = 20.dp))
+    Column {
+        Row(
+            modifier = Modifier.fillMaxWidth()
         ) {
-            ShortDescriptionPerson(
-                title = "Имя: ",
-                text = name
+            AsyncImage(
+                model = Uri.parse(photo),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(200.dp)
+                    .clip(RoundedCornerShape(16.dp)),
+                error = painterResource(R.drawable.person)
             )
-            ShortDescriptionPerson(
-                title = "Почта: ",
-                text = email
-            )
+            Column(
+                modifier = Modifier
+                    .padding(PaddingValues(bottom = 20.dp))
+            ) {
+                ShortDescriptionPerson(
+                    title = "Имя: ",
+                    text = name
+                )
+                ShortDescriptionPerson(
+                    title = "Почта: ",
+                    text = email
+                )
+            }
+            IconButton(
+                modifier = Modifier
+                    .align(Alignment.Bottom),
+                onClick = { onToEdit() }
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.EditNote,
+                    contentDescription = null
+                )
+            }
         }
-        IconButton(
-            modifier = Modifier
-                .align(Alignment.Bottom),
-            onClick = { onToEdit() }
-        ) {
-            Icon(
-                imageVector = Icons.Filled.EditNote,
-                contentDescription = null
-            )
-        }
+        UnderLine()
     }
 }
 

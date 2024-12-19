@@ -28,20 +28,19 @@ import com.example.android_app_sdvg.presentation.component.TextFieldOption
 import com.example.android_app_sdvg.presentation.component.TimeField
 import com.example.android_app_sdvg.presentation.component.TimePickerSwitchable
 import com.example.android_app_sdvg.presentation.component.TopBarForEditing
+import com.example.android_app_sdvg.presentation.extension.TimeDay
 import com.example.android_app_sdvg.presentation.extension.toIntTime
 
 /**
  * @author Lapoushko
  * Создание задачи скрин
  *
- * @param dateStart день создания задачи
  * @param handler функции экрана
  * @param viewModel вью модель экрана
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTaskScreen(
-    dateStart: Long,
     handler: AbstractAddTaskScreenHandler,
     viewModel: AbstractAddTaskScreenViewModel,
     label: String = "Новая задача"
@@ -120,12 +119,14 @@ fun AddTaskScreen(
                     label = "Дата начала",
                     date = taskState.dateStart,
                     onDateClick = { viewModel.toggleCalendar() },
+                    timeDay = TimeDay.START
                 )
 
                 DateField(
                     label = "Дата завершения",
                     date = taskState.dateEnd,
                     onDateClick = { viewModel.toggleCalendar() },
+                    timeDay = TimeDay.END
                 )
             }
 
@@ -166,7 +167,6 @@ fun AddTaskScreen(
 @Composable
 fun AddTaskScreenPreview() {
     AddTaskScreen(
-        dateStart = 0L,
         handler = EditTaskScreenHandler(rememberNavController()),
         viewModel = hiltViewModel()
     )

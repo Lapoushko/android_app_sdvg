@@ -1,24 +1,21 @@
 package com.example.android_app_sdvg.presentation.tasker
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -26,7 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.android_app_sdvg.R
 import com.example.android_app_sdvg.presentation.component.CustomTopAppBar
 import com.example.android_app_sdvg.presentation.component.DateRangePickerModal
-import com.example.android_app_sdvg.presentation.extension.toDateString
+import com.example.android_app_sdvg.presentation.component.chip.CustomAssistChip
 
 /**
  * @author Lapoushko
@@ -40,6 +37,7 @@ fun TaskerScreen(
     viewModel: TaskerScreenViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
+    val chipsState = viewModel.chipsState.collectAsState()
     Scaffold(modifier = Modifier
         .fillMaxSize(),
         topBar = {
@@ -48,33 +46,18 @@ fun TaskerScreen(
     ) { innerPadding ->
         Column(Modifier.padding(innerPadding)) {
             Row {
-                OutlinedButton(
-                    onClick = {
-                        viewModel.toggleCalendar()
-                    },
-                    modifier = Modifier
-                        .padding(PaddingValues(horizontal = 30.dp))
-                        .fillMaxWidth(0.8f)
-                ) {
-                    Text(text = stringResource(R.string.button_open_calendar))
-                }
-
                 IconButton(onClick = {
-                    taskerScreenHandler.onToCreateTask(
-                        state.selectedDates?.dateStart ?: 0L
-                    )
+                    taskerScreenHandler.onToCreateTask()
                 }) {
                     Icon(imageVector = Icons.Filled.Add, contentDescription = null)
                 }
             }
 
-            Text(
-                modifier = Modifier
-                    .padding(10.dp),
-                textAlign = TextAlign.Center,
-                text =
-                "${state.selectedDates?.dateStart?.toDateString() ?: ""} - ${state.selectedDates?.dateEnd?.toDateString() ?: ""}"
-            )
+            LazyRow(modifier = Modifier.padding(10.dp)) {
+                items(chipsState.value) { chip ->
+                    CustomAssistChip(chip)
+                }
+            }
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
@@ -89,15 +72,16 @@ fun TaskerScreen(
                 }
             }
         }
-    }
 
-    if (state.showModal) {
-        DateRangePickerModal(
-            onDateRangeSelected = {
-                viewModel.selectDate(Pair(first = it.first, second = it.second))
-                viewModel.toggleCalendar()
-            },
-            onDismiss = { viewModel.toggleCalendar() })
+        if (state.isNeedToShowCalendar) {
+            DateRangePickerModal(
+                onDateRangeSelected = {
+                    viewModel.filterByDate(Pair(first = it.first, second = it.second))
+                    viewModel.toggleCalendar()
+                },
+                onDismiss = { viewModel.toggleCalendar() }
+            )
+        }
     }
 }
 

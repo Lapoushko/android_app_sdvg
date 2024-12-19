@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.android_app_sdvg.presentation.extension.TimeDay
 import com.example.android_app_sdvg.presentation.extension.toDateString
 
 /**
@@ -24,7 +25,8 @@ fun DateField(
     label: String,
     date: Long?,
     onDateClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    timeDay: TimeDay = TimeDay.START
 ) {
     Row(
         modifier = Modifier
@@ -43,7 +45,7 @@ fun DateField(
                 )
             },
             enabled = false,
-            value = if (date == 0L) label else date?.toDateString() ?: "",
+            value = if (date == 0L) label else date?.toDateString(timeDay = timeDay) ?: "",
             onValueChange = {},
             leadingIcon = {
                 Icon(

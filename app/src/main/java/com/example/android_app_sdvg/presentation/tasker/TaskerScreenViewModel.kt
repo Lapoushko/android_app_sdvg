@@ -10,12 +10,16 @@ import com.example.android_app_sdvg.domain.entity.task.TaskStatus
 import com.example.android_app_sdvg.domain.usecase.task.SubscribeDeleteTaskUseCase
 import com.example.android_app_sdvg.domain.usecase.task.SubscribeEditTaskUseCase
 import com.example.android_app_sdvg.domain.usecase.task.SubscribeTasksUseCase
+import com.example.android_app_sdvg.presentation.component.chip.ChipActions
+import com.example.android_app_sdvg.presentation.extension.toDateString
 import com.example.android_app_sdvg.presentation.mapper.task.TaskDomainToUiMapper
 import com.example.android_app_sdvg.presentation.mapper.task.TaskUiToTaskDomainMapper
 import com.example.android_app_sdvg.presentation.model.task.DatesItem
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import com.example.android_app_sdvg.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,8 +34,16 @@ class TaskerScreenViewModel @Inject constructor(
     private val uiMapper: TaskDomainToUiMapper,
     private val taskUiToTaskDomainMapper: TaskUiToTaskDomainMapper
 ) : ViewModel() {
+    private val initialChipAction = ChipActions(
+        label = "Период",
+        onClick = { toggleCalendar() }
+    )
+    private var _chipsState = MutableStateFlow(listOf(initialChipAction))
+    val chipsState = _chipsState.asStateFlow()
+
     private val _state = MutableTaskerScreenState()
     val state = _state as TaskerScreenState
+
     private var initialList = listOf<TaskItem>()
 
     init {
@@ -45,26 +57,13 @@ class TaskerScreenViewModel @Inject constructor(
                 subscribeTasksUseCase
                     .getTasks()
                     .map { uiMapper(it) }
+                    .sortedBy { it.dates.dateStart }
             initialList = _state.tasks
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        Log.d(Constants.LOG_KEY, "onCleared ${this::class.simpleName}")
-    }
-
-    fun selectDate(newDate: Pair<Long?, Long?>) {
-        if (newDate.second == null){
-            _state.selectedDates = DatesItem(newDate.first ?: 0L, newDate.first ?: 0L)
-        } else{
-            _state.selectedDates = DatesItem(newDate.first ?: 0L, newDate.second!!)
-        }
-        filteringByComparator()
-    }
-
     fun toggleCalendar() {
-        _state.showModal = !_state.showModal
+        _state.isNeedToShowCalendar = !_state.isNeedToShowCalendar
     }
 
     fun completeTask(task: TaskItem) {
@@ -90,20 +89,56 @@ class TaskerScreenViewModel @Inject constructor(
     fun delete(task: TaskItem) {
         viewModelScope.launch {
             subscribeDeleteTaskUseCase.deleteTask(taskUiToTaskDomainMapper.invoke(task))
-            load()
+            _state.tasks = _state.tasks.filterNot { it == task }
         }
     }
 
-    private fun filteringByComparator() {
-        _state.tasks = initialList.filter {
-            it.dates.dateStart >= (state.selectedDates?.dateStart ?: 0L)
-                    && it.dates.dateEnd <= (state.selectedDates?.dateEnd ?: Long.MAX_VALUE)
+    fun filterByDate(newDate: Pair<Long?, Long?>) {
+        if (newDate.first != null && newDate.second != null) {
+            _state.selectedDates = DatesItem(newDate.first ?: 0L, newDate.second ?: 0L)
+            filterPeriod()
         }
+    }
+
+    private fun filterPeriod() {
+        addChipDate()
+        _state.tasks = initialList.filter {
+            it.dates.dateStart >= state.selectedDates.dateStart
+                    && it.dates.dateEnd <= state.selectedDates.dateEnd
+        }
+    }
+
+    private fun addChipDate(
+    ) {
+        val text =
+            "${state.selectedDates.dateStart.toDateString()} - ${state.selectedDates.dateEnd.toDateString()}"
+        val newChip = ChipActions(
+            label = text,
+            onClick = {
+                resetFilter()
+            },
+            isAdded = true
+        )
+        _chipsState.value = listOf(newChip)
+    }
+
+    private fun resetFilter() {
+        viewModelScope.launch {
+            load()
+            _chipsState.value = listOf(initialChipAction)
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d(Constants.LOG_KEY, "onCleared ${this::class.simpleName}")
     }
 
     private class MutableTaskerScreenState : TaskerScreenState {
-        override var showModal: Boolean by mutableStateOf(false)
-        override var selectedDates: DatesItem? by mutableStateOf(null)
         override var tasks: List<TaskItem> by mutableStateOf(emptyList())
+        override val tasksWithDates: Map<String, List<TaskItem>> by mutableMapOf()
+        override var isNeedToShowBottomSheet: Boolean by mutableStateOf(false)
+        override var isNeedToShowCalendar: Boolean by mutableStateOf(false)
+        override var selectedDates: DatesItem by mutableStateOf(DatesItem(0, Long.MAX_VALUE))
     }
 }

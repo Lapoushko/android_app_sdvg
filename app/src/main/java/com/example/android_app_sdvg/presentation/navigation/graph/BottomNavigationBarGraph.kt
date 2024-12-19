@@ -21,7 +21,6 @@ import com.example.android_app_sdvg.presentation.tasker.TaskerScreen
 import com.example.android_app_sdvg.presentation.tasker.TaskerScreenHandler
 import com.example.android_app_sdvg.presentation.util.CustomNavTypeProfile
 import com.example.android_app_sdvg.presentation.util.CustomNavTypeTask
-import com.example.android_app_sdvg.presentation.util.PrimitiveNavType
 import kotlin.reflect.typeOf
 
 /**
@@ -53,12 +52,8 @@ fun BottomNavigationBarGraph(navController: NavHostController) {
                 )
             )
         }
-        composable<ScreenItem.CreateTask>(
-            typeMap = mapOf(typeOf<Long>() to PrimitiveNavType(Long::class.java))
-        ) { backStackEntry ->
-            val createTask = backStackEntry.toRoute<ScreenItem.CreateTask>()
+        composable<ScreenItem.CreateTask>{
             CreateTaskScreen(
-                dateStart = createTask.dateStart,
                 handler = CreateTaskScreenHandler(navController = navController)
             )
         }
