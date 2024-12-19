@@ -6,7 +6,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android_app_sdvg.domain.usecase.profile.SubscribeGetProfileUseCase
+import com.example.android_app_sdvg.domain.usecase.test.SubscribeResultTest
+import com.example.android_app_sdvg.domain.usecase.test.SubscribeStatusTest
 import com.example.android_app_sdvg.presentation.mapper.profile.ProfileMapperUI
+import com.example.android_app_sdvg.presentation.model.test.StatusTest
+import com.example.android_app_sdvg.presentation.model.test.getStatusTest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,6 +20,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class ProfileScreenViewModel @Inject constructor(
+    private val statusTestUseCase: SubscribeStatusTest,
+    private val resultTestUseCase: SubscribeResultTest,
     private val getProfileUseCase: SubscribeGetProfileUseCase,
     private val mapperUI: ProfileMapperUI
 ): ViewModel() {
@@ -24,6 +30,8 @@ class ProfileScreenViewModel @Inject constructor(
 
     init {
         load()
+        getStatus()
+        getResult()
     }
 
     private fun load(){
@@ -40,6 +48,22 @@ class ProfileScreenViewModel @Inject constructor(
         }
     }
 
+    private fun getStatus(){
+        viewModelScope.launch {
+            statusTestUseCase.getStatusTest().collect{
+                _profileState.statusTest = it.getStatusTest() ?: StatusTest.NOT_COMPLETED
+            }
+        }
+    }
+
+    private fun getResult(){
+        viewModelScope.launch {
+            resultTestUseCase.getTestResult().collect{
+                _profileState.resultLastTest = it.toString()
+            }
+        }
+    }
+
     private class MutableProfileScreenState(
     ) : ProfileScreenState{
         override var name: String by mutableStateOf("")
@@ -49,7 +73,7 @@ class ProfileScreenViewModel @Inject constructor(
         override var dateBirthday: String by mutableStateOf("")
         override var resultLastTest: String by mutableStateOf("")
         override var recommendations: List<String> by mutableStateOf(emptyList())
-        override var isClosedTest: Boolean by mutableStateOf(false)
+        override var statusTest: StatusTest by mutableStateOf(StatusTest.NOT_COMPLETED)
         override var remainingOpeningTime: String by mutableStateOf("")
     }
 }

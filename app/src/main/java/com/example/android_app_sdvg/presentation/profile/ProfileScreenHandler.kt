@@ -13,4 +13,8 @@ class ProfileScreenHandler(private val navController: NavHostController) {
     fun onToEdit(profileItem: ProfileItem){
         navController.navigate(ScreenItem.EditProfile(profile = profileItem))
     }
+
+    fun onToTest(){
+        navController.navigate(ScreenItem.Test)
+    }
 }

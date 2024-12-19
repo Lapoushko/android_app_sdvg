@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.EditNote
@@ -23,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -37,6 +36,7 @@ import com.example.android_app_sdvg.R
 import com.example.android_app_sdvg.presentation.component.CustomTopAppBar
 import com.example.android_app_sdvg.presentation.component.UnderLine
 import com.example.android_app_sdvg.presentation.model.profile.ProfileItem
+import com.example.android_app_sdvg.presentation.model.test.StatusTest
 
 /**
  * @author Lapoushko
@@ -77,19 +77,33 @@ fun ProfileScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            Result(profileState.resultLastTest)
-            Spacer(modifier = Modifier.height(16.dp))
+            Column(
+                modifier = Modifier.padding(horizontal = 10.dp, vertical = 16.dp)
+            ) {
+                Result(
+                    statusTest = profileState.statusTest,
+                    profileState.resultLastTest
+                )
 
-            Recommendations(profileState.recommendations)
-            Spacer(modifier = Modifier.height(16.dp))
-
-            OpenTest(
-                onOpen = {
-                    /* TODO открытие теста */
-                },
-                isClosed = profileState.isClosedTest,
-                remainingOpeningTime = profileState.remainingOpeningTime
-            )
+                OpenTest(
+                    onOpen = {
+                        profileScreenHandler.onToTest()
+                    },
+                    statusTest = profileState.statusTest
+                )
+                ResultText(
+                    text = "20-40 баллов: Низкая вероятность наличия СДВГ.",
+                    color = Color.Green
+                )
+                ResultText(
+                    text = "41-60 баллов: Умеренная вероятность наличия СДВГ.",
+                    color = Color.Yellow
+                )
+                ResultText(
+                    text = "61 и более баллов: Высокая вероятность наличия СДВГ.",
+                    color = Color.Red
+                )
+            }
         }
     }
 }
@@ -157,39 +171,24 @@ private fun ShortDescriptionPerson(
 
 @Composable
 private fun Result(
+    statusTest: StatusTest,
     result: String
 ) {
-    Text(
-        modifier = Modifier.fillMaxWidth(),
-        text = "${stringResource(R.string.profile_screen_result)} $result",
-        textAlign = TextAlign.Center,
-        fontSize = 26.sp
-    )
-}
-
-@Composable
-private fun Recommendations(
-    recommendation: List<String>
-) {
-    LazyColumn(
-        modifier = Modifier
-            .padding(PaddingValues(2.dp))
-            .fillMaxWidth()
-    ) {
-        itemsIndexed(recommendation) { index, item ->
-            Text(
-                fontSize = 26.sp,
-                text = "$index. $item"
-            )
-        }
+    if (statusTest == StatusTest.COMPLETED) {
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = "${stringResource(R.string.profile_screen_result)} $result",
+            textAlign = TextAlign.Center,
+            fontSize = 26.sp
+        )
     }
 }
+
 
 @Composable
 private fun OpenTest(
     onOpen: () -> Unit,
-    isClosed: Boolean = false,
-    remainingOpeningTime: String = ""
+    statusTest: StatusTest = StatusTest.NOT_COMPLETED,
 ) {
     Button(
         onClick = onOpen,
@@ -201,11 +200,23 @@ private fun OpenTest(
             fontSize = 26.sp,
         )
     }
-    if (isClosed) {
+    if (statusTest == StatusTest.COMPLETED) {
         Text(
-            text = "Следующий тест откроется через $remainingOpeningTime",
+            text = "Тест выполнен",
         )
     }
+}
+
+@Composable
+private fun ResultText(
+    text: String,
+    color: Color
+){
+    Text(
+        fontSize = 26.sp,
+        text = text,
+        color = color
+    )
 }
 
 @Preview(showBackground = true)
