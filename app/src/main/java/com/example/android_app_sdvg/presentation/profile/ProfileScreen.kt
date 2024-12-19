@@ -174,14 +174,12 @@ private fun Result(
     statusTest: StatusTest,
     result: String
 ) {
-    if (statusTest == StatusTest.COMPLETED) {
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = "${stringResource(R.string.profile_screen_result)} $result",
-            textAlign = TextAlign.Center,
-            fontSize = 26.sp
-        )
-    }
+    Text(
+        modifier = Modifier.fillMaxWidth(),
+        text = "${stringResource(R.string.profile_screen_result)} $result",
+        textAlign = TextAlign.Center,
+        fontSize = 26.sp
+    )
 }
 
 
