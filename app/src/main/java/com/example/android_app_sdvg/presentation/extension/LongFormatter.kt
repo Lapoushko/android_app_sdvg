@@ -45,8 +45,7 @@ private const val SEPARATOR_TIME = ":"
 private val RU_FORMATTER = DateTimeFormatter.ofPattern("EEEE, dd MMMM", Locale("ru", "RU"))
 private val US_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.US)
 
-enum class TimeDay(){
+enum class TimeDay{
     START,
-    NOW,
     END
 }

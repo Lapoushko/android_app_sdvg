@@ -1,5 +1,6 @@
 package com.example.android_app_sdvg.presentation.util
 
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.navigation.NavType
@@ -56,8 +57,7 @@ val CustomNavTypeProfile = object : NavType<ProfileItem>(isNullableAllowed = fal
     override fun serializeAsValue(value: ProfileItem): String {
         return Json.encodeToString<ProfileItem>(
             value.copy(
-                photo = value.photo.replace("/", "\\"),
-                dateBirthday = value.dateBirthday.replace("/", "\\")
+                photo = Uri.parse(value.photo.toString().replace("/","\\")),
             )
         )
     }

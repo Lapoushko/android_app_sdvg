@@ -1,5 +1,6 @@
 package com.example.android_app_sdvg.presentation.profile
 
+import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.android_app_sdvg.domain.usecase.profile.SubscribeGetProfileUseCase
 import com.example.android_app_sdvg.domain.usecase.test.SubscribeResultTest
 import com.example.android_app_sdvg.domain.usecase.test.SubscribeStatusTest
+import com.example.android_app_sdvg.presentation.extension.toFormattedString
 import com.example.android_app_sdvg.presentation.mapper.profile.ProfileMapperUI
 import com.example.android_app_sdvg.presentation.model.test.StatusTest
 import com.example.android_app_sdvg.presentation.model.test.getStatusTest
@@ -40,7 +42,7 @@ class ProfileScreenViewModel @Inject constructor(
                 mapperUI.toUi(profile).apply {
                     _profileState.name = name
                     _profileState.email = email
-                    _profileState.photo = photo
+                    _profileState.photo = Uri.parse(photo.toFormattedString())
                     _profileState.sex = sex
                     _profileState.dateBirthday = dateBirthday
                 }
@@ -68,7 +70,7 @@ class ProfileScreenViewModel @Inject constructor(
     ) : ProfileScreenState{
         override var name: String by mutableStateOf("")
         override var email: String by mutableStateOf("")
-        override var photo: String by mutableStateOf("")
+        override var photo: Uri by mutableStateOf(Uri.EMPTY)
         override var sex: String by mutableStateOf("")
         override var dateBirthday: String by mutableStateOf("")
         override var resultLastTest: String by mutableStateOf("")

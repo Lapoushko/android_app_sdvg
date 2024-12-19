@@ -105,7 +105,7 @@ class EditProfileScreenViewModel @Inject constructor(
                     email = profileState.email?.text ?: "",
                     sex = profileState.sex?.text ?: "",
                     dateBirthday = profileState.dateBirthday?.text ?: "0",
-                    photo = profileState.photo?.text ?: ""
+                    photo = Uri.parse(profileState.photo?.text ?: "")
                 )
                 saveProfileUseCase.saveProfile(mapperUI.toDomain(profile))
                 onToBack()

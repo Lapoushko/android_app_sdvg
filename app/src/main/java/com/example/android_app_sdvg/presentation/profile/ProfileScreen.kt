@@ -39,6 +39,7 @@ import coil.compose.AsyncImage
 import com.example.android_app_sdvg.R
 import com.example.android_app_sdvg.presentation.component.CustomTopAppBar
 import com.example.android_app_sdvg.presentation.component.UnderLine
+import com.example.android_app_sdvg.presentation.extension.toFormattedString
 import com.example.android_app_sdvg.presentation.model.profile.ProfileItem
 import com.example.android_app_sdvg.presentation.model.test.StatusTest
 
@@ -70,13 +71,15 @@ fun ProfileScreen(
                 email = profileState.email,
                 photo = profileState.photo,
                 onToEdit = {
-                    profileScreenHandler.onToEdit(ProfileItem(
-                        name = profileState.name,
-                        email = profileState.email,
-                        sex = profileState.sex,
-                        dateBirthday = profileState.dateBirthday,
-                        photo = profileState.photo
-                    ))
+                    profileScreenHandler.onToEdit(
+                        ProfileItem(
+                            name = profileState.name,
+                            email = profileState.email,
+                            sex = profileState.sex,
+                            dateBirthday = profileState.dateBirthday,
+                            photo = Uri.parse(profileState.photo.toFormattedString())
+                        )
+                    )
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -119,7 +122,7 @@ fun ProfileScreen(
 private fun ProfileInfo(
     name: String,
     email: String,
-    photo: String,
+    photo: Uri,
     onToEdit: () -> Unit
 ) {
     Column {
@@ -127,7 +130,7 @@ private fun ProfileInfo(
             modifier = Modifier.fillMaxWidth()
         ) {
             AsyncImage(
-                model = Uri.parse(photo),
+                model = photo,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -172,7 +175,7 @@ private fun ShortDescriptionPerson(
         Text(text = title)
     }
     Column {
-        Text(text = text)
+        Text(if (text == "") "Нет данных" else text)
     }
 }
 
@@ -216,7 +219,7 @@ private fun OpenTest(
 private fun ResultText(
     text: String,
     color: Color
-){
+) {
     Text(
         fontSize = 26.sp,
         text = text,
