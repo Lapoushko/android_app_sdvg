@@ -37,6 +37,20 @@ object DataStoreModule {
             produceFile = { appContext.preferencesDataStoreFile(USER_PREFERENCES_NAME) }
         )
     }
+
+    @Singleton
+    @Provides
+    fun provideTestDataStore(@ApplicationContext appContext: Context): DataStore<Preferences> {
+        return PreferenceDataStoreFactory.create(
+            corruptionHandler = ReplaceFileCorruptionHandler(
+                produceNewData = { emptyPreferences() }
+            ),
+            migrations = listOf(SharedPreferencesMigration(appContext, USER_TEST_NAME)),
+            scope = CoroutineScope(Dispatchers.IO + SupervisorJob()),
+            produceFile = { appContext.preferencesDataStoreFile(USER_TEST_NAME) }
+        )
+    }
 }
 
 private const val USER_PREFERENCES_NAME = "USER_PREFERENCES_NAME"
+private const val USER_TEST_NAME = "USER_TEST_NAME"

@@ -19,6 +19,7 @@ import com.example.android_app_sdvg.presentation.profile.ProfileScreenHandler
 import com.example.android_app_sdvg.presentation.profile.editor.EditProfileScreen
 import com.example.android_app_sdvg.presentation.tasker.TaskerScreen
 import com.example.android_app_sdvg.presentation.tasker.TaskerScreenHandler
+import com.example.android_app_sdvg.presentation.test.TestingScreen
 import com.example.android_app_sdvg.presentation.util.CustomNavTypeProfile
 import com.example.android_app_sdvg.presentation.util.CustomNavTypeTask
 import kotlin.reflect.typeOf
@@ -52,7 +53,7 @@ fun BottomNavigationBarGraph(navController: NavHostController) {
                 )
             )
         }
-        composable<ScreenItem.CreateTask>{
+        composable<ScreenItem.CreateTask> {
             CreateTaskScreen(
                 handler = CreateTaskScreenHandler(navController = navController)
             )
@@ -80,11 +81,6 @@ fun BottomNavigationBarGraph(navController: NavHostController) {
                 )
             )
         }
-//        composable<ScreenItem.EditProfile>(
-//            deepLinks = listOf(
-//                navDeepLink<>()
-//            )
-//        )
 
         composable<ScreenItem.EditProfile>(
             typeMap = mapOf(typeOf<ProfileItem>() to CustomNavTypeProfile)
@@ -99,6 +95,12 @@ fun BottomNavigationBarGraph(navController: NavHostController) {
                     photo = profile.profile.photo,
                     dateBirthday = profile.profile.dateBirthday
                 )
+            )
+        }
+
+        composable<ScreenItem.Test> {
+            TestingScreen(
+                onSave = { navController.popBackStack() }
             )
         }
     }

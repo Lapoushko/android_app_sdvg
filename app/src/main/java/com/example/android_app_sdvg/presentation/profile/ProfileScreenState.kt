@@ -1,5 +1,7 @@
 package com.example.android_app_sdvg.presentation.profile
 
+import com.example.android_app_sdvg.presentation.model.test.StatusTest
+
 /**
  * @author Lapoushko
  */
@@ -11,6 +13,6 @@ interface ProfileScreenState {
     val dateBirthday: String
     val resultLastTest: String
     val recommendations: List<String>
-    val isClosedTest: Boolean
+    val statusTest: StatusTest
     val remainingOpeningTime: String
 }
