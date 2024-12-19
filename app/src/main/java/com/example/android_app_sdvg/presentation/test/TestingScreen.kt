@@ -77,7 +77,7 @@ private fun Question(
 @Composable
 private fun QuestionText(text: String) {
     Text(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp),
         text = text,
         fontSize = 18.sp,
         textAlign = TextAlign.Center
