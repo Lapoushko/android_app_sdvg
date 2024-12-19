@@ -3,9 +3,11 @@ package com.example.android_app_sdvg.di
 import com.example.android_app_sdvg.data.storage.repo.ClickRepositoryImpl
 import com.example.android_app_sdvg.data.storage.repo.ProfileRepositoryImpl
 import com.example.android_app_sdvg.data.storage.repo.TaskRepositoryImpl
+import com.example.android_app_sdvg.data.storage.repo.TestRepositoryImpl
 import com.example.android_app_sdvg.domain.repo.ClickRepository
 import com.example.android_app_sdvg.domain.repo.ProfileRepository
 import com.example.android_app_sdvg.domain.repo.TaskRepository
+import com.example.android_app_sdvg.domain.repo.TestRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -33,4 +35,9 @@ abstract class RepositoryModule {
     abstract fun bindProfileRepository(
         taskRepository: ProfileRepositoryImpl
     ): ProfileRepository
+
+    @Binds
+    abstract fun bindTestRepository(
+        testRepository: TestRepositoryImpl
+    ) : TestRepository
 }

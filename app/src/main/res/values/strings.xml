@@ -8,6 +8,7 @@
     <string name="ok_in_calendar">Сохранить</string>
     <string name="close_calendar">Закрыть</string>
     <string name="personal_account">Личный кабинет</string>
+    <string name="testing">Тестирование</string>
     <string name="edit_profile">Редактировать профиль</string>
     <string name="clicker">Кликер</string>
     <string name="create_task_periodicity">Периодичность</string>
