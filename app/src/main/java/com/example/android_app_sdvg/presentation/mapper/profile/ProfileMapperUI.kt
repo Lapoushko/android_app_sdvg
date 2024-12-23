@@ -1,10 +1,10 @@
 package com.example.android_app_sdvg.presentation.mapper.profile
 
+import android.net.Uri
 import com.example.android_app_sdvg.domain.entity.profile.Profile
 import com.example.android_app_sdvg.domain.entity.profile.getSex
+import com.example.android_app_sdvg.presentation.extension.CountryDateFormat
 import com.example.android_app_sdvg.presentation.extension.toDateString
-import com.example.android_app_sdvg.presentation.extension.toFormattedString
-import com.example.android_app_sdvg.presentation.extension.toFormattedUri
 import com.example.android_app_sdvg.presentation.extension.toLongDate
 import com.example.android_app_sdvg.presentation.model.profile.ProfileItem
 import javax.inject.Inject
@@ -26,7 +26,7 @@ class ProfileMapperUIImpl @Inject constructor() : ProfileMapperUI{
             email = profileItem.email.ifEmpty { EMPTY },
             sex = profileItem.sex.getSex(),
             photo = profileItem.photo.toString(),
-            dateBirthday = profileItem.dateBirthday.toLongDate(isRu = false)
+            dateBirthday = profileItem.dateBirthday.toLongDate(countryDateFormat = CountryDateFormat.US)
         )
     }
 
@@ -35,8 +35,8 @@ class ProfileMapperUIImpl @Inject constructor() : ProfileMapperUI{
             name = if (profile.name == EMPTY) "" else profile.name,
             email = if (profile.email == EMPTY) "" else profile.email,
             sex = profile.sex.naming,
-            photo = profile.photo.toFormattedUri(),
-            dateBirthday = profile.dateBirthday.toDateString(isRu = false)
+            photo = Uri.parse(profile.photo),
+            dateBirthday = profile.dateBirthday.toDateString(countryDateFormat = CountryDateFormat.US)
         )
     }
     companion object{

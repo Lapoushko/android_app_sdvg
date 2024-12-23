@@ -30,7 +30,6 @@ class EditTaskScreenTaskScreenViewModel @Inject constructor(
 ) : AbstractAddTaskScreenViewModel(
     state = state,
 ) {
-
     private var _taskItem : MutableStateFlow<TaskItem?> = MutableStateFlow(null)
 
     init {

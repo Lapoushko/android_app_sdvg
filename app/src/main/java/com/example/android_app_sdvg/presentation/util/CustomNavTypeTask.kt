@@ -14,7 +14,6 @@ import java.nio.charset.StandardCharsets
 /**
  * @author Lapoushko
  * Кастомный NavType для навигации сложного объекта FilmItem
- * @param clazz нужный класс
  * @param serializer сериализатор
  */
 val CustomNavTypeTask = object : NavType<TaskItem>(isNullableAllowed = false) {

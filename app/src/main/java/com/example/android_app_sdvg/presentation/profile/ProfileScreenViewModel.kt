@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.android_app_sdvg.domain.usecase.profile.SubscribeGetProfileUseCase
 import com.example.android_app_sdvg.domain.usecase.test.SubscribeResultTest
 import com.example.android_app_sdvg.domain.usecase.test.SubscribeStatusTest
-import com.example.android_app_sdvg.presentation.extension.toFormattedString
 import com.example.android_app_sdvg.presentation.mapper.profile.ProfileMapperUI
 import com.example.android_app_sdvg.presentation.model.test.StatusTest
 import com.example.android_app_sdvg.presentation.model.test.getStatusTest
@@ -42,7 +41,7 @@ class ProfileScreenViewModel @Inject constructor(
                 mapperUI.toUi(profile).apply {
                     _profileState.name = name
                     _profileState.email = email
-                    _profileState.photo = Uri.parse(photo.toFormattedString())
+                    _profileState.photo = photo
                     _profileState.sex = sex
                     _profileState.dateBirthday = dateBirthday
                 }

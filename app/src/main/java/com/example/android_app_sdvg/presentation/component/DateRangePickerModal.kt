@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.android_app_sdvg.R
+import com.example.android_app_sdvg.presentation.extension.toNeedTime
 
 /**
  * @author Lapoushko
@@ -33,8 +34,8 @@ fun DateRangePickerModal(
                 onClick = {
                     onDateRangeSelected(
                         Pair(
-                            dateRangePickerState.selectedStartDateMillis,
-                            dateRangePickerState.selectedEndDateMillis
+                            dateRangePickerState.selectedStartDateMillis?.toNeedTime() ?: 0L,
+                            dateRangePickerState.selectedEndDateMillis?.toNeedTime() ?: 0L
                         )
                     )
                 }

@@ -30,6 +30,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,7 +40,6 @@ import coil.compose.AsyncImage
 import com.example.android_app_sdvg.R
 import com.example.android_app_sdvg.presentation.component.CustomTopAppBar
 import com.example.android_app_sdvg.presentation.component.UnderLine
-import com.example.android_app_sdvg.presentation.extension.toFormattedString
 import com.example.android_app_sdvg.presentation.model.profile.ProfileItem
 import com.example.android_app_sdvg.presentation.model.test.StatusTest
 
@@ -77,10 +77,10 @@ fun ProfileScreen(
                             email = profileState.email,
                             sex = profileState.sex,
                             dateBirthday = profileState.dateBirthday,
-                            photo = Uri.parse(profileState.photo.toFormattedString())
+                            photo = profileState.photo
                         )
                     )
-                }
+                },
             )
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -123,7 +123,7 @@ private fun ProfileInfo(
     name: String,
     email: String,
     photo: Uri,
-    onToEdit: () -> Unit
+    onToEdit: () -> Unit,
 ) {
     Column {
         Row(
@@ -140,15 +140,16 @@ private fun ProfileInfo(
             )
             Column(
                 modifier = Modifier
+                    .weight(1f)
                     .padding(PaddingValues(bottom = 20.dp))
             ) {
                 ShortDescriptionPerson(
                     title = "Имя: ",
-                    text = name
+                    text = name.take(30)
                 )
                 ShortDescriptionPerson(
                     title = "Почта: ",
-                    text = email
+                    text = email.take(30)
                 )
             }
             IconButton(
@@ -175,7 +176,11 @@ private fun ShortDescriptionPerson(
         Text(text = title)
     }
     Column {
-        Text(if (text == "") "Нет данных" else text)
+        Text(
+            text = if (text.isEmpty()) "Нет данных" else text,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1
+        )
     }
 }
 
