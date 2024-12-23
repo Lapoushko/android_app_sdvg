@@ -8,7 +8,7 @@ enum class Answers(
     val value: Int
 ) {
     ABSOLUTELY_DISAGREE("Абсолютно не согласен",1),
-    RATHER_DISAGREE("Скорее согласен",2),
+    RATHER_DISAGREE("Скорее не согласен",2),
     NOT_SURE("Не уверен",3),
     RATHER_AGREE("Скорее согласен",4),
     ABSOLUTELY_AGREE("Абсолютно согласен",5)

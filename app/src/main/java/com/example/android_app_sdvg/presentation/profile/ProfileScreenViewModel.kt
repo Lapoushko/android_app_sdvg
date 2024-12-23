@@ -1,5 +1,6 @@
 package com.example.android_app_sdvg.presentation.profile
 
+import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -68,7 +69,7 @@ class ProfileScreenViewModel @Inject constructor(
     ) : ProfileScreenState{
         override var name: String by mutableStateOf("")
         override var email: String by mutableStateOf("")
-        override var photo: String by mutableStateOf("")
+        override var photo: Uri by mutableStateOf(Uri.EMPTY)
         override var sex: String by mutableStateOf("")
         override var dateBirthday: String by mutableStateOf("")
         override var resultLastTest: String by mutableStateOf("")

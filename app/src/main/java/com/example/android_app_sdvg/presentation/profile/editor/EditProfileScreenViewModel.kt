@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android_app_sdvg.domain.usecase.profile.SubscribeSaveProfileUseCase
+import com.example.android_app_sdvg.presentation.extension.CountryDateFormat
 import com.example.android_app_sdvg.presentation.extension.toLongDate
 import com.example.android_app_sdvg.presentation.mapper.profile.ProfileMapperUI
 import com.example.android_app_sdvg.presentation.model.input.Input
@@ -47,7 +48,7 @@ class EditProfileScreenViewModel @Inject constructor(
             error = error,
             adding = { errors.add(error) },
             removing = { errors.remove(error) },
-            isCorrect = input.isNotEmpty()
+            isCorrect = input.isNotEmpty() && input.length < 32
         )
     }
 
@@ -57,7 +58,9 @@ class EditProfileScreenViewModel @Inject constructor(
             error = error,
             adding = { errors.add(error) },
             removing = { errors.remove(error) },
-            isCorrect = (input.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(input).matches())
+            isCorrect = (
+                    input.length < 32 && input.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(input)
+                        .matches())
         )
     }
 
@@ -75,14 +78,13 @@ class EditProfileScreenViewModel @Inject constructor(
     fun updateDateBirthday(input: String) {
         val error = ProfileErrors.DATE_ERROR
         try {
-            if(input.toLongDate() <= System.currentTimeMillis()) {
+            if (input.toLongDate(CountryDateFormat.US) <= System.currentTimeMillis()) {
                 _profileState.dateBirthday = Input(
                     text = input,
                     error = null
                 )
                 errors.remove(error)
-            }
-            else {
+            } else {
                 _profileState.dateBirthday = Input(
                     text = input,
                     error = error
@@ -105,7 +107,7 @@ class EditProfileScreenViewModel @Inject constructor(
                     email = profileState.email?.text ?: "",
                     sex = profileState.sex?.text ?: "",
                     dateBirthday = profileState.dateBirthday?.text ?: "0",
-                    photo = profileState.photo?.text ?: ""
+                    photo = Uri.parse(profileState.photo?.text ?: "")
                 )
                 saveProfileUseCase.saveProfile(mapperUI.toDomain(profile))
                 onToBack()

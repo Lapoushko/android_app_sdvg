@@ -5,17 +5,18 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,11 +44,16 @@ fun TestingScreen(
             CustomTopAppBar(stringResource(R.string.testing))
         },
     ) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
-            LazyColumn(
+        Column(
+            modifier = Modifier.padding(
+                innerPadding
+            ).fillMaxSize()
+        ) {
+            Column(
                 modifier = Modifier.weight(1f)
+                    .verticalScroll(rememberScrollState())
             ) {
-                itemsIndexed(state.tests) { index, test ->
+                state.tests.forEachIndexed { index, test ->
                     Question(
                         text = "${index + 1}. ${test.text}",
                         onClick = {
@@ -88,7 +94,7 @@ private fun QuestionText(text: String) {
 private fun SelectableQuestions(
     onClick: (Answers) -> Unit
 ) {
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf<Answers?>(null) }
+    val (selectedOption, onOptionSelected) = rememberSaveable { mutableStateOf<Answers?>(null) }
     Column {
         Answers.entries.forEach { answer ->
             Row(
@@ -112,7 +118,8 @@ private fun SelectableQuestions(
                 Text(
                     text = answer.naming,
                     modifier = Modifier.padding(4.dp),
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    color = Color.Gray
                 )
             }
         }

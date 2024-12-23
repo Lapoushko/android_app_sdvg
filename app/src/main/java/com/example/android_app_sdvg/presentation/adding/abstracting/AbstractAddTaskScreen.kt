@@ -1,7 +1,6 @@
 package com.example.android_app_sdvg.presentation.adding.abstracting
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -111,24 +110,19 @@ fun AddTaskScreen(
                 error = taskState.periodicity.error?.naming ?: ""
             )
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(),
-            ){
-                DateField(
-                    label = "Дата начала",
-                    date = taskState.dateStart,
-                    onDateClick = { viewModel.toggleCalendar() },
-                    timeDay = TimeDay.START
-                )
+            DateField(
+                label = "Дата начала",
+                date = taskState.dateStart,
+                onDateClick = { viewModel.toggleCalendar() },
+                timeDay = TimeDay.START
+            )
 
-                DateField(
-                    label = "Дата завершения",
-                    date = taskState.dateEnd,
-                    onDateClick = { viewModel.toggleCalendar() },
-                    timeDay = TimeDay.END
-                )
-            }
+            DateField(
+                label = "Дата завершения",
+                date = taskState.dateEnd,
+                onDateClick = { viewModel.toggleCalendar() },
+                timeDay = TimeDay.END
+            )
 
             TimeField(
                 label = "Время выполнения",
@@ -158,7 +152,8 @@ fun AddTaskScreen(
             },
             onCancel = {
                 viewModel.toggleTimer()
-            }
+            },
+            isTextInput = true
         )
     }
 }

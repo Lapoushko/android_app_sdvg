@@ -1,15 +1,19 @@
 package com.example.android_app_sdvg.presentation.profile
 
 import android.net.Uri
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.EditNote
 import androidx.compose.material3.Button
@@ -26,6 +30,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -66,25 +71,30 @@ fun ProfileScreen(
                 email = profileState.email,
                 photo = profileState.photo,
                 onToEdit = {
-                    profileScreenHandler.onToEdit(ProfileItem(
-                        name = profileState.name,
-                        email = profileState.email,
-                        sex = profileState.sex,
-                        dateBirthday = profileState.dateBirthday,
-                        photo = profileState.photo
-                    ))
-                }
+                    profileScreenHandler.onToEdit(
+                        ProfileItem(
+                            name = profileState.name,
+                            email = profileState.email,
+                            sex = profileState.sex,
+                            dateBirthday = profileState.dateBirthday,
+                            photo = profileState.photo
+                        )
+                    )
+                },
             )
             Spacer(modifier = Modifier.height(16.dp))
 
             Column(
-                modifier = Modifier.padding(horizontal = 10.dp, vertical = 16.dp)
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 16.dp)
+                    .fillMaxHeight()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Result(
                     statusTest = profileState.statusTest,
                     profileState.resultLastTest
                 )
-
                 OpenTest(
                     onOpen = {
                         profileScreenHandler.onToTest()
@@ -112,15 +122,16 @@ fun ProfileScreen(
 private fun ProfileInfo(
     name: String,
     email: String,
-    photo: String,
-    onToEdit: () -> Unit
+    photo: Uri,
+    onToEdit: () -> Unit,
 ) {
     Column {
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
             AsyncImage(
-                model = Uri.parse(photo),
+                model = photo,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -130,15 +141,16 @@ private fun ProfileInfo(
             )
             Column(
                 modifier = Modifier
+                    .weight(1f)
                     .padding(PaddingValues(bottom = 20.dp))
             ) {
                 ShortDescriptionPerson(
                     title = "Имя: ",
-                    text = name
+                    text = name.take(30)
                 )
                 ShortDescriptionPerson(
                     title = "Почта: ",
-                    text = email
+                    text = email.take(30)
                 )
             }
             IconButton(
@@ -165,7 +177,11 @@ private fun ShortDescriptionPerson(
         Text(text = title)
     }
     Column {
-        Text(text = text)
+        Text(
+            text = if (text.isEmpty()) "Нет данных" else text,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1
+        )
     }
 }
 
@@ -174,14 +190,12 @@ private fun Result(
     statusTest: StatusTest,
     result: String
 ) {
-    if (statusTest == StatusTest.COMPLETED) {
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = "${stringResource(R.string.profile_screen_result)} $result",
-            textAlign = TextAlign.Center,
-            fontSize = 26.sp
-        )
-    }
+    Text(
+        modifier = Modifier.fillMaxWidth(),
+        text = "${stringResource(R.string.profile_screen_result)} $result",
+        textAlign = TextAlign.Center,
+        fontSize = 26.sp
+    )
 }
 
 
@@ -211,7 +225,7 @@ private fun OpenTest(
 private fun ResultText(
     text: String,
     color: Color
-){
+) {
     Text(
         fontSize = 26.sp,
         text = text,

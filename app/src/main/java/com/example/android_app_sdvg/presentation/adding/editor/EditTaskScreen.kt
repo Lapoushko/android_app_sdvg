@@ -15,7 +15,7 @@ fun EditTaskScreen(
     taskItem: TaskItem,
     viewModel: EditTaskScreenTaskScreenViewModel = hiltViewModel()
 ) {
-    viewModel.updateTask(taskItem = taskItem)
+//    viewModel.updateTask(taskItem = taskItem)
     AddTaskScreen(
         handler = handler,
         viewModel = viewModel,

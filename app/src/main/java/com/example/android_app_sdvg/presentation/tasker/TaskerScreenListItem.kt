@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.ModeEdit
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -46,15 +48,19 @@ fun TaskerScreenListItem(
     onDelete: () -> Unit,
     onEdit: () -> Unit,
     onComplete: () -> Unit,
+    onCancel: () -> Unit
 ) {
     var expandedState by remember {
         mutableStateOf(false)
     }
 
-    val rotationScale by animateFloatAsState(targetValue = if (expandedState) 180f else 0f,
+    val rotationScale by animateFloatAsState(
+        targetValue = if (expandedState) 180f else 0f,
         label = ""
     )
     val context = LocalContext.current
+
+    val status = task.taskStatus.getTaskStatus()
 
     Card(
         modifier = Modifier
@@ -64,20 +70,23 @@ fun TaskerScreenListItem(
         onClick = {
             expandedState = !expandedState
         },
+        colors = CardDefaults.cardColors().copy(
+            contentColor = if (status == TaskStatus.IN_PROGRESS)
+                CardDefaults.cardColors().contentColor else Color.Gray
+        )
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(20.dp)) {
-                Text(text = task.capacity,)
+                Text(text = task.capacity)
             }
             Text(
                 modifier = Modifier
                     .weight(6f)
                     .align(Alignment.CenterVertically),
                 text = task.name,
-                color = if (task.taskStatus.getTaskStatus() == TaskStatus.IN_PROGRESS) Color.Green else Color.Red
             )
             IconButton(
                 modifier = Modifier
@@ -90,7 +99,9 @@ fun TaskerScreenListItem(
             }
         }
         if (expandedState) {
-            Row {
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     DetailRow("Приоритет", task.priorityItem)
                     DetailRow("Категория", task.categoryItem)
@@ -102,18 +113,23 @@ fun TaskerScreenListItem(
 
                 RowIconButton(
                     onClick = {
-                        onEdit() },
+                        onEdit()
+                    },
                     imageVector = Icons.Outlined.ModeEdit
                 )
 
                 RowIconButton(
                     onClick = {
-                        if (task.taskStatus.getTaskStatus() == TaskStatus.IN_PROGRESS) {
+                        if (status == TaskStatus.IN_PROGRESS) {
                             onComplete()
                             Toast.makeText(context, "Задача выполнена", Toast.LENGTH_SHORT).show()
                         }
+                        else{
+                            onCancel()
+                            Toast.makeText(context, "Задача теперь снова активна!", Toast.LENGTH_SHORT).show()
+                        }
                     },
-                    imageVector = Icons.Outlined.Done
+                    imageVector = if(status == TaskStatus.IN_PROGRESS) Icons.Outlined.Done else Icons.Outlined.Clear
                 )
             }
         }
@@ -124,7 +140,7 @@ fun TaskerScreenListItem(
 private fun RowIconButton(
     onClick: () -> Unit,
     imageVector: ImageVector
-){
+) {
     IconButton(onClick = { onClick() }) {
         Icon(imageVector = imageVector, contentDescription = null)
     }
@@ -137,7 +153,7 @@ private fun DetailRow(label: String, value: String) {
             text = label,
             color = Color.Gray,
             modifier = Modifier
-                .fillMaxWidth(0.3f)
+                .fillMaxWidth(0.4f)
                 .padding(horizontal = 20.dp)
 
         )
@@ -163,8 +179,9 @@ fun TaskerScreenListItemPreview() {
     )
     TaskerScreenListItem(
         task = task,
-        onDelete = {  },
+        onDelete = { },
         onEdit = { },
-        onComplete = {}
+        onComplete = {},
+        {}
     )
 }

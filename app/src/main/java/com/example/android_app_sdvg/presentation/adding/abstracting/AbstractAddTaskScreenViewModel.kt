@@ -6,13 +6,13 @@ import androidx.compose.runtime.setValue
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.example.android_app_sdvg.presentation.extension.getCurrentDay
 import com.example.android_app_sdvg.presentation.extension.toTimeString
 import com.example.android_app_sdvg.presentation.model.input.Input
 import com.example.android_app_sdvg.presentation.model.input.TaskErrors
 import com.example.android_app_sdvg.presentation.model.input.checkErrorInput
 import com.example.android_app_sdvg.presentation.model.task.DatesItem
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
-import java.util.Calendar
 
 /**
  * @author Lapoushko
@@ -21,7 +21,7 @@ abstract class AbstractAddTaskScreenViewModel(
     private val state: SavedStateHandle,
     taskItem: TaskItem? = null
 ) : ViewModel() {
-    private var _taskState = MutableAbstractAddTasScreenState(state = state, taskItem = taskItem)
+    private var _taskState = MutableAbstractAddTasScreenState(taskItem = taskItem)
     val taskState = _taskState as AbstractAddTaskScreenState
 
     /**
@@ -44,19 +44,15 @@ abstract class AbstractAddTaskScreenViewModel(
     }
 
     fun updateDesc(input: String) {
-//        val error = TaskErrors.DESC_ERROR
         val error = null
         _taskState.desc = input.checkErrorInput(
             error = error,
-//            adding = { _taskState.errors.add(error) },
-//            removing = { _taskState.errors.remove(error) },
             isCorrect = input.isNotEmpty()
         )
     }
 
     fun updatePriority(input: String) {
         val error = TaskErrors.PRIORITY_ERROR
-//        val error = null
         _taskState.priority = input.checkErrorInput(
             error = error,
             adding = { _taskState.errors.add(error) },
@@ -112,7 +108,6 @@ abstract class AbstractAddTaskScreenViewModel(
     }
 
     private class MutableAbstractAddTasScreenState(
-        state: SavedStateHandle,
         taskItem: TaskItem? = null
     ) : AbstractAddTaskScreenState {
         override var name: Input<TaskErrors> by mutableStateOf(
@@ -142,12 +137,8 @@ abstract class AbstractAddTaskScreenViewModel(
             )
         )
         override var showModal: Boolean by mutableStateOf(false)
-        override var dateStart: Long? by mutableStateOf(
-            state[DATESTART_STATE_TAG] ?: Calendar.getInstance().timeInMillis
-        )
-        override var dateEnd: Long? by mutableStateOf(
-            state[DATEEND_STATE_TAG] ?: Calendar.getInstance().timeInMillis
-        )
+        override var dateStart: Long? by mutableStateOf(getCurrentDay())
+        override var dateEnd: Long? by mutableStateOf(getCurrentDay())
         override var dates: DatesItem by mutableStateOf(
             DatesItem(
                 dateStart = dateStart ?: 0L,

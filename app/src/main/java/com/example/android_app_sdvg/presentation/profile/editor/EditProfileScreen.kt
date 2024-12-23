@@ -38,6 +38,7 @@ import com.example.android_app_sdvg.presentation.component.DatePickerModal
 import com.example.android_app_sdvg.presentation.component.DropdownMenuBox
 import com.example.android_app_sdvg.presentation.component.TextFieldOption
 import com.example.android_app_sdvg.presentation.component.TopBarForEditing
+import com.example.android_app_sdvg.presentation.extension.CountryDateFormat
 import com.example.android_app_sdvg.presentation.extension.toDateString
 import com.example.android_app_sdvg.presentation.model.profile.ProfileItem
 
@@ -147,7 +148,7 @@ fun EditProfileScreen(
         if (profileState.isNeedToShowDatePicker) {
             DatePickerModal(
                 onDateSelected = {
-                    viewModel.updateDateBirthday(it?.toDateString() ?: "")
+                    viewModel.updateDateBirthday(it?.toDateString(countryDateFormat = CountryDateFormat.US) ?: "")
                     viewModel.toggleDatePicker()
                 },
                 onDismiss = { viewModel.toggleDatePicker() }

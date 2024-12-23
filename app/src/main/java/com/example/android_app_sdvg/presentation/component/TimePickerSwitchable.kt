@@ -51,15 +51,16 @@ import java.util.Locale
 fun TimePickerSwitchable(
     onConfirm: (TimePickerState) -> Unit,
     onCancel: () -> Unit,
+    isTextInput: Boolean = false
 ) {
     val state = rememberTimePickerState(is24Hour = true)
     val formatter = remember { SimpleDateFormat("hh:mm", Locale.getDefault()) }
     val snackState = remember { SnackbarHostState() }
-    val showingPicker = remember { mutableStateOf(true) }
+    val showingPicker = remember { mutableStateOf(!isTextInput) }
     val snackScope = rememberCoroutineScope()
     val configuration = LocalConfiguration.current
     TimePickerDialog(
-        title = if (showingPicker.value) {
+        title = if (showingPicker.value && !isTextInput) {
             "Выбери время "
         } else {
             "Введи время "
@@ -87,31 +88,33 @@ fun TimePickerSwitchable(
                             isContainer = true
                         }
                 ) {
-                    IconButton(
-                        modifier = Modifier
-                            .size(64.dp, 72.dp)
-                            .align(Alignment.BottomStart)
-                            .zIndex(5f),
-                        onClick = { showingPicker.value = !showingPicker.value }) {
-                        val icon = if (showingPicker.value) {
-                            Icons.Outlined.Keyboard
-                        } else {
-                            Icons.Outlined.Schedule
-                        }
-                        Icon(
-                            icon,
-                            contentDescription = if (showingPicker.value) {
-                                "Сменить на текстовый ввод"
+                    if (!isTextInput) {
+                        IconButton(
+                            modifier = Modifier
+                                .size(64.dp, 72.dp)
+                                .align(Alignment.BottomStart)
+                                .zIndex(5f),
+                            onClick = { showingPicker.value = !showingPicker.value }) {
+                            val icon = if (showingPicker.value) {
+                                Icons.Outlined.Keyboard
                             } else {
-                                "Сменить на ввод из часов"
+                                Icons.Outlined.Schedule
                             }
-                        )
+                            Icon(
+                                icon,
+                                contentDescription = if (showingPicker.value) {
+                                    "Сменить на текстовый ввод"
+                                } else {
+                                    "Сменить на ввод из часов"
+                                }
+                            )
+                        }
                     }
                 }
             }
         }
     ) {
-        if (showingPicker.value && configuration.screenHeightDp > 400) {
+        if (showingPicker.value && configuration.screenHeightDp > 400 && !isTextInput) {
             TimePicker(state = state)
         } else {
             TimeInput(state = state)

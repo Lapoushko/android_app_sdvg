@@ -1,5 +1,6 @@
 package com.example.android_app_sdvg.presentation.util
 
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.navigation.NavType
@@ -7,11 +8,12 @@ import com.example.android_app_sdvg.presentation.model.profile.ProfileItem
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 /**
  * @author Lapoushko
  * Кастомный NavType для навигации сложного объекта FilmItem
- * @param clazz нужный класс
  * @param serializer сериализатор
  */
 val CustomNavTypeTask = object : NavType<TaskItem>(isNullableAllowed = false) {
@@ -46,7 +48,7 @@ val CustomNavTypeProfile = object : NavType<ProfileItem>(isNullableAllowed = fal
     }
 
     override fun parseValue(value: String): ProfileItem {
-        return Json.decodeFromString<ProfileItem>(value.replace("\\", "/"))
+        return Json.decodeFromString<ProfileItem>(value)
     }
 
     override fun put(bundle: Bundle, key: String, value: ProfileItem) {
@@ -56,8 +58,7 @@ val CustomNavTypeProfile = object : NavType<ProfileItem>(isNullableAllowed = fal
     override fun serializeAsValue(value: ProfileItem): String {
         return Json.encodeToString<ProfileItem>(
             value.copy(
-                photo = value.photo.replace("/", "\\"),
-                dateBirthday = value.dateBirthday.replace("/", "\\")
+                photo = Uri.parse(URLEncoder.encode(value.photo.toString(), StandardCharsets.UTF_8.toString())),
             )
         )
     }
