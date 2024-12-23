@@ -68,11 +68,17 @@ class TaskerScreenViewModel @Inject constructor(
                     task.dates.dateStart.toNeedTime() == it.dates.dateStart.toNeedTime()
                 }
             }
-            _state.tasksWithDates = tasksWithDates
+            _state.tasksWithDates = sortByData(tasksWithDates)
 
             state.tasksWithDates.forEach { println("${it.key} - ${it.value}") }
             initialTasks = state.tasksWithDates
         }
+    }
+
+    private fun sortByData(tasksWithDates: Map<String, List<TaskItem>>) : Map<String, List<TaskItem>>{
+        return tasksWithDates.toList()
+            .sortedBy { (_, value) -> value.minOf { it.dates.dateStart } }
+            .toMap()
     }
 
     fun toggleCalendar() {
