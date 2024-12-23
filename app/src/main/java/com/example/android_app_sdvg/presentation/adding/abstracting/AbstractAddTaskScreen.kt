@@ -158,7 +158,8 @@ fun AddTaskScreen(
             },
             onCancel = {
                 viewModel.toggleTimer()
-            }
+            },
+            isTextInput = true
         )
     }
 }
