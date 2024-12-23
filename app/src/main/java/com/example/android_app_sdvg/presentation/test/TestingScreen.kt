@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -44,11 +44,16 @@ fun TestingScreen(
             CustomTopAppBar(stringResource(R.string.testing))
         },
     ) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
-            LazyColumn(
+        Column(
+            modifier = Modifier.padding(
+                innerPadding
+            ).fillMaxSize()
+        ) {
+            Column(
                 modifier = Modifier.weight(1f)
+                    .verticalScroll(rememberScrollState())
             ) {
-                itemsIndexed(state.tests) { index, test ->
+                state.tests.forEachIndexed { index, test ->
                     Question(
                         text = "${index + 1}. ${test.text}",
                         onClick = {
