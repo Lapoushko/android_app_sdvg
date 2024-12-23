@@ -12,6 +12,7 @@ import com.example.android_app_sdvg.domain.usecase.task.SubscribeEditTaskUseCase
 import com.example.android_app_sdvg.domain.usecase.task.SubscribeTasksUseCase
 import com.example.android_app_sdvg.presentation.component.chip.ChipActions
 import com.example.android_app_sdvg.presentation.extension.toDateString
+import com.example.android_app_sdvg.presentation.extension.toNeedTime
 import com.example.android_app_sdvg.presentation.mapper.task.TaskDomainToUiMapper
 import com.example.android_app_sdvg.presentation.mapper.task.TaskUiToTaskDomainMapper
 import com.example.android_app_sdvg.presentation.model.task.DatesItem
@@ -44,7 +45,7 @@ class TaskerScreenViewModel @Inject constructor(
     private val _state = MutableTaskerScreenState()
     val state = _state as TaskerScreenState
 
-    private var initialList = listOf<TaskItem>()
+    private var initialTasks: Map<String, List<TaskItem>> = emptyMap()
 
     init {
         Log.d(Constants.LOG_KEY, "Init ${this::class.simpleName}")
@@ -53,12 +54,24 @@ class TaskerScreenViewModel @Inject constructor(
 
     private fun load() {
         viewModelScope.launch {
-            _state.tasks =
+            val tasks =
                 subscribeTasksUseCase
                     .getTasks()
                     .map { uiMapper(it) }
                     .sortedBy { it.dates.dateStart }
-            initialList = _state.tasks
+
+            val tasksWithDates = HashMap<String, List<TaskItem>>()
+
+            tasks.forEach { task ->
+                val startDay = task.dates.dateStart.toNeedTime().toDateString()
+                tasksWithDates[startDay] = tasks.filter {
+                    task.dates.dateStart.toNeedTime() == it.dates.dateStart.toNeedTime()
+                }
+            }
+            _state.tasksWithDates = tasksWithDates
+
+            state.tasksWithDates.forEach { println("${it.key} - ${it.value}") }
+            initialTasks = state.tasksWithDates
         }
     }
 
@@ -66,8 +79,8 @@ class TaskerScreenViewModel @Inject constructor(
         _state.isNeedToShowCalendar = !_state.isNeedToShowCalendar
     }
 
-    fun completeTask(task: TaskItem) {
-        editStatusTask(task, TaskStatus.COMPLETED)
+    fun setStatus(task: TaskItem, status: TaskStatus) {
+        editStatusTask(task, status)
     }
 
     private fun editStatusTask(
@@ -89,7 +102,11 @@ class TaskerScreenViewModel @Inject constructor(
     fun delete(task: TaskItem) {
         viewModelScope.launch {
             subscribeDeleteTaskUseCase.deleteTask(taskUiToTaskDomainMapper.invoke(task))
-            _state.tasks = _state.tasks.filterNot { it == task }
+            _state.tasksWithDates = state.tasksWithDates.mapValues { tasks ->
+                tasks.value.filterNot { it == task }
+            }
+
+//            _state.tasksWithDates = _state.tasksWithDates.filterNot { it == task }
         }
     }
 
@@ -102,10 +119,18 @@ class TaskerScreenViewModel @Inject constructor(
 
     private fun filterPeriod() {
         addChipDate()
-        _state.tasks = initialList.filter {
-            it.dates.dateStart >= state.selectedDates.dateStart
-                    && it.dates.dateEnd <= state.selectedDates.dateEnd
+
+        _state.tasksWithDates = initialTasks.mapValues { entry ->
+            entry.value.filter {
+                it.dates.dateStart >= state.selectedDates.dateStart &&
+                        it.dates.dateStart <= state.selectedDates.dateEnd
+            }
         }
+
+        //        _state.tasks = initialTasks.filter {
+//            it.dates.dateStart >= state.selectedDates.dateStart
+//                    && it.dates.dateEnd <= state.selectedDates.dateEnd
+//        }
     }
 
     private fun addChipDate(
@@ -135,10 +160,11 @@ class TaskerScreenViewModel @Inject constructor(
     }
 
     private class MutableTaskerScreenState : TaskerScreenState {
-        override var tasks: List<TaskItem> by mutableStateOf(emptyList())
-        override val tasksWithDates: Map<String, List<TaskItem>> by mutableMapOf()
+        override var tasksWithDates: Map<String, List<TaskItem>> by mutableStateOf(emptyMap())
         override var isNeedToShowBottomSheet: Boolean by mutableStateOf(false)
         override var isNeedToShowCalendar: Boolean by mutableStateOf(false)
         override var selectedDates: DatesItem by mutableStateOf(DatesItem(0, Long.MAX_VALUE))
     }
 }
+
+
