@@ -34,15 +34,17 @@ fun TimeField(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 70.dp, vertical = 10.dp)
+            .padding(horizontal = 20.dp, vertical = 10.dp)
             .clip(RoundedCornerShape(20.dp)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         TextField(
-            modifier = Modifier.clickable {
-                onTimeClick()
-                viewModel.toggleTimer()
-            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    onTimeClick()
+                    viewModel.toggleTimer()
+                },
             placeholder = {
                 Text(
                     text = label,

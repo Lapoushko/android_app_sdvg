@@ -2,6 +2,7 @@ package com.example.android_app_sdvg.presentation.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.android_app_sdvg.presentation.extension.CountryDateFormat
 import com.example.android_app_sdvg.presentation.extension.TimeDay
 import com.example.android_app_sdvg.presentation.extension.toDateString
 
@@ -35,6 +37,7 @@ fun DateField(
     ) {
         TextField(
             modifier = modifier
+                .fillMaxWidth()
                 .clickable {
                     onDateClick()
                 },
@@ -45,7 +48,7 @@ fun DateField(
                 )
             },
             enabled = false,
-            value = if (date == 0L) label else date?.toDateString(timeDay = timeDay) ?: "",
+            value = if (date == 0L) label else date?.toDateString(timeDay = timeDay, countryDateFormat = CountryDateFormat.US) ?: "",
             onValueChange = {},
             leadingIcon = {
                 Icon(
