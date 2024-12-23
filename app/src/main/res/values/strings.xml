@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">android_app_sdvg</string>
+    <string name="app_name">SDVGHelper</string>
     <string name="title_calendar">Задачи</string>
     <string name="calendar">Календарь</string>
     <string name="create_task">Новая задача</string>

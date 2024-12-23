@@ -127,7 +127,8 @@ private fun ProfileInfo(
 ) {
     Column {
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
             AsyncImage(
                 model = photo,
