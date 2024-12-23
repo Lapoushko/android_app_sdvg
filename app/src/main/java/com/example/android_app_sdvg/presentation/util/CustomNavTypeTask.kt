@@ -8,6 +8,8 @@ import com.example.android_app_sdvg.presentation.model.profile.ProfileItem
 import com.example.android_app_sdvg.presentation.model.task.TaskItem
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 /**
  * @author Lapoushko
@@ -47,7 +49,7 @@ val CustomNavTypeProfile = object : NavType<ProfileItem>(isNullableAllowed = fal
     }
 
     override fun parseValue(value: String): ProfileItem {
-        return Json.decodeFromString<ProfileItem>(value.replace("\\", "/"))
+        return Json.decodeFromString<ProfileItem>(value)
     }
 
     override fun put(bundle: Bundle, key: String, value: ProfileItem) {
@@ -57,7 +59,7 @@ val CustomNavTypeProfile = object : NavType<ProfileItem>(isNullableAllowed = fal
     override fun serializeAsValue(value: ProfileItem): String {
         return Json.encodeToString<ProfileItem>(
             value.copy(
-                photo = Uri.parse(value.photo.toString().replace("/","\\")),
+                photo = Uri.parse(URLEncoder.encode(value.photo.toString(), StandardCharsets.UTF_8.toString())),
             )
         )
     }
