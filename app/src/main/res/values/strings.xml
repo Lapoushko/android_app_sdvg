@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SDVGHelper</string>
+    <string name="app_name">FOCUS</string>
     <string name="title_calendar">Задачи</string>
     <string name="calendar">Календарь</string>
     <string name="create_task">Новая задача</string>
@@ -16,7 +16,7 @@
     <string name="create_task_time">Время(пофиксить)</string>
     <string name="create_task_desc">Описание</string>
     <string name="create_task_name">Название</string>
-    <string name="profile_screen_result">"Ваш результат: "</string>
+    <string name="profile_screen_result">Последний результат: </string>
 
     <string name="edit_profile_name">Имя</string>
     <string name="edit_profile_email">Почта</string>

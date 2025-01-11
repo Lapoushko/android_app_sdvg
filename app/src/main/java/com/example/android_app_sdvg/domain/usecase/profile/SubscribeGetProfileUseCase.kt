@@ -18,5 +18,4 @@ class SubscribeGetProfileUseCaseImpl @Inject constructor(
     override fun getProfile(): Flow<Profile> {
         return repository.getProfile()
     }
-
 }

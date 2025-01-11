@@ -84,34 +84,28 @@ fun ProfileScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
 
+
+
             Column(
                 modifier = Modifier
                     .padding(horizontal = 10.dp, vertical = 16.dp)
                     .fillMaxHeight()
                     .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.SpaceEvenly
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Result(
-                    statusTest = profileState.statusTest,
                     profileState.resultLastTest
+                )
+
+                ResultText(
+                    profileState.infoByResultTest.text,
+                    profileState.infoByResultTest.color
                 )
                 OpenTest(
                     onOpen = {
                         profileScreenHandler.onToTest()
                     },
                     statusTest = profileState.statusTest
-                )
-                ResultText(
-                    text = "20-40 баллов: Низкая вероятность наличия СДВГ.",
-                    color = Color.Green
-                )
-                ResultText(
-                    text = "41-60 баллов: Умеренная вероятность наличия СДВГ.",
-                    color = Color.Yellow
-                )
-                ResultText(
-                    text = "61 и более баллов: Высокая вероятность наличия СДВГ.",
-                    color = Color.Red
                 )
             }
         }
@@ -178,7 +172,7 @@ private fun ShortDescriptionPerson(
     }
     Column {
         Text(
-            text = if (text.isEmpty()) "Нет данных" else text,
+            text = text.ifEmpty { "Нет данных" },
             overflow = TextOverflow.Ellipsis,
             maxLines = 1
         )
@@ -187,7 +181,6 @@ private fun ShortDescriptionPerson(
 
 @Composable
 private fun Result(
-    statusTest: StatusTest,
     result: String
 ) {
     Text(
@@ -204,20 +197,57 @@ private fun OpenTest(
     onOpen: () -> Unit,
     statusTest: StatusTest = StatusTest.NOT_COMPLETED,
 ) {
-    Button(
-        onClick = onOpen,
-        modifier = Modifier
-            .padding(PaddingValues(bottom = 5.dp))
-    ) {
-        Text(
-            text = "ТЕСТ",
-            fontSize = 26.sp,
-        )
-    }
-    if (statusTest == StatusTest.COMPLETED) {
-        Text(
-            text = "Тест выполнен",
-        )
+    val buttonText = if (statusTest == StatusTest.COMPLETED) "История" else "ТЕСТ!"
+//    Row(
+//        modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
+//    ) {
+//        Column {
+//            Button(
+//                onClick = onOpen,
+//                modifier = Modifier
+//                    .padding(PaddingValues(bottom = 5.dp)),
+//            ) {
+//                Text(
+//                    text = buttonText,
+//                    fontSize = 26.sp,
+//                    textAlign = TextAlign.Center,
+//                )
+//            }
+//            if (statusTest == StatusTest.COMPLETED) {
+//                Text(
+//                    text = "Следующий тест через 1д. 20ч.",
+//                    color = Color.Gray,
+//                    textAlign = TextAlign.Center,
+//                    modifier = Modifier.fillMaxWidth()
+//                )
+//            }
+//        }
+//    }
+    Column {
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Button(
+                onClick = onOpen,
+                modifier = Modifier
+                    .padding(PaddingValues(bottom = 5.dp)),
+            ) {
+                Text(
+                    text = buttonText,
+                    fontSize = 26.sp,
+                    textAlign = TextAlign.Center,
+                )
+            }
+        }
+        if (statusTest == StatusTest.COMPLETED) {
+            Text(
+                text = "Следующий тест через 1д. 20ч.",
+                color = Color.Gray,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
 
@@ -229,7 +259,8 @@ private fun ResultText(
     Text(
         fontSize = 26.sp,
         text = text,
-        color = color
+        color = color,
+        textAlign = TextAlign.Center
     )
 }
 

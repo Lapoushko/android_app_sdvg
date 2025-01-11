@@ -59,8 +59,13 @@ class ProfileScreenViewModel @Inject constructor(
 
     private fun getResult(){
         viewModelScope.launch {
-            resultTestUseCase.getTestResult().collect{
-                _profileState.resultLastTest = it.toString()
+            resultTestUseCase.getTestResult().collect{ result ->
+                _profileState.resultLastTest = result.toString()
+                _profileState.infoByResultTest = when(result){
+                    in 0..40 -> TestResults.LOW
+                    in 41..60 -> TestResults.MEDIUM
+                    else -> TestResults.HIGH
+                }
             }
         }
     }
@@ -73,6 +78,7 @@ class ProfileScreenViewModel @Inject constructor(
         override var sex: String by mutableStateOf("")
         override var dateBirthday: String by mutableStateOf("")
         override var resultLastTest: String by mutableStateOf("")
+        override var infoByResultTest: TestResults by mutableStateOf(TestResults.LOW)
         override var recommendations: List<String> by mutableStateOf(emptyList())
         override var statusTest: StatusTest by mutableStateOf(StatusTest.NOT_COMPLETED)
         override var remainingOpeningTime: String by mutableStateOf("")

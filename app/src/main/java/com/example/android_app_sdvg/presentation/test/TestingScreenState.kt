@@ -7,4 +7,5 @@ import com.example.android_app_sdvg.presentation.model.test.TestItem
  */
 interface TestingScreenState {
     val tests: List<TestItem>
+    val indexCurrentQuestion: Int
 }

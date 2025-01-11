@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun TopBarForEditing(
     onToBack: () -> Unit,
-    save: () -> Unit,
+    save: (() -> Unit)? = null,
     label: String
 ) {
     Row(
@@ -38,17 +38,17 @@ fun TopBarForEditing(
         }) {
             Icon(imageVector = Icons.Filled.Close, contentDescription = null)
         }
-
-        Text(
-            modifier = Modifier.wrapContentWidth(Alignment.CenterHorizontally),
-            text = label,
-            fontSize = 20.sp,
-        )
-
-        IconButton(onClick = {
-            save()
-        }) {
-            Icon(imageVector = Icons.Filled.Done, contentDescription = null)
+        if (save != null) {
+            Text(
+                modifier = Modifier.wrapContentWidth(Alignment.CenterHorizontally),
+                text = label,
+                fontSize = 20.sp,
+            )
+            IconButton(onClick = {
+                save()
+            }) {
+                Icon(imageVector = Icons.Filled.Done, contentDescription = null)
+            }
         }
     }
 }
