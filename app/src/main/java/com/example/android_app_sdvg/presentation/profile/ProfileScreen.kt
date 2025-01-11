@@ -94,7 +94,6 @@ fun ProfileScreen(
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Result(
-                    statusTest = profileState.statusTest,
                     profileState.resultLastTest
                 )
 
@@ -182,7 +181,6 @@ private fun ShortDescriptionPerson(
 
 @Composable
 private fun Result(
-    statusTest: StatusTest,
     result: String
 ) {
     Text(

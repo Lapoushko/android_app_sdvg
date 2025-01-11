@@ -100,7 +100,7 @@ fun BottomNavigationBarGraph(navController: NavHostController) {
 
         composable<ScreenItem.Test> {
             TestingScreen(
-                onSave = { navController.popBackStack() }
+                onToBack = { navController.popBackStack() }
             )
         }
     }
